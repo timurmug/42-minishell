@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/09/29 17:09:51 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/09/30 13:46:00 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,11 @@ FLAGS_LIB = -Iincludes
 
 DIR_SRCS = srcs
 DIR_LIB = libft
+DIR_INC = includes
 
-SRCS = srcs/main.c
+SRCS = srcs/env.c \
+		srcs/ft_free_strstr.c \
+		srcs/main.c
 OBJS = $(SRCS:%.c=%.o)
 
 .PHONY: all clean fclean re norme run
@@ -37,9 +40,9 @@ $(NAME): $(INCLUDE) $(OBJS)
 norme:
 	@make fclean
 	@echo
-	norminette includes/
+	norminette ./$(DIR_INC)
 	@echo
-	norminette ./$(DIR_LIB)/
+	norminette ./$(DIR_LIB)
 	@echo
 	norminette ./$(DIR_SRCS)
 
