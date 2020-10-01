@@ -1,7 +1,7 @@
 #### путь текущего каталога
-char *dir = NULL;
-dir = getcwd(NULL, 0);
-ft_putendl_fd(dir, 1);
+	char *dir = NULL;
+	dir = getcwd(NULL, 0);
+	ft_putendl_fd(dir, 1);
 
 
 #### поменять директорию
