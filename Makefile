@@ -6,13 +6,13 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/09/30 13:46:00 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/01 16:34:39 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIB_A =	libft/libft.a
-
+GNL_A = gnl/gnl.a
 INCLUDE = includes/minishell.h
 
 FLAGS_W = -Wall -Wextra -Werror
@@ -21,6 +21,7 @@ FLAGS_LIB = -Iincludes
 DIR_SRCS = srcs
 DIR_LIB = libft
 DIR_INC = includes
+DIR_GNL = gnl
 
 SRCS = srcs/env.c \
 		srcs/ft_free_strstr.c \
@@ -32,13 +33,15 @@ OBJS = $(SRCS:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(INCLUDE) $(OBJS)
+	@make -C $(DIR_GNL)
 	@make -C $(DIR_LIB)
 	@make bonus -C $(DIR_LIB)
-	gcc $(FLAGS_W) $(LIB_A) $(OBJS) -o $(NAME)
-	./$(NAME)
+	gcc $(FLAGS_W) $(LIB_A) $(GNL_A) $(OBJS) -o $(NAME)
 
 norme:
 	@make fclean
+	@echo
+	norminette ./$(DIR_GNL)/
 	@echo
 	norminette ./$(DIR_INC)
 	@echo
@@ -51,10 +54,12 @@ norme:
 
 clean:
 	rm -rf $(OBJS)
+	@make -C $(DIR_GNL) clean
 	@make -C $(DIR_LIB) clean
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(GNL_A)
 	@make -C $(DIR_LIB) fclean
 
 re: fclean all

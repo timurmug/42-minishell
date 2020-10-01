@@ -1,4 +1,6 @@
 *.o
 .DS_Store
 libft/libft.a
+gnl/gnl.a
 minishell
+test.txt
