@@ -46,13 +46,13 @@
 	kill(pid, SIGCONT);
 
 ####  stat, lstat, fstat возвращают информацию об указанном файле stat возвращает информацию о файле file_name и заполняет буфер buf. lstat идентична stat, но в случае символьных сылок она возвращает информацию о самой ссылке, а не о файле, на который она указывает. fstat идентична stat, только возвращается информация об открытом файле, на который указывает filedes (возвращаемый open(2)), а не о file_name.
-struct stat buff;
-stat("includes/minishell.h", &buff);
-ft_putnbr_fd(buff.st_mode, 1); // выведет режим доступа
+	struct stat buff;
+	stat("includes/minishell.h", &buff);
+	ft_putnbr_fd(buff.st_mode, 1); // выведет режим доступа
 
-int fd = open("includes/minishell.h", O_RDWR);
-fstat(fd, &buff);
-ft_putnbr_fd(buff.st_mode, 1); // выведет режим доступа
+	int fd = open("includes/minishell.h", O_RDWR);
+	fstat(fd, &buff);
+	ft_putnbr_fd(buff.st_mode, 1); // выведет режим доступа
 
 #### Нажатие Ctrl + C заставляет терминал послать сигнал SIGINT процессу, который на данный момент его контролирует. Когда foreground-программа получает сигнал SIGINT, она обязана прервать свою работу. Нажатие Ctrl + D говорит терминалу, что надо зарегистрировать так называемый EOF (end of file – конец файла), то есть поток ввода окончен. Bash интерпретирует это как желание выйти из программы. Пример перехвата сигнала Ctrl + C
 	void handler_sigint(int sig)
