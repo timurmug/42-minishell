@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/01 16:38:09 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/01 16:44:25 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ void print_env_list(t_list	*env) {
 // 	return (0);
 // }
 
-void handler_sigint(int sig)
-{
-	(void)sig;
-	ft_putendl_fd(" Ctrl + C not allowed", STDOUT_FILENO);
-}
 
 int	main(int ac, char **av, char **ev)
 {
@@ -67,14 +62,5 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	(void)ev;
 
-	// struct sigaction sa;
-	// sa.sa_handler = &handler_sigtstp;
-	// sa.sa_flags = SA_RESTART;
-	// sigaction(SIGTSTP, &sa, NULL);
-
-	signal(SIGINT, handler_sigint);
-
-	char letter;
-	read(STDIN_FILENO, &letter, 1);
 	return (0);
 }
