@@ -69,3 +69,37 @@
 		read(STDIN_FILENO, &letter, 1);
 		return (0);
 	}
+
+#### Коммуникация между процессами, используя сигналы (Если не вводить число, то через 3 сегодня появиться подсказка)
+	int x = 0;
+
+	void handler_sigusr1(int sig)
+	{
+		(void)sig;
+		if (x == 0)
+			puts("\n(HINT) Remember that multiplication is repetitive addition");
+	}
+
+	int main(void)
+	{
+			int pid = fork();
+			if (pid == - 1)
+				return (1);
+			if (pid == 0)
+			{
+					sleep(3);
+					kill(getppid(), SIGUSR1);
+			}
+			else
+			{
+					signal(SIGUSR1, handler_sigusr1);
+					printf("What is the rusult of 3 * 5: ");
+					scanf("%d", &x);
+					if (x == 15)
+						printf("Right\n");
+					else
+						printf("Wrong\n");
+					wait(NULL);
+			}
+			return (0);
+	}
