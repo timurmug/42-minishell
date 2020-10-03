@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/01 16:05:56 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/03 16:05:39 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct	s_env
 }				t_env;
 
 int				init_env(t_list **lst, char **env);
-void			ft_free_strstr(char **splitted);
 void			free_env(t_list *lst);
 
 #endif

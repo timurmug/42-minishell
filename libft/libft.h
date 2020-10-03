@@ -6,7 +6,7 @@
 /*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 11:04:51 by student           #+#    #+#             */
-/*   Updated: 2020/09/09 09:01:52 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/03 18:07:25 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,12 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 void (*del)(void *));
 
 int				ft_strcmp(char *s1, char *s2);
-
+void			*ft_realloc(char *src, int size);
+void			ft_free_strstr(char **splitted);
+size_t			ft_strstrlen(char **splitted);
+char			**ft_strstrdup(char **s);
+char			*ft_strcpy(char *dest, char *src);
+int				ft_str_is_num(char *str);
+char			**ft_strstr_realloc(char **src, int size);
+void			ft_putstrstr_fd(char **splitted, int fd);
 #endif

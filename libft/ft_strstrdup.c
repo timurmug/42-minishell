@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strstr.c                                   :+:      :+:    :+:   */
+/*   ft_strstrdup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/30 12:51:25 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/09/30 12:51:38 by qtamaril         ###   ########.fr       */
+/*   Created: 2020/10/03 16:08:23 by qtamaril          #+#    #+#             */
+/*   Updated: 2020/10/03 16:19:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_free_strstr(char **splitted)
+char	**ft_strstrdup(char **s)
 {
-	size_t	i;
+	int		length;
+	char	**strstr;
+	int		i;
 
 	i = 0;
-	while (splitted[i])
+	length = ft_strstrlen(s);
+	if (!(strstr = ft_calloc(length + 1, sizeof(char *))))
+		return (NULL);
+	while (i < length)
 	{
-		free(splitted[i]);
+		strstr[i] = ft_strdup(s[i]);
 		i++;
 	}
-	free(splitted);
-	splitted = NULL;
+	return (strstr);
 }

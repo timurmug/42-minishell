@@ -70,7 +70,7 @@
 		return (0);
 	}
 
-#### Коммуникация между процессами, используя сигналы (Если не вводить число, то через 3 сегодня появиться подсказка)
+#### Коммуникация между процессами, используя сигналы (Если не вводить число, то через 3 секунды появится подсказка)
 	int x = 0;
 
 	void handler_sigusr1(int sig)
@@ -103,3 +103,136 @@
 			}
 			return (0);
 	}
+
+#### Создание каналов для ввода и вывода (fd[0] - чтение, fd[1] - запись)
+	int fd[2];
+	if (pipe(fd) == -1)
+		return (1);
+
+#### Пересылка целочисленного массива от дочернего процесса родительскому с помощью pipe
+	int	main(void)
+	{
+		int fd[2];
+		if (pipe(fd) == -1)
+			return (1);
+		int pid = fork();
+		if (pid == -1)
+			return (2);
+		if (pid == 0)
+		{
+			close(fd[0]);
+			int n, i;
+			int arr[10];
+			srand(time(NULL));
+			n = rand() % 10 + 1;
+			printf("Generated: ");
+			for (i = 0; i < n; i++)
+			{
+				arr[i] = rand() % 11;
+				printf("%d ", arr[i]);
+			}
+			if (write(fd[1], &n, sizeof(int)) < 0)
+				return (4);
+			if (write(fd[1], arr, sizeof(int) * n) < 0)
+				return (3);
+			close(fd[1]);
+		}
+		else
+		{
+			close(fd[1]);
+			int arr[10];
+			int n, i;
+			if (read(fd[0], &n, sizeof(int)) < 0)
+				return (5);
+			if (read(fd[0], arr, sizeof(int) *  n) < 0)
+				return (6);
+			close(fd[0]);
+			int sum = 0;
+			for (i = 0; i < n; i++)
+			{
+				sum += arr[i];
+			}
+			printf("\nSum = %d\n", sum);
+			wait(NULL);
+		}
+		return (0);
+	}
+
+#### Пересылка строки от дочернего процесса родительскому с помощью pipe
+	int fd[2];
+	if (pipe(fd) == -1)
+		return (1);
+	int pid = fork();
+	if (pid == -1)
+		return (2);
+	if (pid == 0)
+	{
+		close(fd[0]);
+		char str[200];
+		int len;
+		printf("Input str: ");
+		fgets(str, 200, stdin);
+		len = ft_strlen(str);
+		str[len - 1] = 0;
+		if (write(fd[1], &len, sizeof(int)) < 0)
+			return (3);
+		if (write(fd[1], str,  sizeof(char) * (len + 1)) < 0)
+			return (4);
+		close(fd[1]);
+		printf("Sent str: %s\n", str);
+	}
+	else
+	{
+		close(fd[1]);
+		char str[200];
+		int len;
+		if (read(fd[0], &len, sizeof(int)) < 0)
+			return (5);
+		if (read(fd[0], str, sizeof(char) * (len + 1)) < 0)
+			return (6);
+		close(fd[0]);
+		printf("Recived str: %s\n", str);
+	}
+
+#### Выполнение ping -c 3 google.com | grep round
+	int fd[2];
+	if (pipe(fd) == -1)
+		return (1);
+
+	int pid1 = fork();
+	if (pid1 == -1)
+		return (2);
+	if (pid1 == 0)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		char *newargv[] = { "ping", "-c", "3", "google.com", NULL};
+		close(fd[0]);
+		if (execve("/sbin/ping", newargv, NULL) == -1)
+		{
+			ft_putendl_fd(strerror(errno), STDOUT_FILENO);
+			return (3);
+		}
+		close(fd[1]);
+	}
+
+	int pid2 = fork();
+	if (pid2 == -1)
+		return (4);
+	if (pid2 == 0)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		char *newargv[] = { "grep", "round", NULL};
+		if (execve("/usr/bin/grep", newargv, NULL) == -1)
+		{
+			ft_putendl_fd(strerror(errno), STDOUT_FILENO);
+			return (3);
+		}
+	}
+
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+	return (0);

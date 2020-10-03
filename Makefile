@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/01 16:34:39 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/03 16:05:42 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ DIR_INC = includes
 DIR_GNL = gnl
 
 SRCS = srcs/env.c \
-		srcs/ft_free_strstr.c \
 		srcs/main.c
 OBJS = $(SRCS:%.c=%.o)
 
