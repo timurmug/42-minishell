@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/04 10:46:40 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/04 12:40:46 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ DIR_GNL = gnl
 
 SRCS = srcs/commands.c \
 		srcs/env.c \
+		srcs/exit.c \
 		srcs/main_utils.c \
 		srcs/main.c
 OBJS = $(SRCS:%.c=%.o)

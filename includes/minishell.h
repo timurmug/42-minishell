@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 10:54:34 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/04 12:47:09 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define DEFAULT "\e[39m\e[0m"
 # define GREEN "\e[92m\e[1m"
 # define CLEAN "\e[1;1H\e[2J"
+# define CMD_NOT_FOUND "zsh: command not found: "
 
 typedef struct	s_env
 {
@@ -34,7 +35,9 @@ typedef struct	s_env
 	char		*value;
 }				t_env;
 
-void			run_command(char **cmd, t_list *env);
+void			run_command(char *line, char **cmd, t_list *env);
+
+void			my_exit(char *line, char **cmd, t_list *env);
 
 void			write_prompt(void);
 int				is_separator(char c);

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 11:59:33 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/04 12:46:54 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*get_string(char **line)
 	int index = 0;
 
 	while (**line && !is_separator(**line))
-	// while (**line && !ft_strchr(" <>|;\'\"", **line))
 	{
 		temp = ft_realloc(temp, 1);
 		temp[index++] = **line;
@@ -68,7 +67,7 @@ void	minishell(char *line, t_list *env)
 			if (cmd)
 			{
 				// ft_putstrstr_fd(cmd, STDOUT_FILENO);
-				run_command(cmd, env);
+				run_command(line, cmd, env);
 				ft_free_strstr(cmd);
 				ft_putendl_fd("--------", STDOUT_FILENO);
 			}
