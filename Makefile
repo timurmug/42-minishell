@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/03 16:05:42 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/04 10:46:40 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ DIR_LIB = libft
 DIR_INC = includes
 DIR_GNL = gnl
 
-SRCS = srcs/env.c \
+SRCS = srcs/commands.c \
+		srcs/env.c \
+		srcs/main_utils.c \
 		srcs/main.c
 OBJS = $(SRCS:%.c=%.o)
 

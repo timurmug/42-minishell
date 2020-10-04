@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/03 16:05:39 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/04 10:54:34 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ typedef struct	s_env
 	char		*value;
 }				t_env;
 
+void			run_command(char **cmd, t_list *env);
+
+void			write_prompt(void);
+int				is_separator(char c);
+void			print_env_list(t_list	*env); //delete me
+
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
+
 
 #endif
