@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/04 12:40:46 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/04 16:37:43 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,13 @@ DIR_LIB = libft
 DIR_INC = includes
 DIR_GNL = gnl
 
-SRCS = srcs/commands.c \
+SRCS = srcs/builtins/builtins.c \
+		srcs/builtins/my_cd.c \
+		srcs/builtins/my_echo.c \
+		srcs/builtins/my_env.c \
+		srcs/builtins/my_pwd.c \
+		srcs/builtins/my_unset.c \
+		srcs/commands.c \
 		srcs/env.c \
 		srcs/exit.c \
 		srcs/main_utils.c \

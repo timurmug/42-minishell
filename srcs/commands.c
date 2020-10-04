@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 12:47:35 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/04 15:32:47 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ void	run_command(char *line, char **cmd, t_list *env)
 	char	*true_path;
 
 	errno = 0;
-	if (!ft_strcmp("exit", cmd[0]))
-		my_exit(line, cmd, env);
+	if (check_builtins(line, cmd, env))
+        return ;
 	if (!(true_path = parse_path(cmd, env)))
 	{
-		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
-		ft_putendl_fd(cmd[0], STDERR_FILENO);
+		ft_putstr_fd(SHELL, STDERR_FILENO);
+		ft_putstr_fd(cmd[0], STDERR_FILENO);
+		ft_putendl_fd(CMD_NOT_FOUND, STDERR_FILENO);
 	}
 	pid = fork();
 	if (pid == -1)

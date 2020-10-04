@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 12:47:09 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/04 16:37:53 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,21 @@
 # define DEFAULT "\e[39m\e[0m"
 # define GREEN "\e[92m\e[1m"
 # define CLEAN "\e[1;1H\e[2J"
-# define CMD_NOT_FOUND "zsh: command not found: "
+# define CMD_NOT_FOUND ": command not found"
+# define SHELL "minishell: "
 
 typedef struct	s_env
 {
 	char		*name;
 	char		*value;
 }				t_env;
+
+int				check_builtins(char *line, char **cmd, t_list *env);
+void			my_cd(char **cmd, t_list *env);
+void			my_echo(char **cmd, t_list *env);
+void			my_env(t_list *env);
+void			my_pwd(void);
+void			my_unset(t_list *env);
 
 void			run_command(char *line, char **cmd, t_list *env);
 

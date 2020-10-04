@@ -69,7 +69,7 @@ void	minishell(char *line, t_list *env)
 				// ft_putstrstr_fd(cmd, STDOUT_FILENO);
 				run_command(line, cmd, env);
 				ft_free_strstr(cmd);
-				ft_putendl_fd("--------", STDOUT_FILENO);
+//				ft_putendl_fd("--------", STDOUT_FILENO);
 			}
 		}
 	}
