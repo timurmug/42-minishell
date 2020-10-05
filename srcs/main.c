@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 13:10:34 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 16:34:30 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**parse_line(char **line)
 	return (cmd);
 }
 
-void	minishell(char *line, t_list *env)
+void	minishell(char *line, t_list **env)
 {
 	char	**cmd;
 
@@ -92,7 +92,7 @@ int		main(int ac, char **av, char **ev)
 	{
 		write_prompt();
 		if (get_next_line(STDOUT_FILENO, &user_input) == 1)
-			minishell(user_input, env);
+			minishell(user_input, &env);
 		free(user_input);
 	}
 	free_env(env);
