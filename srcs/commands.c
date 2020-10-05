@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 15:32:47 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 11:16:46 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,15 @@ char	*parse_path(char **cmd, t_list *env)
 void	run_command(char *line, char **cmd, t_list *env)
 {
 	int		pid;
+	int		fd;
 	char	*true_path;
 
 	errno = 0;
 	if (check_builtins(line, cmd, env))
         return ;
-	if (!(true_path = parse_path(cmd, env)))
+	if ((fd = open(cmd[0], O_RDONLY)) != -1)
+		true_path = cmd[0];
+	else if (!(true_path = parse_path(cmd, env)))
 	{
 		ft_putstr_fd(SHELL, STDERR_FILENO);
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
@@ -90,7 +93,10 @@ void	run_command(char *line, char **cmd, t_list *env)
 	}
 	else
 	{
-		free(true_path);
+		if (fd == -1)
+			free(true_path);
+		else
+			close(fd);
 		wait(NULL);
 	}
 }

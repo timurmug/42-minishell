@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 12:46:54 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:10:34 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int		main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
+	// (void)ev;
 	env = NULL;
 	if (!init_env(&env, ev))
 		return (0);
+	// env = NULL;
 	ft_putstr_fd(CLEAN, STDOUT_FILENO);
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 12:47:12 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/09/30 14:55:09 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 10:38:31 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_env(t_list *lst)
 {
 	t_list	*tmp;
 
-	while (lst)
+	while (lst && (t_env*)lst->content)
 	{
 		free(((t_env*)lst->content)->name);
 		free(((t_env*)lst->content)->value);

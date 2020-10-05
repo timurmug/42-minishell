@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 16:50:45 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:22:38 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,15 @@ int		check_variable(char **cmd)
 {
 	int i;
 
-	if (!ft_isalpha(cmd[1][0]))
+	if (ft_strstrlen(cmd) == 1)
+		return (0);
+
+	if (!ft_isalpha(cmd[1][0]) && cmd[1][0] != '_')
 		return (variable_error(cmd));
 	i = 0;
 	while (cmd[1][i])
 	{
-		if (!(ft_isalnum(cmd[1][i])) || cmd[1][i] == '_')
+		if (!ft_isalnum(cmd[1][i]) && cmd[1][i] != '_')
 			return (variable_error(cmd));
 		i++;
 	}
@@ -41,20 +44,11 @@ int		check_variable(char **cmd)
 int		check_builtins(char *line, char **cmd, t_list *env)
 {
 	if (!ft_strcmp(cmd[0], "echo"))
-	{
-		my_echo(cmd, env); //не всегда работает корретно
-		return (1);
-	}
-	else if (!ft_strcmp(cmd[0], "cd"))
-	{
-		my_cd(cmd, env);
-		return (1);
-	}
+		return (my_echo(cmd, env)); //не всегда работает корретно
+	else if (!ft_strcmp(cmd[0], "cd")) //cd переменная не работает
+		return (my_cd(cmd, env));
 	else if (!ft_strcmp(cmd[0], "pwd"))
-	{
-		my_pwd();
-		return (1);
-	}
+		return (my_pwd());
 	else if (!ft_strcmp(cmd[0], "export"))
 	{
 		if (check_variable(cmd))
@@ -64,14 +58,11 @@ int		check_builtins(char *line, char **cmd, t_list *env)
 	else if (!ft_strcmp(cmd[0], "unset"))
 	{
 		if (check_variable(cmd))
-			my_unset(env);
+			my_unset(env, cmd);
 		return (1);
 	}
 	else if (!ft_strcmp(cmd[0], "env"))
-	{
-		my_env(env);
-		return (1);
-	}
+		return (my_env(env));
 	else if (!ft_strcmp(cmd[0], "exit"))
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);

@@ -6,13 +6,13 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:09:24 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 16:09:42 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 09:28:20 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_echo(char **cmd, t_list *env)
+int	my_echo(char **cmd, t_list *env)
 {
 	int i;
 
@@ -38,4 +38,5 @@ void	my_echo(char **cmd, t_list *env)
 		}
 		ft_putendl_fd("", STDOUT_FILENO);
 	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/04 16:37:53 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:19:03 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ typedef struct	s_env
 }				t_env;
 
 int				check_builtins(char *line, char **cmd, t_list *env);
-void			my_cd(char **cmd, t_list *env);
-void			my_echo(char **cmd, t_list *env);
-void			my_env(t_list *env);
-void			my_pwd(void);
-void			my_unset(t_list *env);
+int				my_cd(char **cmd, t_list *env);
+int				my_echo(char **cmd, t_list *env);
+int				my_env(t_list *env);
+int				my_pwd(void);
+void			my_unset(t_list *env, char **vars);
+// void			my_unset(t_list *env);
+// void			my_unset(t_list *env, char *variable);
 
 void			run_command(char *line, char **cmd, t_list *env);
 
