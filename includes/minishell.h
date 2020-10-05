@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 13:19:03 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/05 14:58:04 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int				check_builtins(char *line, char **cmd, t_list *env);
 int				my_cd(char **cmd, t_list *env);
 int				my_echo(char **cmd, t_list *env);
 int				my_env(t_list *env);
+void			my_export(t_list *env, char **vars, char **splitted);
 int				my_pwd(void);
 void			my_unset(t_list *env, char **vars);
 // void			my_unset(t_list *env);
