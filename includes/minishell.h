@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 16:34:39 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 11:53:07 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ typedef struct	s_env
 	char		*value;
 }				t_env;
 
+int				check_variable(char **cmd, char *param, int i);
 int				check_builtins(char *line, char **cmd, t_list **env);
 int				my_cd(char **cmd, t_list *env);
 int				my_echo(char **cmd, t_list *env);
 int				my_env(t_list *env);
-void			my_export(t_list *env, char **vars, char **splitted);
+void			print_export(t_list *env);
+int				check_export(char **cmd, t_list **env);
 int				my_pwd(void);
-void			my_unset(t_list **env, char **vars);
-// void			my_unset(t_list *env, char **vars);
+int				check_unset(char **cmd, t_list **env);
+// void			my_unset(t_list **env, char **vars, int i);
 
 void			run_command(char *line, char **cmd, t_list **env);
 
@@ -53,6 +55,7 @@ void			write_prompt(void);
 int				is_separator(char c);
 void			print_env_list(t_list	*env); //delete me
 
+int				add_env(t_list **lst, char *name, char *value);
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
 

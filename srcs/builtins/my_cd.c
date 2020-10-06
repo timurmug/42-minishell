@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 09:28:28 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 11:34:11 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*find_home(t_list *env)
 {
 	t_list	*tmp;
+
 	tmp = env;
 	while (tmp)
 	{

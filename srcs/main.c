@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 16:34:30 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 10:29:57 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	minishell(char *line, t_list **env)
 {
 	char	**cmd;
 
-	(void)env;
 	while (*line)
 	{
 		if (*line == ';')
@@ -82,11 +81,10 @@ int		main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
-	// (void)ev;
 	env = NULL;
+	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);
-	// env = NULL;
 	ft_putstr_fd(CLEAN, STDOUT_FILENO);
 	while (1)
 	{

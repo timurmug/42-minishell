@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 16:42:05 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 10:18:47 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ char	*parse_path(char **cmd, t_list *env)
 	int		i;
 	char	*true_path;
 
+	if (!env)
+		return (NULL);
 	tmp = env;
 	while (tmp)
 	{
-		if (!ft_strcmp(((t_env*)tmp->content)->name, "PATH"))
+		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, "PATH"))
 		{
 			splitted_path = ft_split(((t_env*)tmp->content)->value, ':');
 			i = 0;
