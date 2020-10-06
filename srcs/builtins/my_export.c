@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 14:10:07 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 12:40:37 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 14:15:04 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	export2(t_list **env, char **vars, char **splitted, int i)
 		elem->name = ft_strdup(splitted[0]);
 		elem->value = NULL;
 		ft_lstadd_back(env, ft_lstnew(elem));
+		env_sort(env);
 	}
 }
 

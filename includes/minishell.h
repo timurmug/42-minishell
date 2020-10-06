@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 11:53:07 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 14:14:18 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void			write_prompt(void);
 int				is_separator(char c);
 void			print_env_list(t_list	*env); //delete me
 
+void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
