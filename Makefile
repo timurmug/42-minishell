@@ -6,7 +6,7 @@
 #    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/06 13:20:14 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/07 13:27:36 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,9 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/env.c \
 		srcs/exit.c \
 		srcs/main_utils.c \
-		srcs/main.c
+		srcs/main.c \
+		srcs/utils.c
+
 OBJS = $(SRCS:%.c=%.o)
 
 .PHONY: all clean fclean re norme run

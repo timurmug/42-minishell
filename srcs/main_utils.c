@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 12:30:17 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/07 19:29:33 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				is_separator(char c)
 	return (0);
 }
 
-static char 	*find_env(char *line, t_list *env)
+char 			*find_env(char *line, t_list *env)
 {
 	t_list	*tmp;
 	char	*s;
@@ -42,10 +42,50 @@ static char 	*find_env(char *line, t_list *env)
 	while (tmp)
 	{
 		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
-			return ((s = ((t_env*)tmp->content)->value));
+		{
+			s = ((t_env*)tmp->content)->value;
+			return (s);
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+char 			*find_env_in_line(char *line, t_list *env)
+{
+	char	*buff;
+	char	*t_s;
+	char	*cmd;
+	int		i;
+	int		start;
+
+	t_s = NULL;
+	buff = NULL;
+	cmd = "";
+	i = 0;
+	start = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			start = ++i;
+			while (line[i] != '$' && line[i] != '\0')
+				i++;
+			buff = ft_substr(line, start, i - start);
+			i--;
+			if ((t_s = find_env(buff, env)))
+			{
+				free(buff);
+				buff = ft_strdup(t_s);
+			}
+			else 
+				free(t_s);
+			cmd = ft_strjoin(cmd, buff);
+			free(buff);
+		}
+		i++;
+	}
+	return (cmd);
 }
 
 void			replase_env(char **cmd, t_list *env)
@@ -59,20 +99,18 @@ void			replase_env(char **cmd, t_list *env)
 	s = NULL;
 	while (cmd[++i])
 	{
-		if (cmd[i][0] == '$')
+		if ((ft_strchr(cmd[i], '$')))
 		{
-			if ((s = find_env(&cmd[i][1], env)))
-			{
-				free(cmd[i]);
-				cmd[i] = ft_strdup(s);
-				break ;
-			}
-			else if (cmd[f + 1] && !s)
-			{
-				free(cmd[i]);
-				cmd[i--] = ft_strdup(cmd[f += 1]);
-			}
+			s = find_env_in_line(cmd[i], env);
+			free(cmd[i]);
+			cmd[i] = ft_strdup(s);
+			free(s);
 		}
+			// else if (cmd[f + 1] && !s)
+			// {
+			// 	free(cmd[i]);
+			// 	cmd[i--] = ft_strdup(cmd[f += 1]);
+			// }
 	}
 }
 
