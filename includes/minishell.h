@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 11:53:07 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/07 09:35:05 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define GREEN "\e[92m\e[1m"
 # define CLEAN "\e[1;1H\e[2J"
 # define CMD_NOT_FOUND ": command not found"
+# define IS_A_DIR ": is a directory"
 # define SHELL "minishell: "
 
 typedef struct	s_env
@@ -59,5 +60,7 @@ int				add_env(t_list **lst, char *name, char *value);
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
 
+void			replase_env(char **cmd, t_list *env);
+char			*find_env(char *line, t_list *env);
 
 #endif

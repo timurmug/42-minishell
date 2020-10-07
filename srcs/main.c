@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 10:29:57 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/07 09:14:52 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ void	minishell(char *line, t_list **env)
 		else
 		{
 			cmd = parse_line(&line);
+			replase_env(cmd, *env);
 			if (cmd)
 			{
 				// ft_putstrstr_fd(cmd, STDOUT_FILENO);
 				run_command(line, cmd, env);
 				ft_free_strstr(cmd);
-//				ft_putendl_fd("--------", STDOUT_FILENO);
+				// ft_putendl_fd("--------", STDOUT_FILENO);
 			}
 		}
 	}
