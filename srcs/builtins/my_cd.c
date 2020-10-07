@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 11:34:11 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/07 09:38:42 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 char	*find_home(t_list *env)
 {
 	t_list	*tmp;
+	t_env	*content;
 
 	tmp = env;
 	while (tmp)
 	{
-		if (!ft_strcmp(((t_env*)tmp->content)->name, "HOME"))
-			return (((t_env*)tmp->content)->value);
+		content = (t_env*)tmp->content;
+		if (content && !ft_strcmp(content->name, "HOME"))
+			return (content->value);
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-void	cd_error(char **cmd)
+void	cd_error(char **cmd, char *home_value)
 {
 	ft_putstr_fd(SHELL, STDERR_FILENO);
 	ft_putstr_fd("cd: ", STDERR_FILENO);
-	ft_putstr_fd(cmd[1], STDERR_FILENO);
+	if (!home_value)
+		ft_putstr_fd(cmd[1], STDERR_FILENO);
+	else
+		ft_putstr_fd(home_value, STDERR_FILENO);
 	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 }
 
@@ -48,17 +53,19 @@ int		my_cd(char **cmd, t_list *env)
 			ft_putstr_fd("HOME", STDERR_FILENO);
 			ft_putendl_fd(" not set", STDERR_FILENO);
 		}
-		if (chdir(home_value) == 0)
+		else if (!ft_strcmp(home_value, "\0"))
+			return (1);
+		else if (chdir(home_value) == 0)
 			;
 		else
-			cd_error(cmd);
+			cd_error(cmd, home_value);
 	}
 	else
 	{
 		if (chdir(cmd[1]) == 0)
 			;
 		else
-			cd_error(cmd);
+			cd_error(cmd, NULL);
 	}
 	return (1);
 }

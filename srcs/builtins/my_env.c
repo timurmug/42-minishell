@@ -6,16 +6,17 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:10:39 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 12:58:01 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/07 08:51:28 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	my_env(t_list *env)
+int	my_env(t_list *env, char *strlowcase)
 {
 	t_env	*content;
 
+	free(strlowcase);
 	if (!env)
 		return (1);
 	while (env)
