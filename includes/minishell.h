@@ -6,9 +6,10 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 09:35:05 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/07 09:54:54 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -40,11 +41,14 @@ typedef struct	s_env
 int				check_variable(char **cmd, char *param, int i);
 int				check_builtins(char *line, char **cmd, t_list **env);
 int				my_cd(char **cmd, t_list *env);
-int				my_echo(char **cmd, t_list *env);
-int				my_env(t_list *env);
+// int				my_echo(char **cmd, t_list *env);
+int				my_echo(char **cmd, t_list *env, char *strlowcase);
+// int				my_env(t_list *env);
+int				my_env(t_list *env, char *strlowcase);
 void			print_export(t_list *env);
 int				check_export(char **cmd, t_list **env);
-int				my_pwd(void);
+// int				my_pwd(void);
+int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
 // void			my_unset(t_list **env, char **vars, int i);
 
@@ -56,6 +60,7 @@ void			write_prompt(void);
 int				is_separator(char c);
 void			print_env_list(t_list	*env); //delete me
 
+void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);

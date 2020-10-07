@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 12:47:12 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 10:38:31 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 14:14:08 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,32 @@ void	free_env(t_list *lst)
 	}
 }
 
+void	env_sort(t_list **begin_list)
+{
+	t_list	*element;
+	t_list	*element2;
+	t_list	*temp;
+
+	element = *begin_list;
+	while (element)
+	{
+		element2 = *begin_list;
+		while (element2->next)
+		{
+			if ((t_env*)element2->content && (t_env*)element2->next->content \
+			&& ft_strcmp(((t_env*)element2->content)->name, \
+			((t_env*)element2->next->content)->name) > 0)
+			{
+				temp = element2->content;
+				element2->content = element2->next->content;
+				element2->next->content = temp;
+			}
+			element2 = element2->next;
+		}
+		element = element->next;
+	}
+}
+
 int		add_env(t_list **lst, char *name, char *value)
 {
 	t_env	*elem;
@@ -39,6 +65,7 @@ int		add_env(t_list **lst, char *name, char *value)
 	else
 		elem->value = ft_strdup("\0");
 	ft_lstadd_back(lst, ft_lstnew(elem));
+	env_sort(lst);
 	return (1);
 }
 

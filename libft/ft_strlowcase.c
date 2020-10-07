@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_strlowcase.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/04 16:08:24 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 08:50:36 by qtamaril         ###   ########.fr       */
+/*   Created: 2020/10/07 08:53:45 by qtamaril          #+#    #+#             */
+/*   Updated: 2020/10/07 08:54:00 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	my_pwd(char *strlowcase)
+char	*ft_strlowcase(char *str)
 {
-	char	*path;
+	char *str2;
 
-	path = getcwd(NULL, 0);
-	ft_putendl_fd(path, 1);
-	free(path);
-	free(strlowcase);
-	return (1);
+	str2 = str;
+	while (*str2 != '\0')
+	{
+		if (*str2 >= 'A' && *str2 <= 'Z')
+			*str2 += 32;
+		str2++;
+	}
+	return (str);
 }

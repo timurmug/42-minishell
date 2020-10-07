@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 14:10:07 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 11:51:47 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/06 14:15:04 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	print_export(t_list *env)
 	}
 }
 
-void	export2(t_list **env, char **vars, char **splitted)
+void	export2(t_list **env, char **vars, char **splitted, int i)
 {
 	t_env	*elem;
 	char	*p_value;
 
-	p_value = ft_strchr(vars[1], '=');
+	p_value = ft_strchr(vars[i], '=');
 	if (p_value)
 		add_env(env, splitted[0], ft_strdup(p_value + 1));
 	else
@@ -53,10 +53,11 @@ void	export2(t_list **env, char **vars, char **splitted)
 		elem->name = ft_strdup(splitted[0]);
 		elem->value = NULL;
 		ft_lstadd_back(env, ft_lstnew(elem));
+		env_sort(env);
 	}
 }
 
-void	export(t_list **env, char **vars, char **splitted)
+void	export(t_list **env, char **vars, char **splitted, int i)
 {
 	t_list	*tmp;
 	t_env	*curr_env;
@@ -68,7 +69,7 @@ void	export(t_list **env, char **vars, char **splitted)
 		curr_env = (t_env*)tmp->content;
 		if (curr_env && !ft_strcmp(curr_env->name, splitted[0]))
 		{
-			p_value = ft_strchr(vars[1], '=');
+			p_value = ft_strchr(vars[i], '=');
 			if (p_value)
 			{
 				free(curr_env->value);
@@ -78,7 +79,7 @@ void	export(t_list **env, char **vars, char **splitted)
 		}
 		tmp = tmp->next;
 	}
-	export2(env, vars, splitted);
+	export2(env, vars, splitted, i);
 }
 
 int		check_export(char **cmd, t_list **env)
@@ -86,14 +87,14 @@ int		check_export(char **cmd, t_list **env)
 	char	**splitted;
 	int		i;
 
-	i = 0;
+	i = 1;
 	if (ft_strstrlen(cmd) > 1)
 	{
 		while (cmd[i])
 		{
 			splitted = ft_split(cmd[i++], '=');
 			if (check_variable(cmd, splitted[0], i - 1))
-				export(env, cmd, splitted);
+				export(env, cmd, splitted, i - 1);
 			ft_free_strstr(splitted);
 		}
 	}
