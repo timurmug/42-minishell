@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 09:54:54 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/07 11:41:05 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define CLEAN "\e[1;1H\e[2J"
 # define CMD_NOT_FOUND ": command not found"
 # define IS_A_DIR ": is a directory"
+# define P_DEN ": Permission denied"
 # define SHELL "minishell: "
 
 typedef struct	s_env
@@ -66,6 +67,6 @@ int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
 
 void			replase_env(char **cmd, t_list *env);
-char			*find_env(char *line, t_list *env);
+int				print_dir(char **cmd);
 
 #endif

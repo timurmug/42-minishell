@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/05 14:16:13 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/06 13:20:14 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ LIB_A =	libft/libft.a
 GNL_A = gnl/gnl.a
 INCLUDE = includes/minishell.h
 
-FLAGS_W = -Wall -Wextra -Werror
+FLAGS_W = -Wall -Wextra -Werror -g
 FLAGS_LIB = -Iincludes
 
 DIR_SRCS = srcs

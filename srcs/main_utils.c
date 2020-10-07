@@ -6,13 +6,13 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 09:35:19 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/07 11:53:47 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_prompt(void)
+void			write_prompt(void)
 {
 	char	*path;
 
@@ -25,7 +25,7 @@ void	write_prompt(void)
 	free(path);
 }
 
-int		is_separator(char c)
+int				is_separator(char c)
 {
 	if (c == ' ' || c == '<' || c == '>' || c == '|' || c == ';' || c == '\'' \
 	|| c == '\"')
@@ -33,47 +33,7 @@ int		is_separator(char c)
 	return (0);
 }
 
-void	ft_print_env(char *s)
-{
-	if (s[0] == '/')
-	{
-		ft_putstr_fd(SHELL, STDERR_FILENO);
-		ft_putstr_fd(s, STDERR_FILENO);
-		ft_putendl_fd(IS_A_DIR, STDERR_FILENO);
-	}
-	else
-	{
-		ft_putstr_fd(SHELL, STDERR_FILENO);
-		ft_putstr_fd(s, STDERR_FILENO);
-		ft_putendl_fd(CMD_NOT_FOUND, STDERR_FILENO);
-	}
-}
-
-void		replase_env(char **cmd, t_list *env)
-{
-	t_list	*tmp;
-	int		i;
-	char	*s;
-
-	tmp = env;
-	i = 0;
-	while(cmd[i])
-	{
-		if (cmd[i][0] != '$')
-			i++;
-		else
-		{
-			if ((s = find_env(&cmd[i][1], env)))
-			{
-				free(cmd[i]);
-				cmd[i] = ft_strdup(s);
-			}
-			i++;
-		}
-	}
-}
-
-char 	*find_env(char *line, t_list *env)
+static char 	*find_env(char *line, t_list *env)
 {
 	t_list	*tmp;
 	char	*s;
@@ -86,4 +46,57 @@ char 	*find_env(char *line, t_list *env)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+void			replase_env(char **cmd, t_list *env)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	s = NULL;
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '$')
+		{
+			if ((s = find_env(&cmd[i][1], env)))
+			{
+				free(cmd[i]);
+				cmd[i] = ft_strdup(s);
+				break ;
+			}
+			else if (cmd[i + 1] && !(s = find_env(&cmd[i][1], env)))
+			{
+				free(cmd[i]);
+				cmd[i] = ft_strdup(cmd[i + 1]);
+				i++;
+				while (cmd[i])
+				{
+					free(cmd[i]);
+					cmd[i++] = ft_strdup("\0");
+				}
+				i--;
+			}
+		}
+		i++;
+	}
+}
+
+int					print_dir(char **cmd)
+{
+	if (cmd[0][0] == '/' && cmd[0][1] != 'p')
+	{
+		ft_putstr_fd(SHELL, STDERR_FILENO);
+		ft_putstr_fd(cmd[0], STDERR_FILENO);
+		ft_putendl_fd(IS_A_DIR, STDERR_FILENO);
+		return (1);
+	}
+	else if (cmd[0][0] == '/' && cmd[0][1] == 'p')
+	{
+		ft_putstr_fd(SHELL, STDERR_FILENO);
+		ft_putstr_fd(cmd[0], STDERR_FILENO);
+		ft_putendl_fd(P_DEN, STDERR_FILENO);
+		return (1);
+	}
+	return (0);
 }
