@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 11:53:47 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/07 12:30:17 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ static char 	*find_env(char *line, t_list *env)
 void			replase_env(char **cmd, t_list *env)
 {
 	int		i;
+	int 	f;
 	char	*s;
 
-	i = 0;
+	i = -1;
+	f = 0;
 	s = NULL;
-	while (cmd[i])
+	while (cmd[++i])
 	{
 		if (cmd[i][0] == '$')
 		{
@@ -65,20 +67,12 @@ void			replase_env(char **cmd, t_list *env)
 				cmd[i] = ft_strdup(s);
 				break ;
 			}
-			else if (cmd[i + 1] && !(s = find_env(&cmd[i][1], env)))
+			else if (cmd[f + 1] && !s)
 			{
 				free(cmd[i]);
-				cmd[i] = ft_strdup(cmd[i + 1]);
-				i++;
-				while (cmd[i])
-				{
-					free(cmd[i]);
-					cmd[i++] = ft_strdup("\0");
-				}
-				i--;
+				cmd[i--] = ft_strdup(cmd[f += 1]);
 			}
 		}
-		i++;
 	}
 }
 
@@ -89,6 +83,7 @@ int					print_dir(char **cmd)
 		ft_putstr_fd(SHELL, STDERR_FILENO);
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
 		ft_putendl_fd(IS_A_DIR, STDERR_FILENO);
+		ft_free_strstr(cmd);
 		return (1);
 	}
 	else if (cmd[0][0] == '/' && cmd[0][1] == 'p')
@@ -96,6 +91,7 @@ int					print_dir(char **cmd)
 		ft_putstr_fd(SHELL, STDERR_FILENO);
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
 		ft_putendl_fd(P_DEN, STDERR_FILENO);
+		ft_free_strstr(cmd);
 		return (1);
 	}
 	return (0);
