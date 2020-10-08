@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/08 12:19:59 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:14:04 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char 			*find_env(char *line, t_list *env)
 	}
 	while (tmp)
 	{
-	
 		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
 		{
 			s = ((t_env*)tmp->content)->value;

@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/08 15:06:56 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:54:52 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*change_env(char *line, t_list *env)
 		{
 			j = i;
 			i++;
-			while (line[i] && line[i] != '$' && line[i] != '?')
+			while (line[i] && line[i] != '$' && line[i] != '.')
 				i++;
 			if (!(buff = trim_line(line, j, i - j, env)))
 				buff = "";	
@@ -64,12 +64,13 @@ char	**ft_env(char **line, t_list *env)
 	char	*buff;
 	int		i;
 	int		f;
+	int		len;
 
 	i = -1;
-	f = 0;
-	while (line[++i])
+	f = -1;
+	len = ft_strstrlen(line);
+	while (line[++i] && ++f < len)
 	{
-		f++;
 		if ((buff = ft_strchr(line[i], '$')))
 		{
 			s = ft_strtrim(line[i], buff);
@@ -80,11 +81,10 @@ char	**ft_env(char **line, t_list *env)
 				free(s);
 				free(str);
 			}
-			if (line[f + 1] && line[i][0] == '\0')
+			if ((line[f + 1]) && (line[i][0] == '\0'))
 			{
 				free(line[i]);
-				line[i] = ft_strdup(line[f + 1]);
-				--i;
+				line[i--] = ft_strdup(line[f + 1]);
 			}
 		}
 	}
