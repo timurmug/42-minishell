@@ -6,46 +6,80 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/07 15:02:29 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/08 12:22:18 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**split_cmd(char **line, t_list *env)
+char	*trim_line(char *line, int start, int len, t_list *env)
 {
-	char *buff1;
-	char *buff2;
-	char *s;
-	int i;
-	int j;
+	char	*buff;
+	char	*s;
 
-	i = 0;
-	j = 0;
-	while (line[i])
+	buff = ft_substr(line, start, len);
+	if ((s = find_env(&buff[1], env)))
 	{
-		if (ft_strchr(line[i], '=') && ft_strchr(line[i], '$'))
+		free(buff);
+		return(s);
+	}
+	free(buff);
+	return (0);
+}
+
+char	*change_env(char *line, t_list *env)
+{
+	char	*s;
+	char	*s1;
+	char	*buff;
+	int		i;
+	int		j;
+
+	i = -1;
+	s = ft_strdup("\0");
+	while (line[++i])
+	{
+		if (line[i] == '$')
 		{
-			while (line[i][j] && line[i][j] != '$')
-				j++;
-			buff1 = ft_substr(line[i], 0, j);
-			buff2 = ft_substr(line[i], j, ft_strlen(line[i]));
-			if ((s = find_env(&buff2[1], env)))
+			j = i;
+			i++;
+			while (line[i] && line[i] != '$' && line[i] != '?')
+				i++;
+			if (!(buff = trim_line(line, j, i - j, env)))
+				buff = "";	
+			i--;
+			s1 = ft_strdup(s);
+			free(s);
+			s = ft_strjoin(s1, buff);
+			free(s1);
+		}
+	}
+	return (s);
+}
+
+char	**ft_env(char **line, t_list *env)
+{
+	char	*s;
+	char	*str;
+	char	*buff;
+	int		i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if ((buff = ft_strchr(line[i], '$')))
+		{
+			s = ft_strtrim(line[i], buff);
+			if ((str = change_env(buff, env)))
 			{
-				free(buff2);
-				buff2 = ft_strdup(s);
+				free(line[i]);
+				line[i] = ft_strjoin(s, str);
+				free(s);
+				free(str);
 			}
 			else
-			{
-				free(buff2);
-				buff2 = ft_strdup("\0");
-			}
-			free(line[i]);
-			line[i] = ft_strjoin(buff1, buff2);
-			free(buff1);
-			free(buff2);
+				return(NULL);
 		}
-		i++;
 	}
 	return (line);
 }

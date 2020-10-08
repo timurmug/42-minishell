@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 18:29:05 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/08 12:16:45 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	minishell(char *line, t_list **env)
 		{
 			cmd = parse_line(&line);
 			// cmd = split_cmd(cmd, *env);
-			replase_env(cmd, *env);
+			ft_env(cmd, *env);
 			if (cmd && !print_dir(cmd))
 			{
 				// ft_putstrstr_fd(cmd, STDOUT_FILENO);
@@ -84,6 +84,7 @@ int		main(int ac, char **av, char **ev)
 	(void)ac;
 	(void)av;
 	env = NULL;
+	g_question = 0;
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);
