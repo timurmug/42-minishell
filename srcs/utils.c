@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/08 12:22:18 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/08 15:06:56 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,13 @@ char	**ft_env(char **line, t_list *env)
 	char	*str;
 	char	*buff;
 	int		i;
+	int		f;
 
 	i = -1;
+	f = 0;
 	while (line[++i])
 	{
+		f++;
 		if ((buff = ft_strchr(line[i], '$')))
 		{
 			s = ft_strtrim(line[i], buff);
@@ -77,8 +80,12 @@ char	**ft_env(char **line, t_list *env)
 				free(s);
 				free(str);
 			}
-			else
-				return(NULL);
+			if (line[f + 1] && line[i][0] == '\0')
+			{
+				free(line[i]);
+				line[i] = ft_strdup(line[f + 1]);
+				--i;
+			}
 		}
 	}
 	return (line);
