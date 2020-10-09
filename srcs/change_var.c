@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/09 19:56:33 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 19:58:50 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*trim_line(char *line, int start, int len, t_list *env)
 
 	if (line[start + 1] && line[start + 1] == '?')
 	{
-		s = ft_itoa(g_question);
+		if (!(s = ft_itoa(g_question)))
+			ft_malloc_error();
 		return (s);
 	}
 	if (!(buff = ft_substr(line, start, len)))
