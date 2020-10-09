@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 09:43:07 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:59:12 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int		check_builtins(char *line, char **cmd, t_list **env)
 		my_exit(line, cmd, *env);
 	}
 	else if (!ft_strcmp(cmd[0], "cd")) //cd переменная не работает
-		return (my_cd(cmd, *env));
+		return (my_cd(cmd, env));
 	return check_builtins2(cmd, env);
 }

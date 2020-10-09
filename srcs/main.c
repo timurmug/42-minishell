@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 09:21:07 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:25:23 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,19 @@ char	*get_string(char **line)
 	return (temp);
 }
 
-char	**parse_line(char **line)
+void get_pipe(t_fd *fd_pipe, char **line)
+{
+	int fd[2];
+
+	if (pipe(fd) == -1)
+		exit(0); // с каким значением?
+	close(fd[1]);
+	fd_pipe->stdin_read = fd[0];
+	dup2(fd_pipe->stdin_read, STDIN_FILENO);
+	(*line)++;
+}
+
+char	**parse_line(char **line, t_fd *fd_pipe)
 {
 	char	*str;
 	char	**cmd;
@@ -41,6 +53,12 @@ char	**parse_line(char **line)
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
 			break;
+		if (**line == '|' && cmd)
+		{
+			ft_putendl_fd("i see pipe", 1);
+			get_pipe(fd_pipe, line);
+			break;
+		}
 		if (**line && is_separator(**line))
 			(*line)++;
 		if ((str = get_string(line)))
@@ -55,6 +73,7 @@ char	**parse_line(char **line)
 void	minishell(char *line, t_list **env)
 {
 	char	**cmd;
+	t_fd	fd_pipe;
 
 	while (*line)
 	{
@@ -62,7 +81,7 @@ void	minishell(char *line, t_list **env)
 			(*line)++;
 		else
 		{
-			cmd = parse_line(&line);
+			cmd = parse_line(&line, &fd_pipe);
 			// cmd = split_cmd(cmd, *env);
 			if (cmd)
 				ft_env(cmd, *env);
