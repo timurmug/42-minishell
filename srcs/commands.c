@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/07 11:42:39 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 12:40:19 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ char	*parse_path(char **cmd, t_list *env)
 void	run_command(char *line, char **cmd, t_list **env)
 {
 	int		pid;
-	int		fd;
+	int		file;
 	char	*true_path;
 
 	errno = 0;
 	if (check_builtins(line, cmd, env))
         return ;
-	if ((fd = open(cmd[0], O_RDONLY)) != -1)
+	if ((file = open(cmd[0], O_RDONLY)) != -1)
 		true_path = cmd[0];
 	else if (!(true_path = parse_path(cmd, *env)))
 	{
@@ -95,10 +95,10 @@ void	run_command(char *line, char **cmd, t_list **env)
 	}
 	else
 	{
-		if (fd == -1)
+		if (file == -1)
 			free(true_path);
 		else
-			close(fd);
+			close(file);
 		wait(NULL);
 	}
 }
