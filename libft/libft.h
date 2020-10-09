@@ -6,7 +6,7 @@
 /*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 11:04:51 by student           #+#    #+#             */
-/*   Updated: 2020/10/07 08:54:20 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/09 09:27:19 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ void			ft_putstrstr_fd(char **splitted, int fd);
 void			ft_lst_remove_if(t_list **begin_list,
 					void *data_ref, int (*cmp)());
 char			*ft_strlowcase(char *str);
+int				ft_isspace(int c);
 
 #endif

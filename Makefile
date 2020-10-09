@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
+#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/07 13:27:36 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/09 09:29:46 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,12 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_cd.c \
 		srcs/builtins/my_echo.c \
 		srcs/builtins/my_env.c \
+		srcs/builtins/my_exit.c \
 		srcs/builtins/my_export.c \
 		srcs/builtins/my_pwd.c \
 		srcs/builtins/my_unset.c \
 		srcs/commands.c \
 		srcs/env.c \
-		srcs/exit.c \
 		srcs/main_utils.c \
 		srcs/main.c \
 		srcs/utils.c
