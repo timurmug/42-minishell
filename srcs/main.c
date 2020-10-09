@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 14:01:08 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 17:23:50 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int		main(int ac, char **av, char **ev)
 	(void)av;
 	env = NULL;
 	g_question = 0;
-	g_dollar = 1;
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);

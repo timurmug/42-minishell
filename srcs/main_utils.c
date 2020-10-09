@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 12:30:58 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 15:00:31 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,34 +50,6 @@ char 			*find_env(char *line, t_list *env)
 	}
 	return (NULL);
 }
-
-// void			replase_env(char **cmd, t_list *env)
-// {
-// 	int		i;
-// 	int 	f;
-// 	char	*s;
-
-// 	i = -1;
-// 	f = 0;
-// 	s = NULL;
-// 	while (cmd[++i])
-// 	{
-// 		if ((ft_strchr(cmd[i], '$')))
-// 		{
-// 			if ((s = find_env_in_line(cmd[i], env)))
-// 			{
-// 				free(cmd[i]);
-// 				cmd[i] = ft_strdup(s);
-// 				free(s);
-// 			}
-// 			else if (cmd[f + 1] && !s)
-// 			{
-// 				free(cmd[i]);
-// 				cmd[i--] = ft_strdup(cmd[f += 1]);
-// 			}
-// 		}
-// 	}
-// }
 
 int					print_dir(char **cmd)
 {

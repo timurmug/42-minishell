@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 12:24:28 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 19:52:59 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,11 @@ int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
 
 char			**ft_env(char **line, t_list *env);
-void			replase_env(char **cmd, t_list *env);
 char 			*find_env(char *line, t_list *env);
 int				print_dir(char **cmd);
 
-char			**split_cmd(char **line, t_list *env);
+void			ft_malloc_error();
 
 int				g_question;
-int				g_dollar;
 
 #endif
