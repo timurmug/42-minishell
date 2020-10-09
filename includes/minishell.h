@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 09:28:40 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:59:25 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_env
 
 typedef struct	s_fd
 {
-	int			pid;
+	// int			pid;
 	int			stdin_read;
 	int			stdout_write;
 
@@ -49,7 +49,7 @@ typedef struct	s_fd
 
 int				check_variable(char **cmd, char *param, int i);
 int				check_builtins(char *line, char **cmd, t_list **env);
-int				my_cd(char **cmd, t_list *env);
+int				my_cd(char **cmd, t_list **env);
 // int				my_echo(char **cmd, t_list *env);
 int				my_echo(char **cmd, t_list *env, char *strlowcase);
 // int				my_env(t_list *env);
