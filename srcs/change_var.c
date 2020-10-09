@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/08 18:54:52 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:45:33 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,56 @@ char	*trim_line(char *line, int start, int len, t_list *env)
 	return (0);
 }
 
+char	*search_env(char *line, int i, t_list *env)
+{
+	int		j;
+	int		len;
+	char 	*buff;
+	char	*s;
+	char	*res;
+
+	j = i;
+	len = ft_strlen(line);
+	i++;
+	while (line[i] && !ft_issymbol(line[i]))
+		i++;
+	s = ft_substr(line, i, len);
+	if (!(buff = trim_line(line, j, i - j, env)))
+		buff = "";
+	res = ft_strjoin(buff, s);
+	free(s);
+	return (res);
+}
+
 char	*change_env(char *line, t_list *env)
 {
-	char	*s;
-	char	*s1;
-	char	*buff;
 	int		i;
-	int		j;
+	int		f;
+	char	*buff;
+	char	*s;
+	char 	*tmp;
 
 	i = -1;
-	s = ft_strdup("\0");
-	while (line[++i])
+	s = ft_strdup(line);
+	while (s[++i])
 	{
-		if (line[i] == '$')
+		if (s[i] == '$' && f == 1)
 		{
-			j = i;
-			i++;
-			while (line[i] && line[i] != '$' && line[i] != '.')
-				i++;
-			if (!(buff = trim_line(line, j, i - j, env)))
-				buff = "";	
-			i--;
-			s1 = ft_strdup(s);
+			tmp = ft_substr(s, 0, i);
+			buff = search_env(s, i, env);
 			free(s);
-			s = ft_strjoin(s1, buff);
-			free(s1);
+			s = ft_strjoin(tmp, buff);
+			free(tmp);
+			free(buff);
+		}
+		if (s[i] == '$')
+		{
+			buff = search_env(s, i, env);
+			free(s);
+			s = ft_strdup(buff);
+			free(buff);
+			i = 0;
+			f = 1;
 		}
 	}
 	return (s);
