@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/15 12:22:12 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/09 09:27:04 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/09 10:10:44 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 				ft_putnbr_fd.c ft_strcmp.c ft_realloc.c ft_free_strstr.c \
 				ft_strstrdup.c ft_strstrlen.c ft_strcpy.c ft_str_is_num.c \
 				ft_strstr_realloc.c ft_putstrstr_fd.c ft_lst_remove_if.c \
-				ft_strlowcase.c ft_isspace.c
+				ft_strlowcase.c ft_isspace.c ft_issymbol.c
 OBJS = $(SRCS:%.c=%.o)
 BONUS_SRCS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 				ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \

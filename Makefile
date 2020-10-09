@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/09 09:29:46 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/09 11:49:53 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/env.c \
 		srcs/main_utils.c \
 		srcs/main.c \
-		srcs/utils.c
+		srcs/change_var.c
 
 OBJS = $(SRCS:%.c=%.o)
 
