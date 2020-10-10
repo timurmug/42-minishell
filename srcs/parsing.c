@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 14:30:50 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 16:06:55 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,34 @@ char	*get_str_double_quotes(char **line, t_list *env)
 {
 	char	*temp;
 	int		index;
+	char	*str_var;
 
-	(void)env;
 	index = 0;
 	temp = NULL;
 	(*line)++;
 	while (**line && **line != '\"')
 	{
+		str_var = NULL;
 		if (**line == '\\' && (*(*line + 1) == '$' || \
 		*(*line + 1) == '\\' || *(*line + 1) == '\"'))
 			(*line)++;
 		else if (**line == '$')
 			temp = lookup_env(line, env);
-		temp = ft_str_realloc(temp, 1);
-		temp[index++] = **line;
-		(*line)++;
+		if (str_var)
+		{
+			if (!(temp = ft_strjoin_gnl(temp, str_var)))
+				ft_malloc_error();
+			free(str_var);
+		}
+		else
+		{
+			temp = ft_str_realloc(temp, 1);
+			temp[index++] = **line;
+			(*line)++;
+		}
 	}
 	if (**line == '\"')
-	(*line)++;
+		(*line)++;
 	return (temp);
 }
 
@@ -47,6 +57,8 @@ char	*get_str_single_quotes(char **line)
 	(*line)++;
 	while (**line && **line != '\'')
 	{
+		if (**line == '\\' && *(*line + 1) == '\\')
+			(*line)++;
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
@@ -60,19 +72,32 @@ char	*get_str_regular(char **line, t_list *env)
 {
 	char	*temp;
 	int		index;
+	char	*str_var;
 
-	(void)env;
 	index = 0;
 	temp = NULL;
 	while (**line && !ft_strchr(" \t<>|;\'\"", **line))
 	{
+		str_var = NULL;
 		if (**line == '\\')
 			(*line)++;
 		else if (**line == '$')
-			temp = lookup_env(line, env);// функция алины
-		temp = ft_str_realloc(temp, 1);
-		// temp[index++] = **line;
-		(*line)++;
+		{
+			str_var = lookup_env(line, env);
+			index += ft_strlen(str_var);
+		}
+		if (str_var)
+		{
+			if (!(temp = ft_strjoin_gnl(temp, str_var)))
+				ft_malloc_error();
+			free(str_var);
+		}
+		else
+		{
+			temp = ft_str_realloc(temp, 1);
+			temp[index++] = **line;
+			(*line)++;
+		}
 	}
 	return (temp);
 }
@@ -84,9 +109,9 @@ char	*parse_argument(char **line, t_list *env)
 	char	*res;
 
 	res = NULL;
-	temp  = NULL;
 	while (**line && !ft_strchr("|><;", **line))
 	{
+		temp  = NULL;
 		if (ft_isspace(**line))
 			break ;
 		if (**line == '\"')
@@ -96,7 +121,7 @@ char	*parse_argument(char **line, t_list *env)
 		else
 			temp = get_str_regular(line, env);
 		if (!(res = ft_strjoin_gnl(res, temp)))
-			exit(0); // с каким значением?
+			ft_malloc_error();
 		free(temp);
 	}
 	return (res);

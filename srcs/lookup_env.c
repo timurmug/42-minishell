@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/10 13:45:03 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 15:45:17 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*lookup_env(char **line, t_list *env)
 	buff = (*line);
 	len = 0;
 	i = 0;
-	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i++]))
+	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i])
+			&& !ft_issymbol(buff[i++]))
 		len++;
 	i = 1;
 	t = buff[len];
