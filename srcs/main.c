@@ -6,25 +6,11 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 10:32:44 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 11:48:59 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*get_string(char **line)
-// {
-// 	char *temp = NULL;
-// 	int index = 0;
-//
-// 	while (**line && !is_separator(**line))
-// 	{
-// 		temp = ft_realloc(temp, 1);
-// 		temp[index++] = **line;
-// 		(*line)++;
-// 	}
-// 	return (temp);
-// }
 
 char	*get_str_regular(char **line, t_list *env)
 {
@@ -34,16 +20,15 @@ char	*get_str_regular(char **line, t_list *env)
 	(void)env;
 	index = 0;
 	temp = NULL;
-	while (**line && !ft_strchr(" <>|;\'\"", **line))
+	while (**line && !ft_strchr(" \t<>|;\'\"", **line))
 	{
 		if (**line == '$')
 			; // функция алины
 		else if (**line == '\\')
 			(*line)++;
-		temp = ft_realloc(temp, 1);
+		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
-
 	}
 	return (temp);
 }
@@ -51,11 +36,9 @@ char	*get_str_regular(char **line, t_list *env)
 char	*parse_argument(char **line, t_list *env)
 {
 	char	*temp;
-	int		index;
 	char	*res;
 
 	res = NULL;
-	index = 0;
 	temp  = NULL;
 	while (**line && !ft_strchr("|><;", **line))
 	{
@@ -89,6 +72,7 @@ char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 	cmd = NULL;
 	str = NULL;
 	i = 0;
+	(void)env;
 	while (**line)
 	{
 		while (ft_isspace(**line))
@@ -101,10 +85,6 @@ char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 			get_pipe(fd_pipe, line);
 			break;
 		}
-
-		// if (**line && is_separator(**line))
-		// 	(*line)++;
-		// if ((str = get_string(line)))
 		if ((str = parse_argument(line, env)))
 		{
 			cmd = ft_strstr_realloc(cmd, 1);
@@ -122,7 +102,7 @@ void	minishell(char *line, t_list **env)
 	while (*line)
 	{
 		if (*line == ';')
-			(*line)++;
+			line++;
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
