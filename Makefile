@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/09 14:32:32 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/10 10:30:57 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/env.c \
 		srcs/main_utils.c \
 		srcs/main.c \
-		srcs/change_var.c
+		srcs/change_var.c \
+		srcs/error.c
 
 OBJS = $(SRCS:%.c=%.o)
 

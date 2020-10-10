@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_issymbol.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/09 10:06:18 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/09 12:15:48 by fkathryn         ###   ########.fr       */
+/*   Created: 2020/10/09 19:50:28 by fkathryn          #+#    #+#             */
+/*   Updated: 2020/10/09 19:52:22 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_issymbol(int c)
+#include "minishell.h"
+
+void	ft_malloc_error()
 {
-	if ((c >= 33 && c <= 35) || (c >= 35 && c <= 47)
-		|| (c >= 58 && c <= 61) || (c >= 63 && c <= 64)
-		|| (c >= 91 && c <= 94)
-		|| c == 96 || (c >= 123 && c <= 126))
-		return (1);
-	else
-		return (0);
+	ft_putstr_fd(SHELL, STDERR_FILENO);;
+	ft_putendl_fd("malloc error!", STDERR_FILENO);
+	exit(0);
 }
