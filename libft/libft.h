@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 11:04:51 by student           #+#    #+#             */
-/*   Updated: 2020/10/09 10:10:33 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 11:35:06 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 void (*del)(void *));
 
 int				ft_strcmp(char *s1, char *s2);
-void			*ft_realloc(char *src, int size);
+char			*ft_str_realloc(char *src, size_t size);
 void			ft_free_strstr(char **splitted);
 size_t			ft_strstrlen(char **splitted);
 char			**ft_strstrdup(char **s);
 char			*ft_strcpy(char *dest, char *src);
 int				ft_str_is_num(char *str);
-char			**ft_strstr_realloc(char **src, int size);
+char			**ft_strstr_realloc(char **src, size_t size);
 void			ft_putstrstr_fd(char **splitted, int fd);
 void			ft_lst_remove_if(t_list **begin_list,
 					void *data_ref, int (*cmp)());
