@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 14:44:56 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 14:47:05 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_str_double_quotes(char **line, t_list *env)
 		*(*line + 1) == '\\' || *(*line + 1) == '\"'))
 			(*line)++;
 		else if (**line == '$')
-			temp2 = lookup_env(line, env);
+			temp = lookup_env(line, env);
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
