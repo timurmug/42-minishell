@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 11:33:58 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 12:01:31 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char 			*find_env(char *line, t_list *env);
 int				print_dir(char **cmd);
 
 void			ft_malloc_error();
+char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;
 
