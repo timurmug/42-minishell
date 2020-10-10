@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 16:06:55 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 20:30:52 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,10 @@ char	*get_str_regular(char **line, t_list *env)
 		if (**line == '\\')
 			(*line)++;
 		else if (**line == '$')
-		{
 			str_var = lookup_env(line, env);
-			index += ft_strlen(str_var);
-		}
 		if (str_var)
 		{
+			index += ft_strlen(str_var);
 			if (!(temp = ft_strjoin_gnl(temp, str_var)))
 				ft_malloc_error();
 			free(str_var);
@@ -150,8 +148,13 @@ char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		}
 		if ((str = parse_argument(line, env)))
 		{
-			cmd = ft_strstr_realloc(cmd, 1);
-			cmd[i++] = str;
+			if (str[0] != '\0')
+			{
+				cmd = ft_strstr_realloc(cmd, 1);
+				cmd[i++] = str;
+			}
+			else
+				free(str);
 		}
 	}
 	return (cmd);

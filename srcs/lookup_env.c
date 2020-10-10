@@ -6,11 +6,29 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/10 15:45:17 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 20:22:58 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char 			*find_env(char *line, t_list *env)
+{
+	t_list	*tmp;
+	char	*s;
+
+	tmp = env;
+	while (tmp)
+	{
+		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
+		{
+			s = ((t_env*)tmp->content)->value;
+			return (s);
+		}
+		tmp = tmp->next;
+	}
+	return ("");
+}
 
 char	*lookup_env(char **line, t_list *env)
 {
@@ -25,7 +43,7 @@ char	*lookup_env(char **line, t_list *env)
 	len = 0;
 	i = 0;
 	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i])
-			&& !ft_issymbol(buff[i++]))
+			&& !ft_issymbol(buff[i++])) //is_symbol think about it
 		len++;
 	i = 1;
 	t = buff[len];
@@ -46,6 +64,6 @@ char	*lookup_env(char **line, t_list *env)
 			ft_malloc_error();
 	}
 	buff[len] = t;
-	*line = &buff[len];
+	*line = &buff[len]; 
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 11:59:18 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 17:51:07 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,7 @@ int				is_separator(char c)
 	return (0);
 }
 
-char 			*find_env(char *line, t_list *env)
-{
-	t_list	*tmp;
-	char	*s;
-
-	tmp = env;
-	while (tmp)
-	{
-		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
-		{
-			s = ((t_env*)tmp->content)->value;
-			return (s);
-		}
-		tmp = tmp->next;
-	}
-	return ("");
-}
-
-int					print_dir(char **cmd)
+int					print_dir(char **cmd) //tmp function
 {
 	if (cmd[0][0] == '/' && cmd[0][1] != 'p')
 	{
