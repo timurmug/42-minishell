@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 11:48:59 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 12:36:10 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_str_regular(char **line, t_list *env)
 	while (**line && !ft_strchr(" \t<>|;\'\"", **line))
 	{
 		if (**line == '$')
-			; // функция алины
+			temp = lookup_env(line, env); // функция алины
 		else if (**line == '\\')
 			(*line)++;
 		temp = ft_str_realloc(temp, 1);
@@ -106,8 +106,8 @@ void	minishell(char *line, t_list **env)
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
-			if (cmd)
-				ft_env(cmd, *env);
+			// if (cmd)
+			// 	ft_env(cmd, *env);
 			if (cmd && !print_dir(cmd))
 			{
 				run_command(line, cmd, env);

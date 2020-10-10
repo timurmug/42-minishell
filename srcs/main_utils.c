@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 15:00:31 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 11:59:18 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char 			*find_env(char *line, t_list *env)
 		}
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 int					print_dir(char **cmd)
