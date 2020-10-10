@@ -3,42 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 16:55:49 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 11:53:41 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 10:25:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_string(char **line)
-{
-	char *temp = NULL;
-	int index = 0;
+// char	*get_string(char **line)
+// {
+// 	char *temp = NULL;
+// 	int index = 0;
+//
+// 	while (**line && !is_separator(**line))
+// 	{
+// 		temp = ft_realloc(temp, 1);
+// 		temp[index++] = **line;
+// 		(*line)++;
+// 	}
+// 	return (temp);
+// }
 
-	while (**line && !is_separator(**line))
+char	*get_str_regular(char **line, t_list *env)
+{
+	char	*temp;
+	int		index;
+
+	(void)env;
+	index = 0;
+	temp = NULL;
+	while (**line && !ft_strchr(" <>|;\'\"", **line))
 	{
+		if (**line == '$')
+			; // функция алины
+		else if (**line == '\\')
+			(*line)++;
 		temp = ft_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
+
 	}
 	return (temp);
 }
 
-void get_pipe(t_fd *fd_pipe, char **line)
+char	*parse_argument(char **line, t_list *env)
 {
-	int fd[2];
+	char	*temp;
+	int		index;
+	char	*res;
 
-	if (pipe(fd) == -1)
-		exit(0); // с каким значением?
-	close(fd[1]);
-	fd_pipe->stdin_read = fd[0];
-	dup2(fd_pipe->stdin_read, STDIN_FILENO);
-	(*line)++;
+	res = NULL;
+	index = 0;
+	temp  = NULL;
+	while (**line && !ft_strchr("|><;", **line))
+	{
+		if (ft_isspace(**line))
+			break ;
+		if (**line == '\'')
+		{
+			ft_putendl_fd("одинарные ковычки", 1);
+			exit(0) ;
+		}
+		else if (**line == '\"')
+		{
+			ft_putendl_fd("двойные ковычки", 1);
+			exit(0) ;
+		}
+		else
+			temp = get_str_regular(line, env);
+		if (!(res = ft_strjoin_gnl(res, temp)))
+			exit(0); // с каким значением?
+		free(temp);
+	}
+	return (res);
 }
 
-char	**parse_line(char **line, t_fd *fd_pipe)
+char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 {
 	char	*str;
 	char	**cmd;
@@ -49,7 +91,7 @@ char	**parse_line(char **line, t_fd *fd_pipe)
 	i = 0;
 	while (**line)
 	{
-		while (**line == ' ')
+		while (ft_isspace(**line))
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
 			break;
@@ -59,9 +101,11 @@ char	**parse_line(char **line, t_fd *fd_pipe)
 			get_pipe(fd_pipe, line);
 			break;
 		}
-		if (**line && is_separator(**line))
-			(*line)++;
-		if ((str = get_string(line)))
+
+		// if (**line && is_separator(**line))
+		// 	(*line)++;
+		// if ((str = get_string(line)))
+		if ((str = parse_argument(line, env)))
 		{
 			cmd = ft_strstr_realloc(cmd, 1);
 			cmd[i++] = str;
@@ -81,15 +125,13 @@ void	minishell(char *line, t_list **env)
 			(*line)++;
 		else
 		{
-			cmd = parse_line(&line, &fd_pipe);
+			cmd = parse_line(&line, &fd_pipe, *env);
 			if (cmd)
 				ft_env(cmd, *env);
 			if (cmd && !print_dir(cmd))
 			{
-				// ft_putstrstr_fd(cmd, STDOUT_FILENO);
 				run_command(line, cmd, env);
 				ft_free_strstr(cmd);
-				// ft_putendl_fd("--------", STDOUT_FILENO);
 			}
 		}
 	}

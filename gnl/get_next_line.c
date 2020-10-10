@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 12:18:28 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/09/06 10:44:28 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 10:24:29 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_create_line(char **current_fd, char **line,
 		current_fd = NULL;
 		return (1);
 	}
-	*current_fd = ft_strcpy(*current_fd, p_newline);
+	*current_fd = ft_strcpy2(*current_fd, p_newline);
 	return (1);
 }
 
@@ -59,7 +59,7 @@ static int	ft_check_line(char **current_fd, char **line, char *tmp,
 	char	*p_end;
 
 	tmp[byte_readed] = 0;
-	if (!(*current_fd = ft_strjoin_new(*current_fd, tmp)))
+	if (!(*current_fd = ft_strjoin_gnl(*current_fd, tmp)))
 	{
 		free(tmp);
 		return (-1);

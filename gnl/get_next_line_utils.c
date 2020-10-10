@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 12:18:24 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/09/07 15:47:22 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/10 10:24:16 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strchr2(char *s, int c)
 	return (s2);
 }
 
-char	*ft_strcpy(char *dest, char *src)
+char	*ft_strcpy2(char *dest, char *src)
 {
 	int i;
 
@@ -61,11 +61,11 @@ char	*ft_strdup2(char *s)
 	str = NULL;
 	if (!(str = (char *)malloc(sizeof(char) * (length + 1))))
 		return (NULL);
-	ft_strcpy(str, s);
+	ft_strcpy2(str, s);
 	return (str);
 }
 
-char	*ft_strjoin_new(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char		*strjoin;
 	size_t		i;

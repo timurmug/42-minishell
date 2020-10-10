@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 10:59:25 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/09 14:32:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
 // void			my_unset(t_list **env, char **vars, int i);
 
+void 			get_pipe(t_fd *fd_pipe, char **line);
 void			run_command(char *line, char **cmd, t_list **env);
 
 void			my_exit(char *line, char **cmd, t_list *env);

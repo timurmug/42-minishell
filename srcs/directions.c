@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   directions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/20 12:18:31 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 10:24:33 by qtamaril         ###   ########.fr       */
+/*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
+/*   Updated: 2020/10/09 14:35:34 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "minishell.h"
 
-# include <stdlib.h>
-# include <unistd.h>
+void get_pipe(t_fd *fd_pipe, char **line)
+{
+	int fd[2];
 
-int				get_next_line(int fd, char **line);
-size_t			ft_strlen2(char *str);
-char			*ft_strchr2(char *s, int c);
-char			*ft_strcpy2(char *dest, char *src);
-char			*ft_strdup2(char *s);
-char			*ft_strjoin_gnl(char *s1, char *s2);
-
-#endif
+	if (pipe(fd) == -1)
+		exit(0); // с каким значением?
+	close(fd[1]);
+	fd_pipe->stdin_read = fd[0];
+	dup2(fd_pipe->stdin_read, STDIN_FILENO);
+	(*line)++;
+}

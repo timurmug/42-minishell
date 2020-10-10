@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
+#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/09 11:49:53 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/09 14:32:32 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_pwd.c \
 		srcs/builtins/my_unset.c \
 		srcs/commands.c \
+		srcs/directions.c \
 		srcs/env.c \
 		srcs/main_utils.c \
 		srcs/main.c \
