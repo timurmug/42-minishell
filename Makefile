@@ -6,9 +6,10 @@
 #    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/10 12:32:12 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/10 12:46:44 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = minishell
 LIB_A =	libft/libft.a
@@ -37,7 +38,8 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/main_utils.c \
 		srcs/main.c \
 		srcs/lookup_env.c \
-		srcs/error.c
+		srcs/error.c \
+		srcs/parsing.c
 
 OBJS = $(SRCS:%.c=%.o)
 

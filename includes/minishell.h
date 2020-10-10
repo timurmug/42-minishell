@@ -6,10 +6,9 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 12:31:28 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 12:47:42 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -77,6 +76,7 @@ int				print_dir(char **cmd);
 char			*lookup_env(char **line, t_list *env);
 
 void			ft_malloc_error();
+char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;
 
