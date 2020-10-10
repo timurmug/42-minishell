@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 12:49:51 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 14:30:50 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_str_regular(char **line, t_list *env)
 		else if (**line == '$')
 			temp = lookup_env(line, env);// функция алины
 		temp = ft_str_realloc(temp, 1);
-		temp[index++] = **line;
+		// temp[index++] = **line;
 		(*line)++;
 	}
 	return (temp);
