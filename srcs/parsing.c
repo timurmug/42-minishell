@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 12:49:51 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 14:44:56 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_str_double_quotes(char **line, t_list *env)
 		*(*line + 1) == '\\' || *(*line + 1) == '\"'))
 			(*line)++;
 		else if (**line == '$')
-			temp = lookup_env(line, env);
+			temp2 = lookup_env(line, env);
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
@@ -47,6 +47,8 @@ char	*get_str_single_quotes(char **line)
 	(*line)++;
 	while (**line && **line != '\'')
 	{
+		if (**line == '\\' && *(*line + 1) == '\\')
+			(*line)++;
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
