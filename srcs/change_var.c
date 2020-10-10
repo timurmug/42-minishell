@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 13:05:33 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/09 19:58:50 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/10 11:13:00 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ char	*change_env(char *line, t_list *env)
 			free(s);
 			if (!(s = ft_strjoin(tmp, buff)))
 				ft_malloc_error();
-			free(tmp);
 			free(buff);
+			free(tmp);
 			i = -1;
 		}
 		else if (s[i] == '$')
@@ -144,6 +144,7 @@ char	**ft_env(char **line, t_list *env)
 				free(line[i]);
 				if (!(line[i--] = ft_strdup(line[f + 1])))
 					ft_malloc_error();
+				line[f + 1] = ft_strdup("\0");
 			}
 		}
 	}
