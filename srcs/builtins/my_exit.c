@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   my_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 12:38:31 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/05 10:41:28 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 16:04:07 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_exit(char *line, char **cmd, t_list *env)
+void	my_exit(char *line, char **cmd, t_list *env) //надо доделать!!!!
 {
 	// free(line);
 	(void)line;

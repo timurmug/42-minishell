@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 14:10:07 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 14:15:04 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 10:38:55 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ void	export2(t_list **env, char **vars, char **splitted, int i)
 
 	p_value = ft_strchr(vars[i], '=');
 	if (p_value)
-		add_env(env, splitted[0], ft_strdup(p_value + 1));
+		add_env(env, splitted[0], p_value + 1);
 	else
 	{
 		if (!(elem = malloc(sizeof(t_env))))
-			return ;
-		elem->name = ft_strdup(splitted[0]);
+			ft_malloc_error();
+		if (!(elem->name = ft_strdup(splitted[0])))
+			ft_malloc_error();
 		elem->value = NULL;
 		ft_lstadd_back(env, ft_lstnew(elem));
 		env_sort(env);
@@ -73,7 +74,8 @@ void	export(t_list **env, char **vars, char **splitted, int i)
 			if (p_value)
 			{
 				free(curr_env->value);
-				curr_env->value = ft_strdup(p_value + 1);
+				if (!(curr_env->value = ft_strdup(p_value + 1)))
+					ft_malloc_error();
 			}
 			return ;
 		}

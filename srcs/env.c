@@ -6,11 +6,40 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 12:47:12 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 14:14:08 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 10:41:40 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**env_to_strstr(t_list *env)
+{
+	char	**strstr;
+	int		lstsize;
+	int		y;
+	t_env	*content;
+
+	lstsize = ft_lstsize(env);
+	if (!(strstr = ft_calloc(lstsize + 1, sizeof(char *))))
+		ft_malloc_error();
+	y = 0;
+	while (env)
+	{
+		content = (t_env*)env->content;
+		if (content && content->value)
+		{
+			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], content->name)))
+				ft_malloc_error();
+			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], "=")))
+				ft_malloc_error();
+			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], content->value)))
+				ft_malloc_error();
+			y++;
+		}
+		env = env->next;
+	}
+	return (strstr);
+}
 
 void	free_env(t_list *lst)
 {

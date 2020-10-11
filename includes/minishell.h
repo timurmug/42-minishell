@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 12:47:42 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/11 15:41:42 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define IS_A_DIR ": is a directory"
 # define P_DEN ": Permission denied"
 # define SHELL "minishell: "
+# define NO_FILE_DIR ": No such file or directory"
 
 typedef struct	s_env
 {
@@ -68,6 +69,7 @@ void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
 int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
+char			**env_to_strstr(t_list *env);
 
 // char			**ft_env(char **line, t_list *env);
 char 			*find_env(char *line, t_list *env);
@@ -76,6 +78,12 @@ int				print_dir(char **cmd);
 char			*lookup_env(char **line, t_list *env);
 
 void			ft_malloc_error();
+void			error_print(char *param);
+void			error_is_a_dir(char *param);
+void			error_perm_denied(char *param);
+void			error_no_file_or_dir(char *param);
+void			error_cmd_not_found(char *param);
+
 char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;

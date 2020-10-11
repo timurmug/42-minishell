@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 12:40:19 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 16:03:52 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,37 +68,68 @@ char	*parse_path(char **cmd, t_list *env)
 	return (NULL);
 }
 
+int		is_it_path(char **cmd, char **true_path)
+{
+	int			stat_res;
+	struct stat	file_stat;
+	int			three_points;
+
+	three_points = ft_strncmp("../", cmd[0], 3);
+	if (!three_points || !ft_strncmp("./", cmd[0], 2) || cmd[0][0] == '/')
+	{
+		if (!three_points || cmd[0][0] == '/')
+		{
+			stat_res = stat(cmd[0], &file_stat);
+			three_points = 0;
+		}
+		else
+		{
+			stat_res = stat(cmd[0], &file_stat);
+			three_points = 2;
+		}
+		if (stat_res == -1)
+			error_no_file_or_dir(cmd[0]);
+		else if (S_ISDIR(file_stat.st_mode))
+			error_is_a_dir(cmd[0]);
+		else if (!(file_stat.st_mode & S_IXUSR))
+			error_perm_denied(cmd[0]);
+		*true_path = &cmd[0][three_points];
+		return (1);
+	}
+	return (0);
+}
+
 void	run_command(char *line, char **cmd, t_list **env)
 {
 	int		pid;
-	int		file;
 	char	*true_path;
+	int		is_path;
 
 	errno = 0;
+	is_path = 0;
 	if (check_builtins(line, cmd, env))
         return ;
-	if ((file = open(cmd[0], O_RDONLY)) != -1)
-		true_path = cmd[0];
+	else if ((is_path = is_it_path(cmd, &true_path)))
+		;
 	else if (!(true_path = parse_path(cmd, *env)))
 	{
-		ft_putstr_fd(SHELL, STDERR_FILENO);
-		ft_putstr_fd(cmd[0], STDERR_FILENO);
-		ft_putendl_fd(CMD_NOT_FOUND, STDERR_FILENO);
+		error_cmd_not_found(cmd[0]);
+		return ;
 	}
 	pid = fork();
 	if (pid == -1)
 		my_exit(line, cmd, *env); // с каким значением?
 	if (pid == 0)
 	{
-		if (execve(true_path, cmd, NULL) == -1)
+		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
 			my_exit(line, cmd, *env); // с каким значением?
 	}
 	else
 	{
-		if (file == -1)
+		if (!is_path)
 			free(true_path);
-		else
-			close(file);
+		// else
+		// 	close(file);
 		wait(NULL);
 	}
 }

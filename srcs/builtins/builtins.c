@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 10:59:12 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 10:53:08 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		check_builtins2(char **cmd, t_list **env)
 
 	strlowcase = ft_strlowcase(ft_strdup(cmd[0]));
 	if (!ft_strcmp(strlowcase, "echo"))
-		return (my_echo(cmd, *env, strlowcase)); //не всегда работает корретно
+		return (my_echo(cmd, *env, strlowcase));
 	else if (!ft_strcmp(strlowcase, "pwd"))
 		return (my_pwd(strlowcase));
 	else if (!ft_strcmp(strlowcase, "env"))
@@ -60,10 +60,8 @@ int		check_builtins2(char **cmd, t_list **env)
 	return (0);
 }
 
-
 int		check_builtins(char *line, char **cmd, t_list **env)
 {
-
 	if (!ft_strcmp(cmd[0], "export"))
 		return (check_export(cmd, env));
 	else if (!ft_strcmp(cmd[0], "unset"))
@@ -75,5 +73,5 @@ int		check_builtins(char *line, char **cmd, t_list **env)
 	}
 	else if (!ft_strcmp(cmd[0], "cd")) //cd переменная не работает
 		return (my_cd(cmd, env));
-	return check_builtins2(cmd, env);
+	return (check_builtins2(cmd, env));
 }
