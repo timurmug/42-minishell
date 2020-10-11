@@ -6,13 +6,31 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 11:23:07 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/11 15:27:45 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_str_double_quotes(char **line, t_list *env)
+static	void	ft_str_utils(char *str_var, char **line,
+								char **temp, int *index)
+{
+	if (str_var)
+	{
+		(*index) += ft_strlen(str_var);
+		if (!((*temp) = ft_strjoin_gnl((*temp), str_var)))
+			ft_malloc_error();
+		free(str_var);
+	}
+	else
+	{
+		(*temp) = ft_str_realloc((*temp), 1);
+		(*temp)[(*index)++] = **line;
+		(*line)++;
+	}
+}
+
+char			*get_str_double_quotes(char **line, t_list *env)
 {
 	char	*temp;
 	int		index;
@@ -29,26 +47,14 @@ char	*get_str_double_quotes(char **line, t_list *env)
 			(*line)++;
 		if (**line == '$')
 			str_var = lookup_env(line, env);
-		if (str_var)
-		{
-			index += ft_strlen(str_var);
-			if (!(temp = ft_strjoin_gnl(temp, str_var)))
-				ft_malloc_error();
-			free(str_var);
-		}
-		else
-		{
-			temp = ft_str_realloc(temp, 1);
-			temp[index++] = **line;
-			(*line)++;
-		}
+		ft_str_utils(str_var, line, &temp, &index);
 	}
 	if (**line == '\"')
 		(*line)++;
 	return (temp);
 }
 
-char	*get_str_single_quotes(char **line)
+char			*get_str_single_quotes(char **line)
 {
 	char	*temp;
 	int		index;
@@ -69,7 +75,7 @@ char	*get_str_single_quotes(char **line)
 	return (temp);
 }
 
-char	*get_str_regular(char **line, t_list *env)
+char			*get_str_regular(char **line, t_list *env)
 {
 	char	*temp;
 	int		index;
@@ -84,25 +90,12 @@ char	*get_str_regular(char **line, t_list *env)
 			(*line)++;
 		else if (**line == '$')
 			str_var = lookup_env(line, env);
-		if (str_var)
-		{
-			index += ft_strlen(str_var);
-			if (!(temp = ft_strjoin_gnl(temp, str_var)))
-				ft_malloc_error();
-			free(str_var);
-		}
-		else
-		{
-			temp = ft_str_realloc(temp, 1);
-			temp[index++] = **line;
-			(*line)++;
-		}
+		ft_str_utils(str_var, line, &temp, &index);
 	}
 	return (temp);
 }
 
-
-char	*parse_argument(char **line, t_list *env)
+char			*parse_argument(char **line, t_list *env)
 {
 	char	*temp;
 	char	*res;
@@ -110,7 +103,7 @@ char	*parse_argument(char **line, t_list *env)
 	res = NULL;
 	while (**line && !ft_strchr("|><;", **line))
 	{
-		temp  = NULL;
+		temp = NULL;
 		if (ft_isspace(**line))
 			break ;
 		if (**line == '\"')
@@ -127,7 +120,7 @@ char	*parse_argument(char **line, t_list *env)
 	return (res);
 }
 
-char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
+char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 {
 	char	*str;
 	char	**cmd;
@@ -141,12 +134,12 @@ char	**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		while (ft_isspace(**line))
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
-			break;
+			break ;
 		if (**line == '|' && cmd)
 		{
 			ft_putendl_fd("i see pipe", 1);
 			get_pipe(fd_pipe, line);
-			break;
+			break ;
 		}
 		if ((str = parse_argument(line, env)))
 		{

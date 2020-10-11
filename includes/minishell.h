@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/10 12:47:42 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/11 14:27:06 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			run_command(char *line, char **cmd, t_list **env);
 void			my_exit(char *line, char **cmd, t_list *env);
 
 void			write_prompt(void);
-int				is_separator(char c);
+// int				is_separator(char c);
 
 void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
