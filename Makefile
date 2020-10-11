@@ -6,15 +6,14 @@
 #    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/10 12:46:44 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/11 12:17:34 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 NAME = minishell
 LIB_A =	libft/libft.a
 GNL_A = gnl/gnl.a
-INCLUDE = includes/minishell.h
+INCLUDE = includes/minishell.h libft/libft.h gnl/get_next_line.h
 
 FLAGS_W = -Wall -Wextra -Werror -g
 FLAGS_LIB = -Iincludes
@@ -43,15 +42,13 @@ SRCS = srcs/builtins/builtins.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
-.PHONY: all clean fclean re norme run
+.PHONY: all clean fclean re norme run libft_make gnl_make
 
-all: $(NAME)
+all: libft_make gnl_make $(NAME)
 
 $(NAME): $(INCLUDE) $(OBJS)
-	@make -C $(DIR_GNL)
-	@make -C $(DIR_LIB)
-	@make bonus -C $(DIR_LIB)
-	gcc $(FLAGS_W) $(LIB_A) $(GNL_A) $(OBJS) -o $(NAME)
+	@clang $(FLAGS_W) $(LIB_A) $(GNL_A) $(OBJS) -o $(NAME)
+	@echo minishell ready for work
 
 norme:
 	@make fclean
@@ -64,8 +61,16 @@ norme:
 	@echo
 	norminette ./$(DIR_SRCS)
 
-%.o: %.c
-	gcc -c $(FLAGS_LIB) $(FLAGS_W) -o $@ $<
+%.o: %.c $(INCLUDE)
+	@clang $(FLAGS_W) $(FLAGS_LIB) -c $< -o $@
+
+libft_make:
+	@make -C $(DIR_LIB) --silent
+	@echo libft builded
+
+gnl_make:
+	@make -C $(DIR_GNL) --silent
+	@echo gnl builded
 
 clean:
 	rm -rf $(OBJS)

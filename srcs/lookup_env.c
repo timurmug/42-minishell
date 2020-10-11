@@ -6,11 +6,29 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/10 12:44:31 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/11 16:16:42 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char 			*find_env(char *line, t_list *env)
+{
+	t_list	*tmp;
+	char	*s;
+
+	tmp = env;
+	while (tmp)
+	{
+		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
+		{
+			s = ((t_env*)tmp->content)->value;
+			return (s);
+		}
+		tmp = tmp->next;
+	}
+	return ("");
+}
 
 char	*lookup_env(char **line, t_list *env)
 {
@@ -18,17 +36,18 @@ char	*lookup_env(char **line, t_list *env)
 	int		i;
 	char	*res;
 	char	*buff;
+	char	t;
 
 	(*line)++;
-	buff = ft_strdup(*line);
+	buff = (*line);
 	len = 0;
 	i = 0;
-	while (**line && !ft_strchr(" $<>|;\'\"\\", **line))
-	{
-		(*line)++;
+	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i])
+			&& !ft_issymbol(buff[i++])) //is_symbol think about it
 		len++;
-	}
-	buff[len + 1] = 0;
+	i = 0;
+	t = buff[len];
+	buff[len] = 0;
 	if (len == 0)
 	{
 		if (!(res = ft_strdup("$")))
@@ -44,6 +63,7 @@ char	*lookup_env(char **line, t_list *env)
 		if (!(res = ft_strdup(find_env(buff, env))))
 			ft_malloc_error();
 	}
-	free(buff);
+	buff[len] = t;
+	*line = &buff[len]; 
 	return (res);
 }

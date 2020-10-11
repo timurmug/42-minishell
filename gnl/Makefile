@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 08:04:23 by qtamaril          #+#    #+#              #
-#    Updated: 2020/09/07 08:37:19 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/11 11:54:03 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJS = $(SRCS:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)
-	ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $(OBJS)
 
 %.o: %.c
 	gcc -c -Wall -Wextra -Werror -D BUFFER_SIZE=32 -o $@ $<

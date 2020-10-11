@@ -6,10 +6,9 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 11:56:01 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/11 16:22:58 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -25,10 +24,7 @@ void	minishell(char *line, t_list **env)
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
-			// if (cmd)
-			// 	ft_env(cmd, *env);
-			// if (cmd && !print_dir(cmd))
-			if (cmd)
+			if (cmd) //&& !print_dir(cmd))
 			{
 				run_command(line, cmd, env);
 				ft_free_strstr(cmd);
