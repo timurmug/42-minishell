@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/11 17:20:36 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:40:36 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*lookup_env(char **line, t_list *env)
 	{
 		if (!(res = ft_itoa(g_question)))
 			ft_malloc_error();
+		*line = &buff[i]; 
+		return (res);
 	}
 	else if (i == 0)
 	{
