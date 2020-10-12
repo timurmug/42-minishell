@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 16:22:58 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:43:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				check_export(char **cmd, t_list **env);
 int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
 
-void 			get_pipe(t_fd *fd_pipe, char **line);
+void 			get_pipe_fd(t_fd *fd_pipe, char **line);
 void			run_command(char *line, char **cmd, t_list **env);
 
 void			my_exit(char *line, char **cmd, t_list *env);
@@ -78,7 +78,7 @@ int				print_dir(char **cmd);
 char			*lookup_env(char **line, t_list *env);
 
 void			ft_malloc_error();
-void			error_print(char *param);
+void			error_from_errno(char *param);
 void			error_is_a_dir(char *param);
 void			error_perm_denied(char *param);
 void			error_no_file_or_dir(char *param);

@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directions.c                                       :+:      :+:    :+:   */
+/*   error2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 09:43:10 by qtamaril         ###   ########.fr       */
+/*   Created: 2020/10/12 09:57:58 by qtamaril          #+#    #+#             */
+/*   Updated: 2020/10/12 09:58:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void get_pipe_fd(t_fd *fd_pipe, char **line)
+void	error_from_errno(char *param)
 {
-	int fd[2];
-
-	if (pipe(fd) == -1)
-		exit(0); // с каким значением?
-	close(fd[1]);
-	fd_pipe->stdin_read = fd[0];
-	dup2(fd_pipe->stdin_read, STDIN_FILENO);
-	(*line)++;
+	ft_putstr_fd(SHELL, STDERR_FILENO);
+	ft_putstr_fd(param, STDERR_FILENO);
+	ft_putstr_fd(" ", 1);
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 }

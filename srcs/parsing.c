@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 15:27:45 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:43:15 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		if (**line == '|' && cmd)
 		{
 			ft_putendl_fd("i see pipe", 1);
-			get_pipe(fd_pipe, line);
+			get_pipe_fd(fd_pipe, line);
 			break ;
 		}
 		if ((str = parse_argument(line, env)))
