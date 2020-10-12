@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/11 16:16:42 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:40:36 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char 			*find_env(char *line, t_list *env)
 
 char	*lookup_env(char **line, t_list *env)
 {
-	int		len;
 	int		i;
 	char	*res;
 	char	*buff;
@@ -40,22 +39,22 @@ char	*lookup_env(char **line, t_list *env)
 
 	(*line)++;
 	buff = (*line);
-	len = 0;
 	i = 0;
 	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i])
-			&& !ft_issymbol(buff[i++])) //is_symbol think about it
-		len++;
-	i = 0;
-	t = buff[len];
-	buff[len] = 0;
-	if (len == 0)
-	{
-		if (!(res = ft_strdup("$")))
-			ft_malloc_error();
-	}
-	else if (buff[i] == '?')
+			&& !ft_issymbol(buff[i])) //is_symbol think about it
+		i++;
+	t = buff[i];
+	buff[i] = 0;
+	if (buff[0] == '?' || (i == 0 && t == '?'))
 	{
 		if (!(res = ft_itoa(g_question)))
+			ft_malloc_error();
+		*line = &buff[i]; 
+		return (res);
+	}
+	else if (i == 0)
+	{
+		if (!(res = ft_strdup("$")))
 			ft_malloc_error();
 	}
 	else
@@ -63,7 +62,7 @@ char	*lookup_env(char **line, t_list *env)
 		if (!(res = ft_strdup(find_env(buff, env))))
 			ft_malloc_error();
 	}
-	buff[len] = t;
-	*line = &buff[len]; 
+	buff[i] = t;
+	*line = &buff[i]; 
 	return (res);
 }
