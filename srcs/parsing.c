@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 09:43:15 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 15:30:04 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char			*get_str_double_quotes(char **line, t_list *env)
 	(*line)++;
 	while (**line && **line != '\"')
 	{
+		g_flag = 1;
 		str_var = NULL;
 		if (**line == '\\' && (*(*line + 1) == '$' || \
 		*(*line + 1) == '\\' || *(*line + 1) == '\"'))
@@ -51,6 +52,8 @@ char			*get_str_double_quotes(char **line, t_list *env)
 	}
 	if (**line == '\"')
 		(*line)++;
+	if (!g_flag)
+		temp = ft_strdup("");		
 	return (temp);
 }
 
@@ -64,14 +67,17 @@ char			*get_str_single_quotes(char **line)
 	(*line)++;
 	while (**line && **line != '\'')
 	{
-		if (**line == '\\' && *(*line + 1) == '\\')
-			(*line)++;
+		g_flag = 1;
+		// if (**line == '\\' && *(*line + 1) == '\\')
+		// 	(*line)++;
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
 	}
 	if (**line == '\'')
 		(*line)++;
+	if (!g_flag)
+		temp = ft_strdup("");
 	return (temp);
 }
 
@@ -83,13 +89,17 @@ char			*get_str_regular(char **line, t_list *env)
 
 	index = 0;
 	temp = NULL;
+	g_flag = 1;
 	while (**line && !ft_strchr(" \t<>|;\'\"", **line))
 	{
 		str_var = NULL;
 		if (**line == '\\')
 			(*line)++;
 		else if (**line == '$')
+		{
+			g_flag = 1;
 			str_var = lookup_env(line, env);
+		}
 		ft_str_utils(str_var, line, &temp, &index);
 	}
 	return (temp);
@@ -101,6 +111,7 @@ char			*parse_argument(char **line, t_list *env)
 	char	*res;
 
 	res = NULL;
+	g_flag = 0;
 	while (**line && !ft_strchr("|><;", **line))
 	{
 		temp = NULL;
@@ -143,7 +154,12 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		}
 		if ((str = parse_argument(line, env)))
 		{
-			if (str[0] != '\0')
+			if (str[0] == '\0' && !g_flag) //&& cmd[0] && !ft_strcmp(cmd[0], "cd"))
+			{
+				cmd = ft_strstr_realloc(cmd, 1);
+				cmd[i++] = str;
+			}
+			else if (str[0] != '\0')
 			{
 				cmd = ft_strstr_realloc(cmd, 1);
 				cmd[i++] = str;
