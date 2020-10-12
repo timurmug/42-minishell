@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 09:43:10 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 12:54:13 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ void get_pipe_fd(t_fd *fd_pipe, char **line)
 	fd_pipe->stdin_read = fd[0];
 	dup2(fd_pipe->stdin_read, STDIN_FILENO);
 	(*line)++;
+}
+
+int	get_current_fd(char **line)
+{
+	if (**line == '|')
+	{
+		
+		return (1);
+	}
+	return (0);
 }

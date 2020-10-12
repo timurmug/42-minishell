@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 09:43:15 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 15:25:46 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char			*get_str_single_quotes(char **line)
 	(*line)++;
 	while (**line && **line != '\'')
 	{
-		if (**line == '\\' && *(*line + 1) == '\\')
-			(*line)++;
+		// if (**line == '\\' && *(*line + 1) == '\\')
+		// 	(*line)++;
 		temp = ft_str_realloc(temp, 1);
 		temp[index++] = **line;
 		(*line)++;
@@ -134,13 +134,38 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		while (ft_isspace(**line))
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
-			break ;
-		if (**line == '|' && cmd)
 		{
-			ft_putendl_fd("i see pipe", 1);
-			get_pipe_fd(fd_pipe, line);
+			if (g_pipe_flag == 2 || g_pipe_flag == 1)
+				g_pipe_flag = -1;
+			// close(stdin_read);
+			// close(stdout_write);
 			break ;
 		}
+		(void)fd_pipe;
+		if (**line == '|')
+		{
+			(void)fd_pipe;
+			// ft_putendl_fd("i see pipe", 1);
+
+			int fd[2];
+			if (pipe(fd) == -1)
+				exit(0); // с каким значением?
+			if (g_pipe_flag == -2)
+				g_pipe_flag = 1;
+			else if (g_pipe_flag == 1)
+				g_pipe_flag = 2;
+			stdin_read = fd[0];
+			stdout_write = fd[1];
+			// else if (g_pipe_flag == 2)
+			// 	g_pipe_flag = -1;
+
+			// get_pipe_fd(fd_pipe, line);
+			break ;
+		}
+		// else if (**line == '|')
+		// {
+		// 	ft_putendl_fd("i see pipe in the end", 1);
+		// }
 		if ((str = parse_argument(line, env)))
 		{
 			if (str[0] != '\0')
@@ -151,6 +176,13 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 			else
 				free(str);
 		}
+	}
+	if (!**line)
+	{
+		if (g_pipe_flag == 2 || g_pipe_flag == 1)
+			g_pipe_flag = -1;
+		// close(stdin_read);
+		// close(stdout_write);
 	}
 	return (cmd);
 }

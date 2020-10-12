@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 09:43:22 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 15:03:00 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,8 @@ void			error_cmd_not_found(char *param);
 char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;
+int				g_pipe_flag;
+int				stdin_read;
+int				stdout_write;
 
 #endif
