@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/10 11:55:18 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 15:25:46 by qtamaril         ###   ########.fr       */
+/*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
+/*   Updated: 2020/10/12 16:54:51 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -41,6 +42,7 @@ char			*get_str_double_quotes(char **line, t_list *env)
 	(*line)++;
 	while (**line && **line != '\"')
 	{
+		g_flag = 1;
 		str_var = NULL;
 		if (**line == '\\' && (*(*line + 1) == '$' || \
 		*(*line + 1) == '\\' || *(*line + 1) == '\"'))
@@ -51,6 +53,8 @@ char			*get_str_double_quotes(char **line, t_list *env)
 	}
 	if (**line == '\"')
 		(*line)++;
+	if (!g_flag)
+		temp = ft_strdup("");
 	return (temp);
 }
 
@@ -64,6 +68,7 @@ char			*get_str_single_quotes(char **line)
 	(*line)++;
 	while (**line && **line != '\'')
 	{
+		g_flag = 1;
 		// if (**line == '\\' && *(*line + 1) == '\\')
 		// 	(*line)++;
 		temp = ft_str_realloc(temp, 1);
@@ -72,6 +77,8 @@ char			*get_str_single_quotes(char **line)
 	}
 	if (**line == '\'')
 		(*line)++;
+	if (!g_flag)
+		temp = ft_strdup("");
 	return (temp);
 }
 
@@ -83,13 +90,17 @@ char			*get_str_regular(char **line, t_list *env)
 
 	index = 0;
 	temp = NULL;
+	g_flag = 1;
 	while (**line && !ft_strchr(" \t<>|;\'\"", **line))
 	{
 		str_var = NULL;
 		if (**line == '\\')
 			(*line)++;
 		else if (**line == '$')
+		{
+			g_flag = 1;
 			str_var = lookup_env(line, env);
+		}
 		ft_str_utils(str_var, line, &temp, &index);
 	}
 	return (temp);
@@ -101,6 +112,7 @@ char			*parse_argument(char **line, t_list *env)
 	char	*res;
 
 	res = NULL;
+	g_flag = 0;
 	while (**line && !ft_strchr("|><;", **line))
 	{
 		temp = NULL;
@@ -137,16 +149,17 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		{
 			if (g_pipe_flag == 2 || g_pipe_flag == 1)
 				g_pipe_flag = -1;
-			// close(stdin_read);
-			// close(stdout_write);
+			close(stdin_read);
+			close(stdout_write);
 			break ;
 		}
 		(void)fd_pipe;
 		if (**line == '|')
 		{
 			(void)fd_pipe;
-			// ft_putendl_fd("i see pipe", 1);
 
+			close(stdin_read);
+			close(stdout_write);
 			int fd[2];
 			if (pipe(fd) == -1)
 				exit(0); // с каким значением?
@@ -156,8 +169,6 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 				g_pipe_flag = 2;
 			stdin_read = fd[0];
 			stdout_write = fd[1];
-			// else if (g_pipe_flag == 2)
-			// 	g_pipe_flag = -1;
 
 			// get_pipe_fd(fd_pipe, line);
 			break ;
@@ -168,7 +179,12 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		// }
 		if ((str = parse_argument(line, env)))
 		{
-			if (str[0] != '\0')
+			if (str[0] == '\0' && !g_flag) //&& cmd[0] && !ft_strcmp(cmd[0], "cd"))
+			{
+				cmd = ft_strstr_realloc(cmd, 1);
+				cmd[i++] = str;
+			}
+			else if (str[0] != '\0')
 			{
 				cmd = ft_strstr_realloc(cmd, 1);
 				cmd[i++] = str;
@@ -181,8 +197,8 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 	{
 		if (g_pipe_flag == 2 || g_pipe_flag == 1)
 			g_pipe_flag = -1;
-		// close(stdin_read);
-		// close(stdout_write);
+		close(stdin_read);
+		close(stdout_write);
 	}
 	return (cmd);
 }

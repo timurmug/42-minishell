@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/09 11:13:31 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 15:58:09 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	my_cd2(char **cmd, t_list **env)
 {
 	if (chdir(cmd[1]) == 0)
 		set_pwd(env);
+	else if (!ft_strcmp(cmd[1], "\0"))
+		;
 	else
 		cd_error(cmd, NULL);
 }

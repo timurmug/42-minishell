@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 15:38:47 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 16:41:49 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	minishell(char *line, t_list **env)
 		{
 			// ft_putendl_fd("")
 			// ft_putendl_fd("i see pipe", 1);
-
 			line++;
 		}
 		else
@@ -51,6 +50,7 @@ void	minishell(char *line, t_list **env)
 			if (cmd)
 			{
 				run_command(line, cmd, env);
+				// my_fork(line, cmd, env);
 				ft_free_strstr(cmd);
 			}
 		}
@@ -61,13 +61,15 @@ int		main(int ac, char **av, char **ev)
 {
 	t_list	*env;
 	char	*user_input;
-	int		tmpin = dup(0);
-	int		tmpout = dup(1);
+	int		tmpin;
+	int		tmpout;
 
 	(void)ac;
 	(void)av;
 	env = NULL;
 	g_question = 0;
+	tmpin = dup(0);
+	tmpout = dup(1);
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);

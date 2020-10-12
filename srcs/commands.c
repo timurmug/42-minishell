@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 15:58:36 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/12 16:53:23 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,23 @@ void	run_command(char *line, char **cmd, t_list **env)
 
 	errno = 0;
 	is_path = 0;
+
+	// if (g_pipe_flag == 1)
+	// {
+	// 	close(stdin_read);
+	// 	dup2(stdout_write, 1);
+	// }
+	// else if (g_pipe_flag == 2)
+	// {
+	// 	dup2(stdin_read, 0);
+	// 	dup2(stdout_write, 1);
+	// }
+	// else if (g_pipe_flag == -1)
+	// {
+	// 	close(stdout_write);
+	// 	dup2(stdin_read, 0);
+	// }
+
 	if (check_builtins(line, cmd, env))
         return ;
 	else if ((is_path = is_it_path(cmd, &true_path)))
@@ -116,18 +133,11 @@ void	run_command(char *line, char **cmd, t_list **env)
 		error_cmd_not_found(cmd[0]);
 		return ;
 	}
-
-	// ft_putstr_fd("g_pipe_flag: ", 1);
-	// ft_putnbr_fd(g_pipe_flag, 1);
-	// ft_putendl_fd("", 1);
-
 	pid = fork();
 	if (pid == -1)
 		my_exit(line, cmd, *env); // с каким значением?
 	if (pid == 0)
 	{
-		printf("stdout_write: %d\n", stdout_write);
-		printf("stdin_read: %d\n", stdin_read);
 		if (g_pipe_flag == 1)
 		{
 			close(stdin_read);
@@ -142,7 +152,6 @@ void	run_command(char *line, char **cmd, t_list **env)
 		{
 			close(stdout_write);
 			dup2(stdin_read, 0);
-			// close(0);23
 		}
 
 		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
@@ -162,33 +171,53 @@ void	run_command(char *line, char **cmd, t_list **env)
 	{
 		if (!is_path)
 			free(true_path);
-		// else
-		// 	close(file);
-		// close(stdin_read);
+
 		close(stdout_write);
 		wait(NULL);
+		// close(stdin_read);
+
 	}
 }
 
-void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
+void	my_fork(char *line, char **cmd, t_list **env)
 {
 	int	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		// запись не в терминал, а в stdout_write
-		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
+		if (g_pipe_flag == 1)
+		{
+			close(stdin_read);
+			dup2(stdout_write, 1);
+		}
+		else if (g_pipe_flag == 2)
+		{
+			dup2(stdin_read, 0);
+			dup2(stdout_write, 1);
+		}
+		else if (g_pipe_flag == -1)
+		{
+			close(stdout_write);
+			dup2(stdin_read, 0);
+			// close(0);23
+		}
 		run_command(line, cmd, env);
-		close(fd_pipe->stdin_read);
-		close(STDOUT_FILENO);
-		my_exit(line, cmd, *env); // с каким значением?
+		// запись не в терминал, а в stdout_write
+		// dup2(fd_pipe->stdout_write, STDOUT_FILENO);
+		// run_command(line, cmd, env);
+		// close(fd_pipe->stdin_read);
+		// close(STDOUT_FILENO);
+		// my_exit(line, cmd, *env); // с каким значением?
 	}
 	else
 	{
-		dup2(fd_pipe->stdin_read, STDIN_FILENO);
-		close(fd_pipe->stdout_write);
+		// close(stdout_write);
 		wait(NULL);
-		close(fd_pipe->stdin_read);
+
+		// dup2(fd_pipe->stdin_read, STDIN_FILENO);
+		// close(fd_pipe->stdout_write);
+		// wait(NULL);
+		// close(fd_pipe->stdin_read);
 	}
 }
