@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 14:10:07 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 10:38:55 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:41:28 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	export2(t_list **env, char **vars, char **splitted, int i)
 	else
 	{
 		if (!(elem = malloc(sizeof(t_env))))
-			ft_malloc_error();
+			ft_error_errno_exit();
 		if (!(elem->name = ft_strdup(splitted[0])))
-			ft_malloc_error();
+			ft_error_errno_exit();
 		elem->value = NULL;
 		ft_lstadd_back(env, ft_lstnew(elem));
 		env_sort(env);
@@ -75,7 +75,7 @@ void	export(t_list **env, char **vars, char **splitted, int i)
 			{
 				free(curr_env->value);
 				if (!(curr_env->value = ft_strdup(p_value + 1)))
-					ft_malloc_error();
+					ft_error_errno_exit();
 			}
 			return ;
 		}

@@ -6,13 +6,13 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 19:50:28 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/12 09:58:08 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:39:14 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_malloc_error()
+void	ft_error_errno_exit(void)
 {
 	ft_putstr_fd(SHELL, STDERR_FILENO);;
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);

@@ -6,19 +6,31 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 09:56:10 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:33:34 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_pipe_in_begin(char **line)
+
+//bash-3.2$ >>12
+//bash-3.2$ >> 12
+//bash-3.2$ >> 24
+int		check_dir_in_begin(char **line)
 {
+	int	len;
+
 	while (ft_isspace(**line))
 		(*line)++;
+	len = ft_strlen(*line);
 	if (**line == '|')
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token `|\'", 1);
+		return (0);
+	}
+	else if (**line == '>')
+	{
+		ft_putendl_fd("minishell: syntax error near unexpected token `>'", 1);
 		return (0);
 	}
 	return (1);
@@ -29,19 +41,18 @@ void	minishell(char *line, t_list **env)
 	char	**cmd;
 	t_fd	fd_pipe;
 
-	if (!check_pipe_in_begin(&line))
+	if (!check_dir_in_begin(&line)) // + > + >>
 		return ;
 	while (*line)
 	{
 		if (*line == ';')
 		{
-			// g_pipe_flag = -2;
+			dup2(4, 0);
+			dup2(3, 1);
 			line++;
 		}
 		else if (*line == '|')
 		{
-			// ft_putendl_fd("")
-			// ft_putendl_fd("i see pipe", 1);
 			line++;
 		}
 		else
@@ -49,10 +60,11 @@ void	minishell(char *line, t_list **env)
 			cmd = parse_line(&line, &fd_pipe, *env);
 			if (cmd)
 			{
-				printf("--------g_pipe_flag-------: %d\n", g_pipe_flag);
+				if (g_pipe_flag == 1)
+					my_fork(line, cmd, env);
+				else
+					run_command(line, cmd, env);
 
-				run_command(line, cmd, env);
-				// my_fork(line, cmd, env);
 				ft_free_strstr(cmd);
 			}
 		}
@@ -63,23 +75,20 @@ int		main(int ac, char **av, char **ev)
 {
 	t_list	*env;
 	char	*user_input;
-	// int		tmpin;
-	// int		tmpout;
 
 	(void)ac;
 	(void)av;
 	env = NULL;
 	g_question = 0;
-	g_tmpin = dup(0);
-	g_tmpout = dup(1);
+	dup2(1, 3);
+	dup2(0, 4);
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);
 	ft_putstr_fd(CLEAN, STDOUT_FILENO);
 	while (1)
 	{
-		dup2(g_tmpin, STDIN_FILENO);
-		dup2(g_tmpout, STDOUT_FILENO);
+		dup2(4, 0);
 		write_prompt();
 		g_pipe_flag = -2;
 		if (get_next_line(STDOUT_FILENO, &user_input) == 1)

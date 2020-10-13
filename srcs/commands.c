@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 10:22:14 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:40:30 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,44 +119,16 @@ void	run_command(char *line, char **cmd, t_list **env)
 	}
 	pid = fork();
 	if (pid == -1)
-		my_exit(line, cmd, *env); // с каким значением?
+		ft_error_errno_exit();
 	if (pid == 0)
 	{
-		if (g_pipe_flag == 1)
-		{
-			close(stdin_read);
-			dup2(stdout_write, STDOUT_FILENO);
-		}
-		else if (g_pipe_flag == 2)
-		{
-			dup2(stdin_read, STDIN_FILENO);
-			dup2(stdout_write, STDOUT_FILENO);
-		}
-		else if (g_pipe_flag == -1)
-		{
-			close(stdout_write);
-			dup2(stdin_read, STDIN_FILENO);
-		}
-
 		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
-			my_exit(line, cmd, *env); // с каким значением?
-
-		if (g_pipe_flag == 1 || g_pipe_flag == 2)
-			close(stdout_write);
-		if (g_pipe_flag == 2 || g_pipe_flag == -1)
-			close(stdin_read);
+			ft_error_errno_exit();
 	}
 	else
 	{
-		if (g_pipe_flag == 1 || g_pipe_flag == 2)
-			close(stdout_write);
-		if (g_pipe_flag == 2 || g_pipe_flag == -1)
-			close(stdin_read);
-
 		if (!is_path)
 			free(true_path);
-
-		// close(stdout_write);
 		wait(NULL);
 	}
 }
@@ -166,40 +138,21 @@ void	my_fork(char *line, char **cmd, t_list **env)
 	int	pid;
 
 	pid = fork();
+	if (pid == -1)
+		ft_error_errno_exit();
 	if (pid == 0)
 	{
-		if (g_pipe_flag == 1)
-		{
-			close(stdin_read);
-			dup2(stdout_write, 1);
-		}
-		else if (g_pipe_flag == 2)
-		{
-			dup2(stdin_read, 0);
-			dup2(stdout_write, 1);
-		}
-		else if (g_pipe_flag == -1)
-		{
-			close(stdout_write);
-			dup2(stdin_read, 0);
-			// close(0);23
-		}
+		dup2(g_stdout_write, STDOUT_FILENO);
 		run_command(line, cmd, env);
-		// запись не в терминал, а в stdout_write
-		// dup2(fd_pipe->stdout_write, STDOUT_FILENO);
-		// run_command(line, cmd, env);
-		// close(fd_pipe->stdin_read);
-		// close(STDOUT_FILENO);
-		// my_exit(line, cmd, *env); // с каким значением?
+		close(g_stdin_read);
+		close(STDOUT_FILENO);
+		ft_error_errno_exit();
 	}
 	else
 	{
-		// close(stdout_write);
+		dup2(g_stdin_read, STDIN_FILENO);
+		close(g_stdout_write);
 		wait(NULL);
-
-		// dup2(fd_pipe->stdin_read, STDIN_FILENO);
-		// close(fd_pipe->stdout_write);
-		// wait(NULL);
-		// close(fd_pipe->stdin_read);
+		close(g_stdin_read);
 	}
 }

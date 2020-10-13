@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 12:47:12 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 10:41:40 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:42:50 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**env_to_strstr(t_list *env)
 
 	lstsize = ft_lstsize(env);
 	if (!(strstr = ft_calloc(lstsize + 1, sizeof(char *))))
-		ft_malloc_error();
+		ft_error_errno_exit();
 	y = 0;
 	while (env)
 	{
@@ -29,11 +29,11 @@ char	**env_to_strstr(t_list *env)
 		if (content && content->value)
 		{
 			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], content->name)))
-				ft_malloc_error();
+				ft_error_errno_exit();
 			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], "=")))
-				ft_malloc_error();
+				ft_error_errno_exit();
 			if (!(strstr[y] = ft_strjoin_gnl(strstr[y], content->value)))
-				ft_malloc_error();
+				ft_error_errno_exit();
 			y++;
 		}
 		env = env->next;
@@ -88,11 +88,18 @@ int		add_env(t_list **lst, char *name, char *value)
 
 	if (!(elem = malloc(sizeof(t_env))))
 		return (0);
-	elem->name = ft_strdup(name);
+	if (!(elem->name = ft_strdup(name)))
+		ft_error_errno_exit();
 	if (value)
-		elem->value = ft_strdup(value);
+	{
+		if (!(elem->value = ft_strdup(value)))
+			ft_error_errno_exit();
+	}
 	else
-		elem->value = ft_strdup("\0");
+	{
+		if (!(elem->value = ft_strdup("\0")))
+			ft_error_errno_exit();
+	}
 	ft_lstadd_back(lst, ft_lstnew(elem));
 	env_sort(lst);
 	return (1);

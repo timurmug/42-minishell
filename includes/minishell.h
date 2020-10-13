@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 09:47:45 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 14:40:46 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ typedef struct	s_env
 
 typedef struct	s_fd
 {
-	// int			pid;
+	int			flag;
 	int			stdin_read;
 	int			stdout_write;
-
 }				t_fd;
 
 int				check_variable(char **cmd, char *param, int i);
@@ -77,7 +76,7 @@ int				print_dir(char **cmd);
 
 char			*lookup_env(char **line, t_list *env);
 
-void			ft_malloc_error();
+void			ft_error_errno_exit(void);
 void			error_from_errno(char *param);
 void			error_is_a_dir(char *param);
 void			error_perm_denied(char *param);
@@ -88,11 +87,9 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;
 int				g_pipe_flag;
-int				stdin_read;
-int				stdout_write;
+int				g_stdin_read;
+int				g_stdout_write;
 int				g_flag;
-int				g_tmpin;
-int				g_tmpout;
 
 void	my_fork(char *line, char **cmd, t_list **env);
 
