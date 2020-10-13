@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:33:34 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:20:39 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,16 @@
 //bash-3.2$ >> 24
 int		check_dir_in_begin(char **line)
 {
-	int	len;
-
 	while (ft_isspace(**line))
 		(*line)++;
-	len = ft_strlen(*line);
-	if (**line == '|')
+	if (**line == '|' && (*(*line + 1) == '|'))
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `|\'", 1);
+		ft_putendl_fd("minishell: syntax error near unexpected token `||\'", 1);
 		return (0);
 	}
-	else if (**line == '>')
+	else if (**line == '|')
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `>'", 1);
+		ft_putendl_fd("minishell: syntax error near unexpected token `|\'", 1);
 		return (0);
 	}
 	return (1);
@@ -58,6 +55,7 @@ void	minishell(char *line, t_list **env)
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
+			//check cmd[0] == '> >>' cmd[1]
 			if (cmd)
 			{
 				if (g_pipe_flag == 1)
