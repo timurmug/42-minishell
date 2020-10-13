@@ -6,30 +6,18 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 12:54:13 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:11:11 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void get_pipe_fd(t_fd *fd_pipe, char **line)
+void	get_pipe_fd(t_fd *fd_pipe)
 {
 	int fd[2];
-
 	if (pipe(fd) == -1)
-		exit(0); // с каким значением?
-	close(fd[1]);
+		ft_error_errno_exit();
 	fd_pipe->stdin_read = fd[0];
-	dup2(fd_pipe->stdin_read, STDIN_FILENO);
-	(*line)++;
-}
-
-int	get_current_fd(char **line)
-{
-	if (**line == '|')
-	{
-		
-		return (1);
-	}
-	return (0);
+	fd_pipe->stdout_write = fd[1];
+	fd_pipe->pipe_flag = 1;
 }

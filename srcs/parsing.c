@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:44:12 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:10:32 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,23 +141,14 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 	i = 0;
 	while (**line)
 	{
-		g_pipe_flag = 0;
+		fd_pipe->pipe_flag = 0;
 		while (ft_isspace(**line))
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
 			break ;
 		if (**line == '|')
 		{
-			(void)fd_pipe;
-
-			int fd[2];
-			if (pipe(fd) == -1)
-				ft_error_errno_exit();
-			g_stdin_read = fd[0];
-			g_stdout_write = fd[1];
-			g_pipe_flag = 1;
-
-			// get_pipe_fd(fd_pipe, line);
+			get_pipe_fd(fd_pipe);
 			break ;
 		}
 		if ((str = parse_argument(line, env)))

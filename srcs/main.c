@@ -6,14 +6,14 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:33:34 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:11:25 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-//bash-3.2$ >>12
+//bash-3.2$ >>12 -
 //bash-3.2$ >> 12
 //bash-3.2$ >> 24
 int		check_dir_in_begin(char **line)
@@ -41,7 +41,7 @@ void	minishell(char *line, t_list **env)
 	char	**cmd;
 	t_fd	fd_pipe;
 
-	if (!check_dir_in_begin(&line)) // + > + >>
+	if (!check_dir_in_begin(&line))
 		return ;
 	while (*line)
 	{
@@ -52,16 +52,14 @@ void	minishell(char *line, t_list **env)
 			line++;
 		}
 		else if (*line == '|')
-		{
 			line++;
-		}
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
 			if (cmd)
 			{
-				if (g_pipe_flag == 1)
-					my_fork(line, cmd, env);
+				if (fd_pipe.pipe_flag == 1)
+					my_fork(line, cmd, env, &fd_pipe);
 				else
 					run_command(line, cmd, env);
 
@@ -90,7 +88,6 @@ int		main(int ac, char **av, char **ev)
 	{
 		dup2(4, 0);
 		write_prompt();
-		g_pipe_flag = -2;
 		if (get_next_line(STDOUT_FILENO, &user_input) == 1)
 			minishell(user_input, &env);
 		free(user_input);

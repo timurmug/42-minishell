@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:40:46 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:12:21 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_env
 
 typedef struct	s_fd
 {
-	int			flag;
+	int			pipe_flag;
 	int			stdin_read;
 	int			stdout_write;
 }				t_fd;
@@ -55,14 +55,14 @@ void			print_export(t_list *env);
 int				check_export(char **cmd, t_list **env);
 int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
-
-void 			get_pipe_fd(t_fd *fd_pipe, char **line);
-void			run_command(char *line, char **cmd, t_list **env);
-
 void			my_exit(char *line, char **cmd, t_list *env);
 
+void			run_command(char *line, char **cmd, t_list **env);
+void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
+
+void			get_pipe_fd(t_fd *fd_pipe);
+
 void			write_prompt(void);
-// int				is_separator(char c);
 
 void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
@@ -70,7 +70,6 @@ int				init_env(t_list **lst, char **env);
 void			free_env(t_list *lst);
 char			**env_to_strstr(t_list *env);
 
-// char			**ft_env(char **line, t_list *env);
 char 			*find_env(char *line, t_list *env);
 int				print_dir(char **cmd);
 
@@ -86,12 +85,6 @@ void			error_cmd_not_found(char *param);
 char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 
 int				g_question;
-int				g_pipe_flag;
-int				g_stdin_read;
-int				g_stdout_write;
 int				g_flag;
-
-void	my_fork(char *line, char **cmd, t_list **env);
-
 
 #endif

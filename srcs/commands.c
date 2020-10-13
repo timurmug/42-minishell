@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:40:30 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 15:10:39 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	run_command(char *line, char **cmd, t_list **env)
 	}
 }
 
-void	my_fork(char *line, char **cmd, t_list **env)
+void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	int	pid;
 
@@ -142,17 +142,17 @@ void	my_fork(char *line, char **cmd, t_list **env)
 		ft_error_errno_exit();
 	if (pid == 0)
 	{
-		dup2(g_stdout_write, STDOUT_FILENO);
+		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
 		run_command(line, cmd, env);
-		close(g_stdin_read);
+		close(fd_pipe->stdin_read);
 		close(STDOUT_FILENO);
-		ft_error_errno_exit();
+		exit(0);
 	}
 	else
 	{
-		dup2(g_stdin_read, STDIN_FILENO);
-		close(g_stdout_write);
+		dup2(fd_pipe->stdin_read, STDIN_FILENO);
+		close(fd_pipe->stdout_write);
 		wait(NULL);
-		close(g_stdin_read);
+		close(fd_pipe->stdin_read);
 	}
 }
