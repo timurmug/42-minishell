@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/11 16:23:21 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 18:31:38 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		check_builtins(char *line, char **cmd, t_list **env)
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		my_exit(line, cmd, *env);
 	}
-	else if (!ft_strcmp(cmd[0], "cd")) //cd переменная не работает
+	else if (!ft_strcmp(cmd[0], "cd"))//cd переменная не работает
 		return (my_cd(cmd, env));
 	return (check_builtins2(cmd, env));
 }

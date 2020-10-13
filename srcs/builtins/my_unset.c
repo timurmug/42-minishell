@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:35:02 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/06 14:18:11 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 18:32:00 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ void	remove_list_elem(t_list **env, t_list *list_prev)
 	else if (ft_lstsize(*env) == 1)
 		remove_list_elem2(env);
 }
-
-// unset Apple_PubSub_Socket_Render; unset TERM; unset LANG; unset SHELL; unset SECURITYSESSIONID; unset TMPDIR; unset XPC_FLAGS; unset XPC_SERVICE_NAME; unset TERM_PROGRAM; unset TERM_PROGRAM_VERSION; unset TERM_SESSION_ID; unset SSH_AUTH_SOCK; unset LOGNAME; unset USER; unset PATH; unset SHLVL; unset PWD; unset OLDPWD; unset _
-// unset __CF_USER_TEXT_ENCODING; unset SSH_AUTH_SOCK; unset HOMEBREW_CACHE; unset HOMEBREW_TEMP; unset LESS; unset LSCOLORS; unset PAGER;
 
 void	my_unset(t_list **env, char **vars, int i)
 {

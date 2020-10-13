@@ -6,12 +6,11 @@
 #    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 08:04:23 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/11 11:54:03 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/13 18:24:14 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = gnl.a
-
 HEADER = get_next_line.h
 
 SRCS = get_next_line.c get_next_line_utils.c
@@ -28,9 +27,9 @@ $(NAME): $(OBJS) $(HEADER)
 	gcc -c -Wall -Wextra -Werror -D BUFFER_SIZE=32 -o $@ $<
 
 clean:
-	rm -rf *.o
+	@rm -rf $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all

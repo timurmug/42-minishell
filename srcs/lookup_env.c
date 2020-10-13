@@ -6,13 +6,13 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/13 14:43:09 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 17:52:29 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char 			*find_env(char *line, t_list *env)
+char			*find_env(char *line, t_list *env)
 {
 	t_list	*tmp;
 	char	*s;
@@ -20,7 +20,8 @@ char 			*find_env(char *line, t_list *env)
 	tmp = env;
 	while (tmp)
 	{
-		if ((t_env*)tmp->content && !ft_strcmp(((t_env*)tmp->content)->name, line))
+		if ((t_env*)tmp->content &&
+			!ft_strcmp(((t_env*)tmp->content)->name, line))
 		{
 			s = ((t_env*)tmp->content)->value;
 			return (s);
@@ -30,7 +31,24 @@ char 			*find_env(char *line, t_list *env)
 	return ("");
 }
 
-char	*lookup_env(char **line, t_list *env)
+static	char	*ft_res_env(int i, char *buff, t_list *env)
+{
+	char *res;
+
+	if (i == 0)
+	{
+		if (!(res = ft_strdup("$")))
+			ft_error_errno_exit();
+	}
+	else
+	{
+		if (!(res = ft_strdup(find_env(buff, env))))
+			ft_error_errno_exit();
+	}
+	return (res);
+}
+
+char			*lookup_env(char **line, t_list *env)
 {
 	int		i;
 	char	*res;
@@ -41,7 +59,7 @@ char	*lookup_env(char **line, t_list *env)
 	buff = (*line);
 	i = 0;
 	while (buff[i] && !ft_strchr(" $<>|;\'\"\\", buff[i])
-			&& !ft_issymbol(buff[i])) //is_symbol think about it
+			&& !ft_issymbol(buff[i]))
 		i++;
 	t = buff[i];
 	buff[i] = 0;
@@ -49,19 +67,10 @@ char	*lookup_env(char **line, t_list *env)
 	{
 		if (!(res = ft_itoa(g_question)))
 			ft_error_errno_exit();
-		*line = &buff[i];
+		*line = &buff[++i];
 		return (res);
 	}
-	else if (i == 0)
-	{
-		if (!(res = ft_strdup("$")))
-			ft_error_errno_exit();
-	}
-	else
-	{
-		if (!(res = ft_strdup(find_env(buff, env))))
-			ft_error_errno_exit();
-	}
+	res = ft_res_env(i, buff, env);
 	buff[i] = t;
 	*line = &buff[i];
 	return (res);

@@ -6,31 +6,23 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 15:20:39 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/13 20:29:21 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-//bash-3.2$ >>12
-//bash-3.2$ >> 12
-//bash-3.2$ >> 24
-int		check_dir_in_begin(char **line)
+void	compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 {
-	while (ft_isspace(**line))
-		(*line)++;
-	if (**line == '|' && (*(*line + 1) == '|'))
+	(void)fd_pipe;
+	if (cmd)
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `||\'", 1);
-		return (0);
+		if (fd_pipe->pipe_flag == 1)
+			my_fork(line, cmd, env, fd_pipe);
+		else
+			run_command(line, cmd, env);
+		ft_free_strstr(cmd);
 	}
-	else if (**line == '|')
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `|\'", 1);
-		return (0);
-	}
-	return (1);
 }
 
 void	minishell(char *line, t_list **env)
@@ -38,7 +30,7 @@ void	minishell(char *line, t_list **env)
 	char	**cmd;
 	t_fd	fd_pipe;
 
-	if (!check_dir_in_begin(&line)) // + > + >>
+	if (!check_dir_in_begin(&line))
 		return ;
 	while (*line)
 	{
@@ -49,22 +41,11 @@ void	minishell(char *line, t_list **env)
 			line++;
 		}
 		else if (*line == '|')
-		{
 			line++;
-		}
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
-			//check cmd[0] == '> >>' cmd[1]
-			if (cmd)
-			{
-				if (g_pipe_flag == 1)
-					my_fork(line, cmd, env);
-				else
-					run_command(line, cmd, env);
-
-				ft_free_strstr(cmd);
-			}
+			compile_cmd(line, &fd_pipe, env, cmd);
 		}
 	}
 }
@@ -88,7 +69,6 @@ int		main(int ac, char **av, char **ev)
 	{
 		dup2(4, 0);
 		write_prompt();
-		g_pipe_flag = -2;
 		if (get_next_line(STDOUT_FILENO, &user_input) == 1)
 			minishell(user_input, &env);
 		free(user_input);

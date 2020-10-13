@@ -6,17 +6,12 @@
 #    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/15 12:22:12 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/11 11:53:33 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/13 18:23:54 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-NAME_SO		= libft.so
 HEADERS = libft.h
-DIR_OBJ_SO	= obj_so
-
-SRCS_SO		= $(shell find . -type f -name 'ft_*.c')
-OBJS_SO		= $(addprefix $(DIR_OBJ_SO)/,$(SRCS_SO:%.c=%.o))
 
 SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 				ft_memchr.c ft_memcmp.c ft_strlen.c ft_strlcpy.c ft_strlcat.c \
@@ -44,24 +39,13 @@ all: $(NAME)
 $(NAME): $(OBJS) $(HEADERS)
 	@ar rc $(NAME) $(OBJS)
 
-so: $(NAME_SO)
-
-$(NAME_SO): $(OBJS_SO)
-	gcc -shared -o $(NAME_SO) $(OBJS_SO)
-
-$(DIR_OBJ_SO)/%.o : %.c
-	@mkdir -p $(dir $@)
-	gcc -Wall -Wextra -Werror -fpic -I. -c $< -o $@ 
-
 %.o: %.c
 	gcc -Wall -Wextra -Werror -c $< -o $@
 
 clean:
-	rm -rf $(OBJS) $(DIR_OBJ) $(DIR_OBJ_SO)
-	rm -rf *.o
+	@rm -rf $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
-	$(RM) $(NAME_SO)
+	@$(RM) $(NAME)
 
 re: fclean all

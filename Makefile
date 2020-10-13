@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/12 09:58:27 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/13 18:26:17 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,9 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/lookup_env.c \
 		srcs/error.c \
 		srcs/error2.c \
-		srcs/parsing.c
+		srcs/parse_line.c \
+		srcs/parse_arg.c \
+		srcs/check_path.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -79,8 +81,8 @@ clean:
 	@make -C $(DIR_LIB) clean
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f $(GNL_A)
-	@make -C $(DIR_LIB) fclean
+	@rm -f $(NAME) --silent
+	@rm -f $(GNL_A) --silent
+	@make -C $(DIR_LIB) fclean --silent
 
 re: fclean all
