@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 16:53:23 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 10:22:14 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,22 +108,6 @@ void	run_command(char *line, char **cmd, t_list **env)
 	errno = 0;
 	is_path = 0;
 
-	// if (g_pipe_flag == 1)
-	// {
-	// 	close(stdin_read);
-	// 	dup2(stdout_write, 1);
-	// }
-	// else if (g_pipe_flag == 2)
-	// {
-	// 	dup2(stdin_read, 0);
-	// 	dup2(stdout_write, 1);
-	// }
-	// else if (g_pipe_flag == -1)
-	// {
-	// 	close(stdout_write);
-	// 	dup2(stdin_read, 0);
-	// }
-
 	if (check_builtins(line, cmd, env))
         return ;
 	else if ((is_path = is_it_path(cmd, &true_path)))
@@ -141,41 +125,39 @@ void	run_command(char *line, char **cmd, t_list **env)
 		if (g_pipe_flag == 1)
 		{
 			close(stdin_read);
-			dup2(stdout_write, 1);
+			dup2(stdout_write, STDOUT_FILENO);
 		}
 		else if (g_pipe_flag == 2)
 		{
-			dup2(stdin_read, 0);
-			dup2(stdout_write, 1);
+			dup2(stdin_read, STDIN_FILENO);
+			dup2(stdout_write, STDOUT_FILENO);
 		}
 		else if (g_pipe_flag == -1)
 		{
 			close(stdout_write);
-			dup2(stdin_read, 0);
+			dup2(stdin_read, STDIN_FILENO);
 		}
 
 		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
 			my_exit(line, cmd, *env); // с каким значением?
 
-		if (g_pipe_flag == 1)
+		if (g_pipe_flag == 1 || g_pipe_flag == 2)
 			close(stdout_write);
-		else if (g_pipe_flag == 2)
-		{
-			close(stdin_read);
-			close(stdout_write);
-		}
-		else if (g_pipe_flag == -1)
+		if (g_pipe_flag == 2 || g_pipe_flag == -1)
 			close(stdin_read);
 	}
 	else
 	{
+		if (g_pipe_flag == 1 || g_pipe_flag == 2)
+			close(stdout_write);
+		if (g_pipe_flag == 2 || g_pipe_flag == -1)
+			close(stdin_read);
+
 		if (!is_path)
 			free(true_path);
 
-		close(stdout_write);
+		// close(stdout_write);
 		wait(NULL);
-		// close(stdin_read);
-
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 16:54:51 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 09:59:17 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,26 +149,40 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		{
 			if (g_pipe_flag == 2 || g_pipe_flag == 1)
 				g_pipe_flag = -1;
-			close(stdin_read);
-			close(stdout_write);
+			// close(stdin_read);
+			// close(stdout_write);
 			break ;
 		}
-		(void)fd_pipe;
 		if (**line == '|')
 		{
 			(void)fd_pipe;
 
 			close(stdin_read);
 			close(stdout_write);
+			// dup2(g_tmpin, 0);
+			// dup2(g_tmpout, 1);
+
+			printf("1. stdin_read: %d\n", stdin_read);
+			printf("1. stdout_write: %d\n", stdout_write);
+			printf("1. STDIN_FILENO: %d\n", STDIN_FILENO);
+			printf("1. STDOUT_FILENO: %d\n\n", STDOUT_FILENO);
+
 			int fd[2];
 			if (pipe(fd) == -1)
 				exit(0); // с каким значением?
 			if (g_pipe_flag == -2)
 				g_pipe_flag = 1;
-			else if (g_pipe_flag == 1)
+			else if (g_pipe_flag == 1 || g_pipe_flag == 2)
 				g_pipe_flag = 2;
 			stdin_read = fd[0];
 			stdout_write = fd[1];
+
+			printf("2. stdin_read: %d\n", stdin_read);
+			printf("2. stdout_write: %d\n", stdout_write);
+			printf("2. STDIN_FILENO: %d\n", STDIN_FILENO);
+			printf("2. STDOUT_FILENO: %d\n", STDOUT_FILENO);
+			printf("------------------------------------------\n\n");
+
 
 			// get_pipe_fd(fd_pipe, line);
 			break ;
@@ -197,8 +211,8 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 	{
 		if (g_pipe_flag == 2 || g_pipe_flag == 1)
 			g_pipe_flag = -1;
-		close(stdin_read);
-		close(stdout_write);
+		// close(stdin_read);
+		// close(stdout_write);
 	}
 	return (cmd);
 }

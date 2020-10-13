@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 16:21:14 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 09:47:45 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int				g_pipe_flag;
 int				stdin_read;
 int				stdout_write;
 int				g_flag;
+int				g_tmpin;
+int				g_tmpout;
 
 void	my_fork(char *line, char **cmd, t_list **env);
 
