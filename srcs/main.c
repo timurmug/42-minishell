@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 16:41:49 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/13 09:56:10 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	minishell(char *line, t_list **env)
 			cmd = parse_line(&line, &fd_pipe, *env);
 			if (cmd)
 			{
+				printf("--------g_pipe_flag-------: %d\n", g_pipe_flag);
+
 				run_command(line, cmd, env);
 				// my_fork(line, cmd, env);
 				ft_free_strstr(cmd);
@@ -61,23 +63,23 @@ int		main(int ac, char **av, char **ev)
 {
 	t_list	*env;
 	char	*user_input;
-	int		tmpin;
-	int		tmpout;
+	// int		tmpin;
+	// int		tmpout;
 
 	(void)ac;
 	(void)av;
 	env = NULL;
 	g_question = 0;
-	tmpin = dup(0);
-	tmpout = dup(1);
+	g_tmpin = dup(0);
+	g_tmpout = dup(1);
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);
 	ft_putstr_fd(CLEAN, STDOUT_FILENO);
 	while (1)
 	{
-		dup2(tmpin, 0);
-		dup2(tmpout, 1);
+		dup2(g_tmpin, STDIN_FILENO);
+		dup2(g_tmpout, STDOUT_FILENO);
 		write_prompt();
 		g_pipe_flag = -2;
 		if (get_next_line(STDOUT_FILENO, &user_input) == 1)
