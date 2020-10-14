@@ -6,7 +6,11 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/10/14 11:12:39 by fkathryn         ###   ########.fr       */
+=======
+/*   Updated: 2020/10/14 12:36:29 by qtamaril         ###   ########.fr       */
+>>>>>>> f038781dabc29773646885991d5c1f9763d27dec
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +69,8 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 		if (!**line || (**line && **line == ';'))
 			break ;
 		else if ((find_pipe_or_redir(line, fd_pipe, env)))
+			break ;
+		else if (g_redir_error == 1)
 			break ;
 		if ((str = parse_argument(line, env)))
 			ft_add_cmd(str, &i, &cmd);
