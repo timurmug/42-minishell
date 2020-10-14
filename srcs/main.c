@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 13:35:06 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 14:30:31 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	minishell(char *line, t_list **env)
 			dup2(3, 1);
 			line++;
 		}
-		else if (*line == '|')
-			line++;
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
