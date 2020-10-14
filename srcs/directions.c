@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 16:13:19 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 16:36:26 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	if ((fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
-		ft_error_errno_exit();
+	{
+		error_from_errno(file_name);
+		free(file_name);
+		g_redir_error = 1;
+		return ;
+	}
 	free(file_name);
 	close(fd_pipe->stdout_write);
 	if (fd_pipe->stdout_write >= 0) // хз
@@ -69,7 +74,12 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	if ((fd = open(file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
-		ft_error_errno_exit();
+	{
+		error_from_errno(file_name);
+		free(file_name);
+		g_redir_error = 1;
+		return ;
+	}
 	free(file_name);
 	close(fd_pipe->stdout_write);
 	if (fd_pipe->stdout_write >= 0)
