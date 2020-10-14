@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/13 17:52:29 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 14:53:04 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char			*lookup_env(char **line, t_list *env)
 	buff[i] = 0;
 	if (buff[0] == '?' || (i == 0 && t == '?'))
 	{
-		if (!(res = ft_itoa(g_question)))
+		if (!(res = ft_itoa(g_status)))
 			ft_error_errno_exit();
 		*line = &buff[++i];
 		return (res);

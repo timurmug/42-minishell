@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 14:30:31 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 15:50:18 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	minishell(char *line, t_list **env)
 
 	if (!check_dir_in_begin(&line))
 		return ;
-	// fd_pipe.was_redir = 0;
+	fd_pipe.was_redir = 0;
 	while (*line)
 	{
 		if (*line == ';')
 		{
-			// fd_pipe.was_redir = 0;
+			fd_pipe.was_redir = 0;
 			dup2(4, 0);
 			dup2(3, 1);
 			line++;
@@ -58,11 +58,6 @@ void	minishell(char *line, t_list **env)
 	}
 }
 
-// контр с завершает процеесс/ выдает новый промт и %? = 1
-// контр d должен завершить минишел
-// bash-3.2$ cat
-// ^\Quit: 3
-//  echo(стекд + \)echo 123 выполняет echo 123
 int		main(int ac, char **av, char **ev)
 {
 	t_list	*env;
@@ -71,7 +66,7 @@ int		main(int ac, char **av, char **ev)
 	(void)ac;
 	(void)av;
 	env = NULL;
-	g_question = 0;
+	g_status = 0;
 	dup2(STDOUT_FILENO, 3);
 	dup2(STDIN_FILENO, 4);
 	ft_lstadd_back(&env, ft_lstnew(NULL));

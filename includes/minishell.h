@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 14:31:00 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 15:49:15 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct	s_env
 typedef struct	s_fd
 {
 	int			pipe_flag;
-	// int			was_redir;
+	int			was_redir;
 	int			stdin_read;
 	int			stdout_write;
 }				t_fd;
@@ -91,7 +91,7 @@ void			write_prompt(void);
 int				check_dir_in_begin(char **line);
 int				check_redirs(char **line);
 
-int				g_question;
+int				g_status;
 int				g_flag;
 int				g_redir_error;
 
