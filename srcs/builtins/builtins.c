@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 18:31:38 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 09:35:18 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		check_builtins2(char **cmd, t_list **env)
 
 	strlowcase = ft_strlowcase(ft_strdup(cmd[0]));
 	if (!ft_strcmp(strlowcase, "echo"))
-		return (my_echo(cmd, *env, strlowcase));
+		return (my_echo(cmd, strlowcase));
 	else if (!ft_strcmp(strlowcase, "pwd"))
 		return (my_pwd(strlowcase));
 	else if (!ft_strcmp(strlowcase, "env"))
@@ -71,7 +71,7 @@ int		check_builtins(char *line, char **cmd, t_list **env)
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		my_exit(line, cmd, *env);
 	}
-	else if (!ft_strcmp(cmd[0], "cd"))//cd переменная не работает
+	else if (!ft_strcmp(cmd[0], "cd"))
 		return (my_cd(cmd, env));
 	return (check_builtins2(cmd, env));
 }

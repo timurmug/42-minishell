@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 18:28:47 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 10:05:49 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	run_command(char *line, char **cmd, t_list **env)
 	is_path = 0;
 	if (check_builtins(line, cmd, env))
 		return ;
-	else if ((is_path = is_it_path(cmd, &true_path)))
+	else if ((is_path = is_it_path(cmd, &true_path)) < 0)
+		return ;
+	else if (is_path == 1)
 		;
 	else if (!(true_path = parse_path(cmd, *env)))
 	{

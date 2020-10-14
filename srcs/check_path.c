@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 16:01:28 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/13 18:27:36 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 10:17:22 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ char	*check_path(char *path, char **cmd)
 	int		fd;
 
 	if (!(cmd_name = ft_strjoin("/", cmd[0])))
-		return (NULL);
+		ft_error_errno_exit();
 	if (!(full_path = ft_strjoin(path, cmd_name)))
 	{
 		free(cmd_name);
-		return (NULL);
+		ft_error_errno_exit();
 	}
 	if ((fd = open(full_path, O_RDONLY)) != -1)
 	{
@@ -36,12 +36,28 @@ char	*check_path(char *path, char **cmd)
 	return (NULL);
 }
 
+char	*parse_path2(char **splitted_path, char **cmd)
+{
+	char	*true_path;
+	int		i;
+
+	i = 0;
+	while (splitted_path[i])
+	{
+		if ((true_path = check_path(splitted_path[i++], cmd)))
+		{
+			ft_free_strstr(splitted_path);
+			return (true_path);
+		}
+	}
+	return (NULL);
+}
+
 char	*parse_path(char **cmd, t_list *env)
 {
 	t_list	*tmp;
 	char	**splitted_path;
 	char	*true_path;
-	int		i;
 
 	if (!env)
 		return (NULL);
@@ -52,21 +68,34 @@ char	*parse_path(char **cmd, t_list *env)
 			!ft_strcmp(((t_env*)tmp->content)->name, "PATH"))
 		{
 			splitted_path = ft_split(((t_env*)tmp->content)->value, ':');
-			i = 0;
-			while (splitted_path[i])
-			{
-				if ((true_path = check_path(splitted_path[i++], cmd)))
-				{
-					ft_free_strstr(splitted_path);
-					return (true_path);
-				}
-			}
+			if ((true_path = parse_path2(splitted_path, cmd)))
+				return (true_path);
 			ft_free_strstr(splitted_path);
 			break ;
 		}
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int		check_errors(int stat_res, char **cmd, struct stat file_stat)
+{
+	if (stat_res == -1)
+	{
+		error_no_file_or_dir(cmd[0]);
+		return (0);
+	}
+	else if (S_ISDIR(file_stat.st_mode))
+	{
+		error_is_a_dir(cmd[0]);
+		return (0);
+	}
+	else if (!(file_stat.st_mode & S_IXUSR))
+	{
+		error_perm_denied(cmd[0]);
+		return (0);
+	}
+	return (1);
 }
 
 int		is_it_path(char **cmd, char **true_path)
@@ -88,12 +117,8 @@ int		is_it_path(char **cmd, char **true_path)
 			stat_res = stat(cmd[0], &file_stat);
 			three_points = 2;
 		}
-		if (stat_res == -1)
-			error_no_file_or_dir(cmd[0]);
-		else if (S_ISDIR(file_stat.st_mode))
-			error_is_a_dir(cmd[0]);
-		else if (!(file_stat.st_mode & S_IXUSR))
-			error_perm_denied(cmd[0]);
+		if (!check_errors(stat_res, cmd, file_stat))
+			return (-1);
 		*true_path = &cmd[0][three_points];
 		return (1);
 	}

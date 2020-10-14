@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 20:17:38 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 09:36:29 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
 			break ;
-		else if ((find_pipe_or_redir(line, fd_pipe, env))) 
+		else if ((find_pipe_or_redir(line, fd_pipe, env)))
 			break ;
 		if ((str = parse_argument(line, env)))
 			ft_add_cmd(str, &i, &cmd);

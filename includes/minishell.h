@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 20:17:23 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 09:33:53 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_fd
 int				check_variable(char **cmd, char *param, int i);
 int				check_builtins(char *line, char **cmd, t_list **env);
 int				my_cd(char **cmd, t_list **env);
-int				my_echo(char **cmd, t_list *env, char *strlowcase);
+int				my_echo(char **cmd, char *strlowcase);
 int				my_env(t_list *env, char *strlowcase);
 void			print_export(t_list *env);
 int				check_export(char **cmd, t_list **env);

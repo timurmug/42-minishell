@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   my_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:09:24 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 18:53:49 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 09:33:37 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	my_echo(char **cmd, t_list *env, char *strlowcase)
+int	my_echo(char **cmd, char *strlowcase)
 {
 	int i;
 
-	(void)env;
 	if (ft_strstrlen(cmd) == 1)
 		ft_putendl_fd("", STDOUT_FILENO);
 	else if (!ft_strcmp(cmd[1], "-n"))
@@ -25,8 +24,7 @@ int	my_echo(char **cmd, t_list *env, char *strlowcase)
 		while (cmd[i])
 		{
 			ft_putstr_fd(cmd[i++], STDOUT_FILENO);
-			if (cmd[i])
-				ft_putstr_fd(" ", STDOUT_FILENO);
+			(cmd[i]) ? ft_putstr_fd(" ", STDOUT_FILENO) : 1 - 1;
 		}
 	}
 	else
@@ -35,8 +33,7 @@ int	my_echo(char **cmd, t_list *env, char *strlowcase)
 		while (cmd[i])
 		{
 			ft_putstr_fd(cmd[i++], STDOUT_FILENO);
-			if (cmd[i])
-				ft_putstr_fd(" ", STDOUT_FILENO);
+			(cmd[i]) ? ft_putstr_fd(" ", STDOUT_FILENO) : 1 - 1;
 		}
 		ft_putendl_fd("", STDOUT_FILENO);
 	}
