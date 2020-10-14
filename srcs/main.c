@@ -6,13 +6,13 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 20:29:21 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 11:31:28 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
+void	run_command_or_fork(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 {
 	(void)fd_pipe;
 	if (cmd)
@@ -40,12 +40,10 @@ void	minishell(char *line, t_list **env)
 			dup2(3, 1);
 			line++;
 		}
-		else if (*line == '|')
-			line++;
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
-			compile_cmd(line, &fd_pipe, env, cmd);
+			run_command_or_fork(line, &fd_pipe, env, cmd);
 		}
 	}
 }
