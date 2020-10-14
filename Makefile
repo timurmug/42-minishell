@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
+#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/13 18:26:17 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/14 12:19:07 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/commands.c \
 		srcs/directions.c \
 		srcs/env.c \
-		srcs/main_utils.c \
+		srcs/utils.c \
 		srcs/main.c \
 		srcs/lookup_env.c \
 		srcs/error.c \

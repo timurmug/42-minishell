@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 10:05:49 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 13:28:53 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	exec_bash_command(char *true_path, char **cmd,
 								t_list **env, int is_path)
 {
 	int pid;
+	int status;
 
+	errno = 0;
+	g_question = 0; //
 	pid = fork();
 	if (pid == -1)
 		ft_error_errno_exit();
@@ -24,12 +27,17 @@ void	exec_bash_command(char *true_path, char **cmd,
 	{
 		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
 			ft_error_errno_exit();
+		exit(0); // хз сколько
 	}
 	else
 	{
 		if (!is_path)
 			free(true_path);
-		wait(NULL);
+		wait(&status);
+		if (WIFEXITED(status))
+			g_question = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_question = WTERMSIG(status) + 128;
 	}
 }
 
@@ -63,14 +71,21 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		ft_error_errno_exit();
 	if (pid == 0)
 	{
+		// if (!fd_pipe->was_redir)
+			// dup2(fd_pipe->stdout_write, STDOUT_FILENO);
 		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
 		run_command(line, cmd, env);
 		close(fd_pipe->stdin_read);
 		close(STDOUT_FILENO);
-		exit(0);
+		exit(0); // хз сколько
 	}
 	else
 	{
+		// if (fd_pipe->was_redir)
+		// {
+		// 	dup2(fd_pipe->stdout_write, 1);
+		// 	fd_pipe->was_redir = 0;
+		// }
 		dup2(fd_pipe->stdin_read, STDIN_FILENO);
 		close(fd_pipe->stdout_write);
 		wait(NULL);

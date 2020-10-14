@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 09:33:53 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 13:30:34 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_env
 typedef struct	s_fd
 {
 	int			pipe_flag;
+	// int			was_redir;
 	int			stdin_read;
 	int			stdout_write;
 }				t_fd;
@@ -62,9 +63,6 @@ void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 
 void			get_pipe_fd(t_fd *fd_pipe);
 void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env);
-
-void			write_prompt(void);
-int				check_dir_in_begin(char **line);
 
 void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
@@ -89,7 +87,12 @@ int				is_it_path(char **cmd, char **true_path);
 char			*parse_path(char **cmd, t_list *env);
 char			*check_path(char *path, char **cmd);
 
+void			write_prompt(void);
+int				check_dir_in_begin(char **line);
+int				check_redirs(char **line);
+
 int				g_question;
 int				g_flag;
+int				g_redir_error;
 
 #endif
