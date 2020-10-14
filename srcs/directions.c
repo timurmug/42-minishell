@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 13:34:33 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 13:41:03 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 
 // кейс 234>>12 работает неправильно
 // echo 123 > test | cat
-//echo 123 > test | ls
+// echo 123 > test | ls
 void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env)
 {
 	char *temp_line;
