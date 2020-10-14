@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/10/14 11:31:28 by fkathryn         ###   ########.fr       */
-=======
-/*   Updated: 2020/10/14 13:35:06 by qtamaril         ###   ########.fr       */
->>>>>>> f038781dabc29773646885991d5c1f9763d27dec
+/*   Updated: 2020/10/14 14:30:31 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD
-void	run_command_or_fork(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
-=======
 int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
->>>>>>> f038781dabc29773646885991d5c1f9763d27dec
 {
 	if (g_redir_error == 1)
 	{
@@ -60,12 +52,8 @@ void	minishell(char *line, t_list **env)
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
-<<<<<<< HEAD
-			run_command_or_fork(line, &fd_pipe, env, cmd);
-=======
 			if (!compile_cmd(line, &fd_pipe, env, cmd))
 				return ;
->>>>>>> f038781dabc29773646885991d5c1f9763d27dec
 		}
 	}
 }

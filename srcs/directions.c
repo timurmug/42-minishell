@@ -6,11 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/10/14 12:07:05 by fkathryn         ###   ########.fr       */
-=======
-/*   Updated: 2020/10/14 13:34:33 by qtamaril         ###   ########.fr       */
->>>>>>> f038781dabc29773646885991d5c1f9763d27dec
+/*   Updated: 2020/10/14 14:29:54 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +36,6 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	while (ft_isspace(**line))
 		(*line)++;
-<<<<<<< HEAD
-	file_name = parse_argument(line, env);
-	fd = open(file_name, O_CREAT | O_APPEND | O_WRONLY, 0644);
-	free(file_name);
-	if (fd_pipe->stdout_write >= 0)
-=======
 	if (!(file_name = parse_argument(line, env)))
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token `newline\'", 1);
@@ -55,7 +45,6 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		ft_error_errno_exit();
 	free(file_name);
 	if (fd_pipe->stdout_write >= 0) // хз
->>>>>>> f038781dabc29773646885991d5c1f9763d27dec
 		fd_pipe->stdout_write = fd;
 	// dup2(fd_pipe->stdout_write, 1);
 }
