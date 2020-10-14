@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 16:06:49 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 17:58:25 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_bash_command(char *true_path, char **cmd,
 	int status;
 
 	errno = 0;
-	g_status = 0; //
+	g_status = 0;
 	pid = fork();
 	if (pid == -1)
 		ft_error_errno_exit();
@@ -74,11 +74,12 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		if (fd_pipe->was_redir)
 		{
 			close(fd_pipe->stdin_read);
-			fd_pipe->was_redir = 0;
+			// fd_pipe->was_redir = 0;
 		}
 		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
 		run_command(line, cmd, env);
 		close(fd_pipe->stdin_read);
+		close(fd_pipe->stdout_write);
 		close(STDOUT_FILENO);
 		exit(0); // хз сколько
 	}

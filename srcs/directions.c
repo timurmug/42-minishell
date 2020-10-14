@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 16:36:26 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/14 18:00:45 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void			get_pipe_fd(char **line, t_fd *fd_pipe)
 	(*line)++;
 	if (pipe(fd) == -1)
 		ft_error_errno_exit();
-	// close(fd_pipe->stdin_read);
-	// close(fd_pipe->stdout_write);
+	if (fd_pipe->was_redir)
+	{
+		// close(fd_pipe->stdout_write);
+		close(fd_pipe->stdin_read);
+	}
 	fd_pipe->stdin_read = fd[0];
 	fd_pipe->stdout_write = fd[1];
 	fd_pipe->pipe_flag = 1;
@@ -35,7 +38,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char	*file_name;
 	int		fd;
 
-	(*line)++;
+	(*line) += 2;
 	if (!check_redirs(line))
 		return ;
 	while (ft_isspace(**line))
@@ -54,6 +57,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 	}
 	free(file_name);
 	close(fd_pipe->stdout_write);
+	close(fd_pipe->stdin_read);
 	if (fd_pipe->stdout_write >= 0) // хз
 		fd_pipe->stdout_write = fd;
 	// dup2(fd_pipe->stdout_write, 1);
@@ -64,6 +68,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char *file_name;
 	int fd;
 
+	(*line)++;
 	if (!check_redirs(line))
 		return ;
 	while (ft_isspace(**line))
@@ -82,6 +87,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	}
 	free(file_name);
 	close(fd_pipe->stdout_write);
+	close(fd_pipe->stdin_read);
 	if (fd_pipe->stdout_write >= 0)
 		fd_pipe->stdout_write = fd;
 
@@ -91,22 +97,24 @@ void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env)
 {
 	while (*line)
 	{
-		// get_pipe_fd(fd_pipe);
+
 		while (ft_isspace(**line))
 			(*line)++;
 		if (!(ft_strncmp(*line, ">>", 2)))
 		{
-			get_pipe_fd(line, fd_pipe);
 			fd_pipe->was_redir = 1;
-			// fd_pipe->pipe_flag = 0;
+			fd_pipe->pipe_flag = 1;
 			double_redir(line, fd_pipe, env);
+			printf("fd_pipe->stdin_read %d\n", fd_pipe->stdin_read);
+			printf("fd_pipe->stdout_write %d\n\n", fd_pipe->stdout_write);
 		}
 		else if (!(ft_strncmp(*line, ">", 1)))
 		{
-			get_pipe_fd(line, fd_pipe);
 			fd_pipe->was_redir = 1;
-			// fd_pipe->pipe_flag = 0;
+			fd_pipe->pipe_flag = 1;
 			forward_redir(line, fd_pipe, env);
+			printf("fd_pipe->stdin_read %d\n", fd_pipe->stdin_read);
+			printf("fd_pipe->stdout_write %d\n\n", fd_pipe->stdout_write);
 		}
 		else if (!(ft_strncmp(*line, "<", 1)))
 			;//back_redir(line, fd_pipe, env);
