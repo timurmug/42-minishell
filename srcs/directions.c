@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 14:29:54 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/14 14:35:27 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char	*file_name;
 	int		fd;
 
-	(*line) += 2;
+	(*line)++;
 	if (!check_redirs(line))
 		return ;
 	while (ft_isspace(**line))
@@ -54,7 +54,6 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char *file_name;
 	int fd;
 
-	(*line)++;
 	if (!check_redirs(line))
 		return ;
 	while (ft_isspace(**line))
@@ -81,15 +80,25 @@ void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env)
 	fd_pipe->stdout_write = 1;
 	while (*line)
 	{
-		//подменить fd
+		// get_pipe_fd(fd_pipe);
 		while (ft_isspace(**line))
 			(*line)++;
 		if (!(ft_strncmp(*line, ">>", 2)))
+		{
+			get_pipe_fd(line, fd_pipe);
+			// fd_pipe->was_redir = 1;
+			// fd_pipe->pipe_flag = 0;
 			double_redir(line, fd_pipe, env);
+		}
 		else if (!(ft_strncmp(*line, ">", 1)))
+		{
+			get_pipe_fd(line, fd_pipe);
+			// fd_pipe->was_redir = 1;
+			// fd_pipe->pipe_flag = 0;
 			forward_redir(line, fd_pipe, env);
+		}
 		else if (!(ft_strncmp(*line, "<", 1)))
-			;//back_redir(&temp_line, fd_pipe, env);
+			;//back_redir(line, fd_pipe, env);
 		else
 			break ;
 	}
