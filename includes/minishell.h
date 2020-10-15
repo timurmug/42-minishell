@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 16:59:24 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/15 10:26:29 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define CLEAN "\e[1;1H\e[2J"
 # define CMD_NOT_FOUND ": command not found"
 # define IS_A_DIR ": is a directory"
+# define NOT_A_DIR ": Not a directory"
 # define P_DEN ": Permission denied"
 # define SHELL "minishell: "
 # define NO_FILE_DIR ": No such file or directory"
@@ -53,6 +54,7 @@ typedef struct	s_fd
 
 int				check_variable(char **cmd, char *param, int i);
 int				check_builtins(char *line, char **cmd, t_list **env);
+int				check_dir(char *file);
 int				my_cd(char **cmd, t_list **env);
 int				my_echo(char **cmd, char *strlowcase);
 int				my_env(t_list *env, char *strlowcase);
@@ -104,6 +106,8 @@ void			error_perm_denied(char *param);
 void			error_no_file_or_dir(char *param);
 void			error_cmd_not_found(char *param);
 void			error_from_errno(char *param);
+void			error_not_a_dir(char *param);
+int				error_home_not_set(void);
 
 /*
 ** lookup_env.c

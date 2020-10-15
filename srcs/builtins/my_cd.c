@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/12 15:58:09 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/15 10:25:33 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ void	set_pwd(t_list **env)
 
 void	my_cd2(char **cmd, t_list **env)
 {
-	if (chdir(cmd[1]) == 0)
-		set_pwd(env);
-	else if (!ft_strcmp(cmd[1], "\0"))
+	if (!ft_strcmp(cmd[1], "\0"))
 		;
+	else if (!check_dir(cmd[1]))
+		return ;
+	else if (chdir(cmd[1]) == 0)
+		set_pwd(env);
 	else
 		cd_error(cmd, NULL);
 }
@@ -84,12 +86,9 @@ int		my_cd(char **cmd, t_list **env)
 	if (ft_strstrlen(cmd) == 1)
 	{
 		if (!(home_value = find_home(*env)))
-		{
-			ft_putstr_fd(SHELL, STDERR_FILENO);
-			ft_putstr_fd("cd: ", STDERR_FILENO);
-			ft_putstr_fd("HOME", STDERR_FILENO);
-			ft_putendl_fd(" not set", STDERR_FILENO);
-		}
+			return (error_home_not_set());
+		else if (!check_dir(home_value))
+			return (1);
 		else if (!ft_strcmp(home_value, "\0"))
 		{
 			set_pwd(env);

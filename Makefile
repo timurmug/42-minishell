@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/14 12:19:07 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/15 09:47:39 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ DIR_GNL = gnl
 
 SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_cd.c \
+		srcs/builtins/my_cd_utils.c \
 		srcs/builtins/my_echo.c \
 		srcs/builtins/my_env.c \
 		srcs/builtins/my_exit.c \
