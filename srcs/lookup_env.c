@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 11:33:52 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/14 14:53:04 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/15 10:06:30 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ char			*find_env(char *line, t_list *env)
 		if ((t_env*)tmp->content &&
 			!ft_strcmp(((t_env*)tmp->content)->name, line))
 		{
-			s = ((t_env*)tmp->content)->value;
-			return (s);
+			if ((s = ((t_env*)tmp->content)->value))
+				return (s);
+			else 
+				return ("");
 		}
 		tmp = tmp->next;
 	}
