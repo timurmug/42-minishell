@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/15 10:26:29 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/16 11:08:36 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int				check_redirs(char **line);
 
 int				g_status;
 int				g_flag;
+int				g_fd;
 int				g_redir_error;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 17:58:16 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/16 13:28:11 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,20 @@ void	minishell(char *line, t_list **env)
 	if (!check_dir_in_begin(&line))
 		return ;
 	fd_pipe.was_redir = 0;
+	g_fd = 0;
 	while (*line)
 	{
 		if (*line == ';')
 		{
+			if (g_fd!= 0)
+				close(g_fd);
+			g_fd = 0;
+
+			g_redir_error = 0;
+			fd_pipe.pipe_flag = 0;
 			fd_pipe.was_redir = 0;
 			dup2(4, 0);
-			dup2(3, 1);
+			// dup2(3, 1);
 			line++;
 		}
 		else

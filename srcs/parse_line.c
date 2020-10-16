@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/14 14:30:44 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/16 11:37:44 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static	void	ft_add_cmd(char *str, int *i, char ***cmd)
 
 int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env)
 {
+	printf("here with: |%c|\n", **line);
 	if (**line == '|')
 	{
 		get_pipe_fd(line, fd_pipe);
