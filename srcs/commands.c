@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 14:54:47 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:27:24 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exec_bash_command(char *true_path, char **cmd,
 	int status;
 
 	errno = 0;
+	g_status = 0;
 	pid = fork();
 	if (pid == -1)
 		ft_error_errno_exit();
@@ -33,7 +34,10 @@ void	exec_bash_command(char *true_path, char **cmd,
 		if (!is_path)
 			free(true_path);
 		wait(&status);
-		set_status(status);
+		if (WIFEXITED(status))
+			g_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_status = WTERMSIG(status) + 128;
 	}
 }
 
@@ -44,7 +48,6 @@ void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 
 	errno = 0;
 	is_path = 0;
-	g_status = 0;
 	if (check_builtins(line, cmd, env, fd_pipe))
 		return ;
 	else if ((is_path = is_it_path(cmd, &true_path)) < 0)

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 12:04:35 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:38:28 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	get_empty_pipe(char **line, t_fd *fd_pipe)
 	close(fd_pipe->stdin_read);
 	close(fd_pipe->stdout_write);
 	close(STDIN_FILENO);
-	close(fd_pipe->file_fd);
+	close(g_fd);
 	(*line)++;
 	if (pipe(fd) == -1)
 		ft_error_errno_exit();

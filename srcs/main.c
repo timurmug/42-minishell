@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 14:25:49 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:38:18 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	minishell(char *line, t_list **env)
 	if (!check_dir_in_begin(&line))
 		return ;
 	fd_pipe.was_redir = 0;
-	fd_pipe.file_fd = 0;
+	g_fd = 0;
 	while (*line)
 	{
 		if (*line == ';')
 		{
-			if (fd_pipe.file_fd != 0)
-				close(fd_pipe.file_fd);
-			fd_pipe.file_fd = 0;
+			if (g_fd != 0)
+				close(g_fd);
+			g_fd = 0;
 			g_redir_error = 0;
 			fd_pipe.needed_fork = 0;
 			fd_pipe.was_redir = 0;
