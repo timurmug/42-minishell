@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 11:37:44 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 09:43:29 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env)
 	else if (**line == '>')
 	{
 		get_redir_fd(line, fd_pipe, env);
-		return (1);
+		return (0);
 	}
 	else if (**line == '<')
 	{
 		get_redir_fd(line, fd_pipe, env);
-		return (1);
+		return (0);
 	}
 	return (0);
 }
