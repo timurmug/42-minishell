@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 10:50:57 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 14:54:47 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	exec_bash_command(char *true_path, char **cmd,
 	int status;
 
 	errno = 0;
-	g_status = 0;
 	pid = fork();
 	if (pid == -1)
 		ft_error_errno_exit();
@@ -34,21 +33,19 @@ void	exec_bash_command(char *true_path, char **cmd,
 		if (!is_path)
 			free(true_path);
 		wait(&status);
-		if (WIFEXITED(status))
-			g_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_status = WTERMSIG(status) + 128;
+		set_status(status);
 	}
 }
 
-void	run_command(char *line, char **cmd, t_list **env)
+void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	char	*true_path;
 	int		is_path;
 
 	errno = 0;
 	is_path = 0;
-	if (check_builtins(line, cmd, env))
+	g_status = 0;
+	if (check_builtins(line, cmd, env, fd_pipe))
 		return ;
 	else if ((is_path = is_it_path(cmd, &true_path)) < 0)
 		return ;
@@ -72,7 +69,7 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 	if (pid == 0)
 	{
 		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
-		run_command(line, cmd, env);
+		run_command(line, cmd, env, fd_pipe);
 		close(fd_pipe->stdin_read);
 		close(fd_pipe->stdout_write);
 		close(STDOUT_FILENO);

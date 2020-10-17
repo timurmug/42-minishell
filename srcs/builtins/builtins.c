@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/15 10:00:41 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 11:38:52 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,14 @@ int		check_builtins2(char **cmd, t_list **env)
 	return (0);
 }
 
-int		check_builtins(char *line, char **cmd, t_list **env)
+int		check_builtins(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	if (!ft_strcmp(cmd[0], "export"))
 		return (check_export(cmd, env));
 	else if (!ft_strcmp(cmd[0], "unset"))
 		return (check_unset(cmd, env));
 	else if (!ft_strcmp(cmd[0], "exit"))
-	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
-		my_exit(line, cmd, *env);
-	}
+		return (my_exit(line, cmd, *env, fd_pipe));
 	else if (!ft_strcmp(cmd[0], "cd"))
 		return (my_cd(cmd, env));
 	return (check_builtins2(cmd, env));
