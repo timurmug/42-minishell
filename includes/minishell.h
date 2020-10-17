@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:10:27 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:13:03 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define NOT_A_DIR ": Not a directory"
 # define P_DEN ": Permission denied"
 # define SHELL "minishell: "
+# define SHELL_EXIT "minishell: exit: "
 # define NO_FILE_DIR ": No such file or directory"
 
 typedef struct	s_env
@@ -41,8 +42,9 @@ typedef struct	s_env
 
 typedef struct	s_fd
 {
-	int			pipe_flag;
+	int			needed_fork;
 	int			was_redir;
+	int			file_fd;
 	int			stdin_read;
 	int			stdout_write;
 }				t_fd;
@@ -52,7 +54,7 @@ typedef struct	s_fd
 */
 
 int				check_variable(char **cmd, char *param, int i);
-int				check_builtins(char *line, char **cmd, t_list **env);
+int				check_builtins(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 int				check_dir(char *file);
 int				my_cd(char **cmd, t_list **env);
 int				my_echo(char **cmd, char *strlowcase);
@@ -61,7 +63,7 @@ void			print_export(t_list *env);
 int				check_export(char **cmd, t_list **env);
 int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
-void			my_exit(char *line, char **cmd, t_list *env);
+int				my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe);
 
 /*
 ** check_path.c
@@ -75,7 +77,7 @@ int				is_it_path(char **cmd, char **true_path);
 ** commands.c
 */
 
-void			run_command(char *line, char **cmd, t_list **env);
+void			run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 
 /*
@@ -107,6 +109,7 @@ void			error_cmd_not_found(char *param);
 void			error_from_errno(char *param);
 void			error_not_a_dir(char *param);
 int				error_home_not_set(void);
+void			error_num_arg_required(char *param);
 
 /*
 ** lookup_env.c
@@ -128,6 +131,7 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 void			write_prompt(void);
 int				check_dir_in_begin(char **line);
 int				check_redirs(char **line);
+void			set_status(int status);
 
 /*
 ** signal.c
@@ -143,7 +147,6 @@ void			ft_no_usinput(void);
 
 int				g_status;
 int				g_flag;
-int				g_fd;
 int				g_redir_error;
 
 #endif

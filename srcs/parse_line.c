@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 14:54:18 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:12:40 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,44 @@ static	void	ft_add_cmd(char *str, int *i, char ***cmd)
 		free(str);
 }
 
-int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env)
+int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env, int *flag)
 {
-	printf("here with: |%c|\n", **line);
-	if (**line == '|')
+	if (**line == '|' && fd_pipe->was_redir == 0)
 	{
+		fd_pipe->needed_fork = 1;
 		get_pipe_fd(line, fd_pipe);
 		return (1);
 	}
+	else if (**line == '|' && fd_pipe->was_redir == 1)
+		return (1);
 	else if (**line == '>')
 	{
+		fd_pipe->needed_fork = 1;
 		get_redir_fd(line, fd_pipe, env);
-		return (1);
+		*flag = 1;
 	}
 	else if (**line == '<')
 	{
 		get_redir_fd(line, fd_pipe, env);
-		return (1);
 	}
 	return (0);
+}
+
+void	get_empty_pipe(char **line, t_fd *fd_pipe)
+{
+	int		fd[2];
+
+	close(fd_pipe->stdin_read);
+	close(fd_pipe->stdout_write);
+	close(STDIN_FILENO);
+	close(fd_pipe->file_fd);
+	(*line)++;
+	if (pipe(fd) == -1)
+		ft_error_errno_exit();
+	close(fd[1]);
+	fd_pipe->stdin_read = fd[0];
+	dup2(fd_pipe->stdin_read, STDIN_FILENO);
+	fd_pipe->needed_fork = 0;
 }
 
 char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
@@ -54,24 +73,21 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 	char	*str;
 	char	**cmd;
 	int		i;
+	int		flag;
 
 	cmd = NULL;
 	str = NULL;
 	i = 0;
+	flag = 0;
 	while (**line)
 	{
-		fd_pipe->pipe_flag = 0;
 		while (ft_isspace(**line))
 			(*line)++;
-		if (!**line || (**line && **line == ';'))
+		if (!**line || (**line && **line == ';') || (**line == '|' && flag))
 			break ;
 		else if (**line == '|' && !cmd)
-		{
-			close(fd_pipe->stdin_read);
-			(*line)++;
-			break ;
-		}
-		else if ((find_pipe_or_redir(line, fd_pipe, env)))
+			get_empty_pipe(line, fd_pipe);
+		else if ((find_pipe_or_redir(line, fd_pipe, env, &flag)))
 			break ;
 		else if (g_redir_error == 1)
 			break ;

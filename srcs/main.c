@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:05:29 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:11:58 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 	}
 	if (cmd)
 	{
-		if (fd_pipe->pipe_flag == 1)
+		if (fd_pipe->needed_fork == 1)
 			my_fork(line, cmd, env, fd_pipe);
 		else
-			run_command(line, cmd, env);
+			run_command(line, cmd, env, fd_pipe);
 		ft_free_strstr(cmd);
 		return (1);
 	}
@@ -67,20 +67,18 @@ void	minishell(char *line, t_list **env)
 	if (!check_dir_in_begin(&line))
 		return ;
 	fd_pipe.was_redir = 0;
-	g_fd = 0;
+	fd_pipe.file_fd = 0;
 	while (*line)
 	{
 		if (*line == ';')
 		{
-			if (g_fd!= 0)
-				close(g_fd);
-			g_fd = 0;
-
+			if (fd_pipe.file_fd != 0)
+				close(fd_pipe.file_fd);
+			fd_pipe.file_fd = 0;
 			g_redir_error = 0;
-			fd_pipe.pipe_flag = 0;
+			fd_pipe.needed_fork = 0;
 			fd_pipe.was_redir = 0;
 			dup2(4, 0);
-			// dup2(3, 1);
 			line++;
 		}
 		else

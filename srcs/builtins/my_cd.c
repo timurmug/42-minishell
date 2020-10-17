@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/15 10:25:33 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 15:48:07 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,6 @@ char	*find_home(t_list *env)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-void	cd_error(char **cmd, char *home_value)
-{
-	ft_putstr_fd(SHELL, STDERR_FILENO);
-	ft_putstr_fd("cd: ", STDERR_FILENO);
-	if (!home_value)
-		ft_putstr_fd(cmd[1], STDERR_FILENO);
-	else
-		ft_putstr_fd(home_value, STDERR_FILENO);
-	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 }
 
 void	set_pwd(t_list **env)
@@ -76,7 +65,7 @@ void	my_cd2(char **cmd, t_list **env)
 	else if (chdir(cmd[1]) == 0)
 		set_pwd(env);
 	else
-		cd_error(cmd, NULL);
+		error_from_errno(cmd[1]);
 }
 
 int		my_cd(char **cmd, t_list **env)
@@ -97,7 +86,7 @@ int		my_cd(char **cmd, t_list **env)
 		else if (chdir(home_value) == 0)
 			set_pwd(env);
 		else
-			cd_error(cmd, home_value);
+			error_from_errno(cmd[1]);
 	}
 	else
 		my_cd2(cmd, env);
