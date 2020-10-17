@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 13:28:11 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 11:09:53 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 	}
 	if (cmd)
 	{
-		if (fd_pipe->pipe_flag == 1)
+		printf("read: |%d|\n", fd_pipe->stdin_read);
+		printf("write: |%d|\n", fd_pipe->stdout_write);
+		if (fd_pipe->needed_fork == 1)
 			my_fork(line, cmd, env, fd_pipe);
 		else
 			run_command(line, cmd, env);
@@ -50,7 +52,7 @@ void	minishell(char *line, t_list **env)
 			g_fd = 0;
 
 			g_redir_error = 0;
-			fd_pipe.pipe_flag = 0;
+			fd_pipe.needed_fork = 0;
 			fd_pipe.was_redir = 0;
 			dup2(4, 0);
 			// dup2(3, 1);

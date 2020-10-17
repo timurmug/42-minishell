@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 14:16:15 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 10:50:57 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		ft_error_errno_exit();
 	if (pid == 0)
 	{
-		// if (fd_pipe->was_redir)
-		// {
-		// 	close(fd_pipe->stdin_read);
-		// 	// fd_pipe->was_redir = 0;
-		// }
 		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
 		run_command(line, cmd, env);
 		close(fd_pipe->stdin_read);
@@ -89,5 +84,7 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		close(fd_pipe->stdout_write);
 		wait(NULL);
 		close(fd_pipe->stdin_read);
+		if (fd_pipe->was_redir)
+			fd_pipe->was_redir = 0;
 	}
 }

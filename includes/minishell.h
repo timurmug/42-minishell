@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 11:08:36 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 11:09:39 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct	s_env
 
 typedef struct	s_fd
 {
-	int			pipe_flag;
+	int			needed_fork;
 	int			was_redir;
 	int			stdin_read;
 	int			stdout_write;
