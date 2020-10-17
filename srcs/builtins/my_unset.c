@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:35:02 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 18:32:00 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:24:30 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	my_unset(t_list **env, char **vars, int i)
 
 	list_prev = NULL;
 	temp = *env;
+	g_status = 0;
 	while (temp)
 	{
 		curr_env = (t_env*)(temp)->content;

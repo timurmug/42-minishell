@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 14:10:07 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:41:28 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:26:35 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		check_export(char **cmd, t_list **env)
 	int		i;
 
 	i = 1;
+	g_status = 0;
 	if (ft_strstrlen(cmd) > 1)
 	{
 		while (cmd[i])

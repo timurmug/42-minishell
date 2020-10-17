@@ -6,7 +6,7 @@
 /*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 16:01:28 by fkathryn          #+#    #+#             */
-/*   Updated: 2020/10/14 10:17:22 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:23:42 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*parse_path2(char **splitted_path, char **cmd)
 	return (NULL);
 }
 
-char	*parse_path(char **cmd, t_list *env)
+char	*parse_path(char **cmd, t_list *env, int *flag)
 {
 	t_list	*tmp;
 	char	**splitted_path;
@@ -67,6 +67,7 @@ char	*parse_path(char **cmd, t_list *env)
 		if ((t_env*)tmp->content &&
 			!ft_strcmp(((t_env*)tmp->content)->name, "PATH"))
 		{
+			*flag = 1;
 			splitted_path = ft_split(((t_env*)tmp->content)->value, ':');
 			if ((true_path = parse_path2(splitted_path, cmd)))
 				return (true_path);
@@ -104,6 +105,7 @@ int		is_it_path(char **cmd, char **true_path)
 	struct stat	file_stat;
 	int			three_points;
 
+	g_status = 0;
 	three_points = ft_strncmp("../", cmd[0], 3);
 	if (!three_points || !ft_strncmp("./", cmd[0], 2) || cmd[0][0] == '/')
 	{

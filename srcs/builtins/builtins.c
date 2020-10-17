@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 14:33:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 11:38:52 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:13:31 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		variable_error(char **cmd, int i)
 	ft_putstr_fd(": \'", STDERR_FILENO);
 	ft_putstr_fd(cmd[i], STDERR_FILENO);
 	ft_putendl_fd("\': not a valid identifier", STDERR_FILENO);
+	g_status = 1;
 	return (0);
 }
 
@@ -44,6 +45,7 @@ int		check_builtins2(char **cmd, t_list **env)
 {
 	char	*strlowcase;
 
+	g_status = 0;
 	strlowcase = ft_strlowcase(ft_strdup(cmd[0]));
 	if (!ft_strcmp(strlowcase, "echo"))
 		return (my_echo(cmd, strlowcase));

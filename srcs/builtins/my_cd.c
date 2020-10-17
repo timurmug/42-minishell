@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 16:01:14 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 15:48:07 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:27:03 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int		my_cd(char **cmd, t_list **env)
 {
 	char	*home_value;
 
+	g_status = 0;
 	if (ft_strstrlen(cmd) == 1)
 	{
 		if (!(home_value = find_home(*env)))

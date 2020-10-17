@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:41:46 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:22:37 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct	s_fd
 */
 
 int				check_variable(char **cmd, char *param, int i);
-int				check_builtins(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
+int				check_builtins(char *line, char **cmd, t_list **env, \
+	t_fd *fd_pipe);
 int				check_dir(char *file);
 int				my_cd(char **cmd, t_list **env);
 int				my_echo(char **cmd, char *strlowcase);
@@ -69,14 +70,15 @@ int				my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe);
 */
 
 char			*check_path(char *path, char **cmd);
-char			*parse_path(char **cmd, t_list *env);
+char			*parse_path(char **cmd, t_list *env, int *flag);
 int				is_it_path(char **cmd, char **true_path);
 
 /*
 ** commands.c
 */
 
-void			run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
+void			run_command(char *line, char **cmd, t_list **env, \
+	t_fd *fd_pipe);
 void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:27:24 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:23:28 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,20 @@ void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	char	*true_path;
 	int		is_path;
+	int		flg;
 
 	errno = 0;
 	is_path = 0;
+	flg = 0;
 	if (check_builtins(line, cmd, env, fd_pipe))
 		return ;
 	else if ((is_path = is_it_path(cmd, &true_path)) < 0)
 		return ;
 	else if (is_path == 1)
 		;
-	else if (!(true_path = parse_path(cmd, *env)))
+	else if (!(true_path = parse_path(cmd, *env, &flg)))
 	{
-		error_cmd_not_found(cmd[0]);
+		(flg == 1) ? error_cmd_not_found(cmd[0]) : error_no_file_or_dir(cmd[0]);
 		return ;
 	}
 	exec_bash_command(true_path, cmd, env, is_path);

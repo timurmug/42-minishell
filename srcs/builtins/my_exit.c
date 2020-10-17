@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 12:38:31 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 15:06:38 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:41:12 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe) //надо до�
 	// {
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		if (len == 1)
-			exit(0);
+			exit(g_status);
 		else if (len == 2)
 		{
 			if (ft_str_is_num(cmd[1]))
@@ -39,13 +39,13 @@ int	my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe) //надо до�
 		}
 		else if (len > 2)
 		{
-			if (ft_str_is_num(cmd[2]))
+			if (ft_str_is_num(cmd[1]))
 			{
 				ft_putendl_fd("minishell: exit: too many arguments", STDOUT_FILENO);
 				g_status = 1;
 			}
 			else
-				error_num_arg_required(cmd[2]);
+				error_num_arg_required(cmd[1]);
 		}
 	// }
 	return (1);

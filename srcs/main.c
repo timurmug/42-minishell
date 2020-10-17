@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:41:40 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:34:09 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 		ft_free_strstr(cmd);
 		return (1);
 	}
+	else
+		g_status = 0;
 	return (1);
 }
 
