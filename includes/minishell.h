@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 11:08:36 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:10:27 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "../gnl/get_next_line.h"
 # include <unistd.h>
 # include <errno.h>
 # include <stdio.h>
@@ -129,6 +128,18 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 void			write_prompt(void);
 int				check_dir_in_begin(char **line);
 int				check_redirs(char **line);
+
+/*
+** signal.c
+*/
+
+void			ft_sigint(int sig);
+void			ft_quit(int sig);
+void			ft_no_usinput(void);
+
+/*
+** global
+*/
 
 int				g_status;
 int				g_flag;

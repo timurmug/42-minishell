@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 11:04:51 by student           #+#    #+#             */
-/*   Updated: 2020/10/10 11:35:06 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:09:00 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void			ft_lst_remove_if(t_list **begin_list,
 char			*ft_strlowcase(char *str);
 int				ft_isspace(int c);
 int				ft_issymbol(int c);
+char			*ft_strjoin_gnl(char *s1, char *s2);
 
 #endif

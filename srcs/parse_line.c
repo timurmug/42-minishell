@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/16 11:37:44 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/16 14:54:18 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 			(*line)++;
 		if (!**line || (**line && **line == ';'))
 			break ;
+		else if (**line == '|' && !cmd)
+		{
+			close(fd_pipe->stdin_read);
+			(*line)++;
+			break ;
+		}
 		else if ((find_pipe_or_redir(line, fd_pipe, env)))
 			break ;
 		else if (g_redir_error == 1)

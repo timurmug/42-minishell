@@ -3,17 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/15 09:47:39 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/17 16:10:12 by fkathryn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIB_A =	libft/libft.a
-GNL_A = gnl/gnl.a
-INCLUDE = includes/minishell.h libft/libft.h gnl/get_next_line.h
+INCLUDE = includes/minishell.h libft/libft.h
 
 FLAGS_W = -Wall -Wextra -Werror -g
 FLAGS_LIB = -Iincludes
@@ -21,7 +20,6 @@ FLAGS_LIB = -Iincludes
 DIR_SRCS = srcs
 DIR_LIB = libft
 DIR_INC = includes
-DIR_GNL = gnl
 
 SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_cd.c \
@@ -42,22 +40,21 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/error2.c \
 		srcs/parse_line.c \
 		srcs/parse_arg.c \
-		srcs/check_path.c
+		srcs/check_path.c \
+		srcs/signal.c
 
 OBJS = $(SRCS:%.c=%.o)
 
-.PHONY: all clean fclean re norme run libft_make gnl_make
+.PHONY: all clean fclean re norme run libft_make
 
-all: libft_make gnl_make $(NAME)
+all: libft_make $(NAME)
 
 $(NAME): $(INCLUDE) $(OBJS)
-	@clang $(FLAGS_W) $(LIB_A) $(GNL_A) $(OBJS) -o $(NAME)
+	@clang $(FLAGS_W) $(LIB_A) $(OBJS) -o $(NAME)
 	@echo minishell ready for work
 
 norme:
 	@make fclean
-	@echo
-	norminette ./$(DIR_GNL)/
 	@echo
 	norminette ./$(DIR_INC)
 	@echo
@@ -72,18 +69,13 @@ libft_make:
 	@make -C $(DIR_LIB) --silent
 	@echo libft builded
 
-gnl_make:
-	@make -C $(DIR_GNL) --silent
-	@echo gnl builded
 
 clean:
 	rm -rf $(OBJS)
-	@make -C $(DIR_GNL) clean
 	@make -C $(DIR_LIB) clean
 
 fclean: clean
 	@rm -f $(NAME) --silent
-	@rm -f $(GNL_A) --silent
 	@make -C $(DIR_LIB) fclean --silent
 
 re: fclean all
