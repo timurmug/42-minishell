@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:22:37 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 18:02:20 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ char			*parse_path(char **cmd, t_list *env, int *flag);
 int				is_it_path(char **cmd, char **true_path);
 
 /*
+** check_tokens.c
+*/
+
+int				check_dir_in_begin(char **line);
+int				check_redirs(char **line);
+
+/*
 ** commands.c
 */
 
@@ -96,7 +103,7 @@ char			**env_to_strstr(t_list *env);
 void			free_env(t_list *lst);
 void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
-int				init_env(t_list **lst, char **env);
+void			init_env(t_list **lst, char **env);
 
 /*
 ** error.c and error2.c
@@ -111,6 +118,7 @@ void			error_from_errno(char *param);
 void			error_not_a_dir(char *param);
 int				error_home_not_set(void);
 void			error_num_arg_required(char *param);
+void			error_syntax_unexpected_token(void);
 
 /*
 ** lookup_env.c
@@ -130,8 +138,8 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env);
 */
 
 void			write_prompt(void);
-int				check_dir_in_begin(char **line);
-int				check_redirs(char **line);
+void			prepare_program(int ac, char **av, t_list **env, char **ev);
+void			settings_after_separator(t_fd *fd_pipe, char **line);
 void			set_status(int status);
 
 /*

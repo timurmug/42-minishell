@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+         #
+#    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/17 16:10:12 by fkathryn         ###   ########.fr        #
+#    Updated: 2020/10/17 17:50:50 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/parse_line.c \
 		srcs/parse_arg.c \
 		srcs/check_path.c \
+		srcs/check_tokens.c \
 		srcs/signal.c
 
 OBJS = $(SRCS:%.c=%.o)

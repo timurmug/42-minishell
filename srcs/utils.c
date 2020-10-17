@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:05:36 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/17 18:02:13 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,69 +25,31 @@ void	write_prompt(void)
 	free(path);
 }
 
-int		check_dir_in_begin2(char **line)
+void	prepare_program(int ac, char **av, t_list **env, char **ev)
 {
-	if (**line == ';' && (*(*line + 1) == ';'))
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `;;\'", 1);
-		g_status = 258;
-		return (0);
-	}
-	else if (**line == ';')
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `;\'", 1);
-		g_status = 258;
-		return (0);
-	}
-	return (1);
+	(void)ac;
+	(void)av;
+	*env = NULL;
+	g_status = 0;
+	dup2(STDOUT_FILENO, 3);
+	dup2(STDIN_FILENO, 4);
+	signal(SIGINT, ft_sigint);
+	signal(SIGQUIT, ft_quit);
+	ft_lstadd_back(env, ft_lstnew(NULL));
+	init_env(env, ev);
+	ft_putstr_fd(CLEAN, STDOUT_FILENO);
 }
 
-int		check_dir_in_begin(char **line)
+void	settings_after_separator(t_fd *fd_pipe, char **line)
 {
-	while (ft_isspace(**line))
-		(*line)++;
-	if (**line == '|' && (*(*line + 1) == '|'))
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `||\'", 1);
-		g_status = 258;
-		return (0);
-	}
-	else if (**line == '|')
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `|\'", 1);
-		g_status = 258;
-		return (0);
-	}
-	else if (**line == ';')
-		return (check_dir_in_begin2(line));
-	return (1);
-}
-
-int		check_redirs(char **line)
-{
-	int		count;
-
-	count = 0;
-	while (**line && **line == '>')
-	{
-		count++;
-		(*line)++;
-	}
-	if (count == 1)
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `>\'", 1);
-		g_redir_error = 1;
-		g_status = 258;
-		return (0);
-	}
-	else if (count > 1)
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `>>\'", 1);
-		g_status = 258;
-		g_redir_error = 1;
-		return (0);
-	}
-	return (1);
+	if (g_fd != 0)
+		close(g_fd);
+	g_fd = 0;
+	g_redir_error = 0;
+	fd_pipe->needed_fork = 0;
+	fd_pipe->was_redir = 0;
+	dup2(4, 0);
+	(*line)++;
 }
 
 void	set_status(int status)

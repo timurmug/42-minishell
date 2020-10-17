@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:37:26 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:48:13 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		(*line)++;
 	if (!(file_name = parse_argument(line, env)))
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `newline\'", 1);
-		g_status = 258;
-		g_redir_error = 1;
+		error_syntax_unexpected_token();
 		return ;
 	}
 	if ((g_fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
@@ -68,9 +66,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 		(*line)++;
 	if (!(file_name = parse_argument(line, env)))
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `newline\'", 1);
-		g_status = 258;
-		g_redir_error = 1;
+		error_syntax_unexpected_token();
 		return ;
 	}
 	if ((g_fd = open(file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)

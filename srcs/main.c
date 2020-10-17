@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:34:09 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 18:02:32 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*read_line(int fd)
 		if (*buff == '\n')
 			break ;
 	}
-	return(res);
+	return (res);
 }
 
 int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
@@ -73,16 +73,7 @@ void	minishell(char *line, t_list **env)
 	while (*line)
 	{
 		if (*line == ';')
-		{
-			if (g_fd != 0)
-				close(g_fd);
-			g_fd = 0;
-			g_redir_error = 0;
-			fd_pipe.needed_fork = 0;
-			fd_pipe.was_redir = 0;
-			dup2(4, 0);
-			line++;
-		}
+			settings_after_separator(&fd_pipe, &line);
 		else
 		{
 			cmd = parse_line(&line, &fd_pipe, *env);
@@ -97,18 +88,7 @@ int		main(int ac, char **av, char **ev)
 	t_list	*env;
 	char	*user_input;
 
-	(void)ac;
-	(void)av;
-	env = NULL;
-	g_status = 0;
-	dup2(STDOUT_FILENO, 3);
-	dup2(STDIN_FILENO, 4);
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_quit);
-	ft_lstadd_back(&env, ft_lstnew(NULL));
-	if (!init_env(&env, ev))
-		return (0);
-	ft_putstr_fd(CLEAN, STDOUT_FILENO);
+	prepare_program(ac, av, &env, ev);
 	while (1)
 	{
 		dup2(4, STDIN_FILENO);

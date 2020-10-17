@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:41:32 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:59:21 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static	void	ft_add_cmd(char *str, int *i, char ***cmd)
 		free(str);
 }
 
-int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env, int *flag)
+int				find_pipe_or_redir(char **line, t_fd *fd_pipe, \
+	t_list *env, int *flag)
 {
 	if (**line == '|' && fd_pipe->was_redir == 0)
 	{
@@ -51,7 +52,7 @@ int				find_pipe_or_redir(char **line, t_fd *fd_pipe, t_list *env, int *flag)
 	return (0);
 }
 
-void	get_empty_pipe(char **line, t_fd *fd_pipe)
+void			get_empty_pipe(char **line, t_fd *fd_pipe)
 {
 	int		fd[2];
 

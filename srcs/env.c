@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 12:47:12 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/13 14:42:50 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:55:57 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		add_env(t_list **lst, char *name, char *value)
 	t_env	*elem;
 
 	if (!(elem = malloc(sizeof(t_env))))
-		return (0);
+		ft_error_errno_exit();
 	if (!(elem->name = ft_strdup(name)))
 		ft_error_errno_exit();
 	if (value)
@@ -105,7 +105,7 @@ int		add_env(t_list **lst, char *name, char *value)
 	return (1);
 }
 
-int		init_env(t_list **lst, char **env)
+void	init_env(t_list **lst, char **env)
 {
 	int		i;
 	char	**splitted;
@@ -114,10 +114,8 @@ int		init_env(t_list **lst, char **env)
 	while (env[i])
 	{
 		splitted = ft_split(env[i], '=');
-		if (!add_env(lst, splitted[0], splitted[1]))
-			return (0);
+		add_env(lst, splitted[0], splitted[1]);
 		ft_free_strstr(splitted);
 		i++;
 	}
-	return (1);
 }
