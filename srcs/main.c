@@ -6,11 +6,38 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:38:18 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:41:40 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*read_line(int fd)
+{
+	char *res;
+	char *tmp;
+	char buff[2];
+
+	buff[1] = 0;
+	res = NULL;
+	while (1)
+	{
+		tmp = res;
+		if (read(fd, buff, 1) == 0)
+		{
+			if (!tmp)
+				break ;
+			continue ;
+		}
+		if (!(res = ft_strjoin((res ? res : ""), (*buff == '\n' ? "" : buff))))
+			ft_error_errno_exit();
+		if (tmp)
+			free(tmp);
+		if (*buff == '\n')
+			break ;
+	}
+	return(res);
+}
 
 int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 {
@@ -74,6 +101,8 @@ int		main(int ac, char **av, char **ev)
 	g_status = 0;
 	dup2(STDOUT_FILENO, 3);
 	dup2(STDIN_FILENO, 4);
+	signal(SIGINT, ft_sigint);
+	signal(SIGQUIT, ft_quit);
 	ft_lstadd_back(&env, ft_lstnew(NULL));
 	if (!init_env(&env, ev))
 		return (0);
@@ -83,7 +112,9 @@ int		main(int ac, char **av, char **ev)
 		dup2(4, STDIN_FILENO);
 		write_prompt();
 		g_redir_error = 0;
-		if (get_next_line(STDOUT_FILENO, &user_input) == 1)
+		if (!(user_input = read_line(STDOUT_FILENO)))
+			ft_no_usinput();
+		else
 			minishell(user_input, &env);
 		free(user_input);
 	}

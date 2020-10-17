@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 16:40:26 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:41:46 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "../gnl/get_next_line.h"
 # include <unistd.h>
 # include <errno.h>
 # include <stdio.h>
@@ -132,6 +131,18 @@ void			write_prompt(void);
 int				check_dir_in_begin(char **line);
 int				check_redirs(char **line);
 void			set_status(int status);
+
+/*
+** signal.c
+*/
+
+void			ft_sigint(int sig);
+void			ft_quit(int sig);
+void			ft_no_usinput(void);
+
+/*
+** global
+*/
 
 int				g_status;
 int				g_flag;
