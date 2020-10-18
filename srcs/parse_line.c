@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 13:37:11 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 14:30:42 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int				find_pipe_or_redir(char **line, t_fd *fd_pipe, \
 	else if (**line == '>')
 	{
 		fd_pipe->needed_fork = 1;
+		get_pipe_fd(line, fd_pipe);
+		(*line)--;
 		get_redir_fd(line, fd_pipe, env, cmd);
 		g_flag_redir = 1;
 	}
