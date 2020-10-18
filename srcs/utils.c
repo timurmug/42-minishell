@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:46 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 10:35:17 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 12:55:29 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	settings_after_separator(t_fd *fd_pipe, char **line)
 		close(g_fd);
 	g_fd = 0;
 	g_redir_error = 0;
-	fd_pipe->needed_fork = 0;
 	fd_pipe->was_redir = 0;
+	fd_pipe->was_fork = 0;
+	fd_pipe->needed_fork = 0;
 	dup2(4, 0);
 	(*line)++;
 }

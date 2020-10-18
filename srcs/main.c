@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 10:59:23 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 13:47:20 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 	}
 	if (*line == ';' && *(line + 1) == ';')
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `;;\'", STDERR_FILENO);
+		ft_putendl_fd("minishell: syntax error near unexpected token `;;\'", 3);
 		g_status = 258;
 		if (cmd)
-		ft_free_strstr(cmd);
+			ft_free_strstr(cmd);
 		return (0);
 	}
 	if (cmd)
 	{
 		if (fd_pipe->needed_fork == 1)
-			my_fork(line, cmd, env, fd_pipe);
+			my_fork(cmd, env, fd_pipe);
 		else
-			run_command(line, cmd, env, fd_pipe);
+			run_command(cmd, env, fd_pipe);
 		ft_free_strstr(cmd);
 	}
 	else
@@ -76,6 +76,8 @@ void	minishell(char *line, t_list **env)
 	if (!check_dir_in_begin(&line))
 		return ;
 	fd_pipe.was_redir = 0;
+	fd_pipe.was_fork = 0;
+	fd_pipe.needed_fork = 0;
 	g_fd = 0;
 	while (*line)
 	{

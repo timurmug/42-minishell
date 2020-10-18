@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:23:28 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 13:47:42 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	exec_bash_command(char *true_path, char **cmd,
 								t_list **env, int is_path)
 {
-	int pid;
-	int status;
+	int	pid;
+	int	status;
 
 	errno = 0;
 	g_status = 0;
@@ -27,21 +27,17 @@ void	exec_bash_command(char *true_path, char **cmd,
 	{
 		if (execve(true_path, cmd, env_to_strstr(*env)) == -1)
 			ft_error_errno_exit();
-		exit(0); // хз сколько
 	}
 	else
 	{
 		if (!is_path)
 			free(true_path);
 		wait(&status);
-		if (WIFEXITED(status))
-			g_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_status = WTERMSIG(status) + 128;
+		set_status(status);
 	}
 }
 
-void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
+void	run_command(char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	char	*true_path;
 	int		is_path;
@@ -50,7 +46,7 @@ void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 	errno = 0;
 	is_path = 0;
 	flg = 0;
-	if (check_builtins(line, cmd, env, fd_pipe))
+	if (check_builtins(cmd, env, fd_pipe))
 		return ;
 	else if ((is_path = is_it_path(cmd, &true_path)) < 0)
 		return ;
@@ -62,9 +58,11 @@ void	run_command(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		return ;
 	}
 	exec_bash_command(true_path, cmd, env, is_path);
+	if (fd_pipe->was_fork == 1)
+		fd_pipe->was_fork = 0;
 }
 
-void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
+void	my_fork(char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	int	pid;
 
@@ -74,11 +72,11 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 	if (pid == 0)
 	{
 		dup2(fd_pipe->stdout_write, STDOUT_FILENO);
-		run_command(line, cmd, env, fd_pipe);
+		run_command(cmd, env, fd_pipe);
 		close(fd_pipe->stdin_read);
 		close(fd_pipe->stdout_write);
 		close(STDOUT_FILENO);
-		exit(0); // хз сколько
+		exit(0); 
 	}
 	else
 	{
@@ -88,5 +86,7 @@ void	my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe)
 		close(fd_pipe->stdin_read);
 		if (fd_pipe->was_redir)
 			fd_pipe->was_redir = 0;
+		fd_pipe->needed_fork = 0;
+		fd_pipe->was_fork = 1;
 	}
 }

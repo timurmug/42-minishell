@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/18 11:30:05 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/18 12:51:37 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_unset.c \
 		srcs/errors/error.c \
 		srcs/errors/error2.c \
+		srcs/errors/error3.c \
 		srcs/commands.c \
 		srcs/directions.c \
 		srcs/directions_utils.c \

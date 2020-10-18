@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 09:57:58 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 10:57:36 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 12:37:30 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ int		error_home_not_set(void)
 	return (1);
 }
 
-void	error_num_arg_required(char *param)
+void	error_num_arg_required(char *param, int num)
 {
 	ft_putstr_fd(SHELL_EXIT, STDERR_FILENO);
 	ft_putstr_fd(param, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-	exit(255);
+	if (num == 255)
+		exit(255);
+	else
+		g_status = 1;
 }
 
 void	error_syntax_unexpected_token(void)

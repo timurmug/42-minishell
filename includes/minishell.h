@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 11:24:23 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 13:05:58 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_fd
 {
 	int			needed_fork;
 	int			was_redir;
+	int			was_fork;
 	int			stdin_read;
 	int			stdout_write;
 	int			back_redir;
@@ -55,8 +56,7 @@ typedef struct	s_fd
 */
 
 int				check_variable(char **cmd, char *param, int i);
-int				check_builtins(char *line, char **cmd, t_list **env, \
-	t_fd *fd_pipe);
+int				check_builtins(char **cmd, t_list **env, t_fd *fd_pipe);
 int				check_dir(char *file);
 int				my_cd(char **cmd, t_list **env);
 int				my_echo(char **cmd, char *strlowcase);
@@ -65,7 +65,7 @@ void			print_export(t_list *env);
 int				check_export(char **cmd, t_list **env);
 int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
-int				my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe);
+int				my_exit(char **cmd, t_fd *fd_pipe);
 
 /*
 ** errors
@@ -79,8 +79,9 @@ void			error_cmd_not_found(char *param);
 void			error_from_errno(char *param);
 void			error_not_a_dir(char *param);
 int				error_home_not_set(void);
-void			error_num_arg_required(char *param);
+void			error_num_arg_required(char *param, int num);
 void			error_syntax_unexpected_token(void);
+void			error_exit_many_args(void);
 
 /*
 ** check_path.c
@@ -101,9 +102,8 @@ int				check_redirs(char **line);
 ** commands.c
 */
 
-void			run_command(char *line, char **cmd, t_list **env, \
-	t_fd *fd_pipe);
-void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
+void			run_command(char **cmd, t_list **env, t_fd *fd_pipe);
+void			my_fork(char **cmd, t_list **env, t_fd *fd_pipe);
 
 /*
 ** directions.c
@@ -167,5 +167,6 @@ int				g_status;
 int				g_flag;
 int				g_fd;
 int				g_redir_error;
+int				g_flag_redir;
 
 #endif

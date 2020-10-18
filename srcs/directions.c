@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 11:24:02 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 13:02:02 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void			get_pipe_fd(char **line, t_fd *fd_pipe)
 	fd_pipe->stdin_read = fd[0];
 	fd_pipe->stdout_write = fd[1];
 }
-
 
 void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 {
@@ -48,7 +47,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	free(file_name);
-	if (fd_pipe->stdout_write >= 0) // хз
+	if (fd_pipe->stdout_write >= 0)
 		fd_pipe->stdout_write = g_fd;
 }
 
@@ -78,7 +77,6 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	free(file_name);
 	if (fd_pipe->stdout_write >= 0)
 		fd_pipe->stdout_write = g_fd;
-
 }
 
 void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
@@ -108,10 +106,11 @@ void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 		return ;
 	}
 	if (fd_pipe->stdin_read >= 0)
-			fd_pipe->stdin_read = g_fd;
+		fd_pipe->stdin_read = g_fd;
 }
 
-void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
+void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, \
+	char **cmd)
 {
 	while (*line)
 	{
