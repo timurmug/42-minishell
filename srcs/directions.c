@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 13:02:02 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 19:24:15 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	free(file_name);
-	if (fd_pipe->stdout_write >= 0)
+	// if (fd_pipe->stdout_write >= 0)
 		fd_pipe->stdout_write = g_fd;
 }
 
@@ -56,7 +56,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char *file_name;
 
 	if (g_fd != 0)
-		close(g_fd);
+		close(g_fd); // Здесь закрывается фд для чтения из бэкредира
 	(*line)++;
 	if (!check_redirs(line))
 		return ;
@@ -75,7 +75,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	free(file_name);
-	if (fd_pipe->stdout_write >= 0)
+	// if (fd_pipe->stdout_write >= 0)
 		fd_pipe->stdout_write = g_fd;
 }
 
@@ -86,9 +86,8 @@ void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 	if (g_fd != 0)
 		close(g_fd);
 	(*line)++;
-
-	// хз надо ли чекать бэкредиры, как обычные
-
+	if (!check_back_redirs(line))
+		return ;
 	while (ft_isspace(**line))
 		(*line)++;
 	if (!(file_name = parse_argument(line, env)))
@@ -107,29 +106,27 @@ void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 	}
 	if (fd_pipe->stdin_read >= 0)
 		fd_pipe->stdin_read = g_fd;
+	g_fd = 0; // костыль чтобы не закрывался фд в форвард_редир
 }
 
 void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, \
-	char **cmd)
+															char **cmd)
 {
-	while (*line)
+	while (ft_isspace(**line))
+		(*line)++;
+	if (!(ft_strncmp(*line, ">>", 2)))
 	{
-
-		while (ft_isspace(**line))
-			(*line)++;
-		if (!(ft_strncmp(*line, ">>", 2)))
-		{
-			fd_pipe->was_redir = 1;
-			double_redir(line, fd_pipe, env);
-		}
-		else if (!(ft_strncmp(*line, ">", 1)))
-		{
-			fd_pipe->was_redir = 1;
-			forward_redir(line, fd_pipe, env);
-		}
-		else if (!(ft_strncmp(*line, "<", 1)))
-			back_redir(line, fd_pipe, env, cmd);
-		else
-			break ;
+		fd_pipe->was_redir = 1;
+		double_redir(line, fd_pipe, env);
+	}
+	else if (!(ft_strncmp(*line, ">", 1)))
+	{
+		fd_pipe->was_redir = 1;
+		forward_redir(line, fd_pipe, env);
+	}
+	else if (!(ft_strncmp(*line, "<", 1)))
+	{
+		fd_pipe->back_redir = 1;
+		back_redir(line, fd_pipe, env, cmd);
 	}
 }

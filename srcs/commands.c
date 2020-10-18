@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 13:47:42 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 19:11:04 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	my_fork(char **cmd, t_list **env, t_fd *fd_pipe)
 		close(fd_pipe->stdin_read);
 		if (fd_pipe->was_redir)
 			fd_pipe->was_redir = 0;
+		fd_pipe->back_redir = 0;
 		fd_pipe->needed_fork = 0;
 		fd_pipe->was_fork = 1;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 13:05:58 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 15:08:58 by fkathryn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int				is_it_path(char **cmd, char **true_path);
 
 int				check_dir_in_begin(char **line);
 int				check_redirs(char **line);
+int				check_back_redirs(char **line);
 
 /*
 ** commands.c
