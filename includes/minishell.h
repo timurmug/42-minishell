@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 18:02:20 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 11:24:23 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define SHELL "minishell: "
 # define SHELL_EXIT "minishell: exit: "
 # define NO_FILE_DIR ": No such file or directory"
+# define STDIN_IS_A_DIR ": stdin: Is a directory"
 
 typedef struct	s_env
 {
@@ -46,6 +47,7 @@ typedef struct	s_fd
 	int			was_redir;
 	int			stdin_read;
 	int			stdout_write;
+	int			back_redir;
 }				t_fd;
 
 /*
@@ -64,6 +66,21 @@ int				check_export(char **cmd, t_list **env);
 int				my_pwd(char *strlowcase);
 int				check_unset(char **cmd, t_list **env);
 int				my_exit(char *line, char **cmd, t_list *env, t_fd *fd_pipe);
+
+/*
+** errors
+*/
+
+void			ft_error_errno_exit(void);
+void			error_is_a_dir(char *param);
+void			error_perm_denied(char *param);
+void			error_no_file_or_dir(char *param);
+void			error_cmd_not_found(char *param);
+void			error_from_errno(char *param);
+void			error_not_a_dir(char *param);
+int				error_home_not_set(void);
+void			error_num_arg_required(char *param);
+void			error_syntax_unexpected_token(void);
 
 /*
 ** check_path.c
@@ -93,7 +110,13 @@ void			my_fork(char *line, char **cmd, t_list **env, t_fd *fd_pipe);
 */
 
 void			get_pipe_fd(char **line, t_fd *fd_pipe);
-void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env);
+void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, char **cmd);
+
+/*
+** directions_utils.c
+*/
+
+int				check_back_redir_file(char **cmd, char *file_name);
 
 /*
 ** env.c
@@ -105,20 +128,6 @@ void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
 void			init_env(t_list **lst, char **env);
 
-/*
-** error.c and error2.c
-*/
-
-void			ft_error_errno_exit(void);
-void			error_is_a_dir(char *param);
-void			error_perm_denied(char *param);
-void			error_no_file_or_dir(char *param);
-void			error_cmd_not_found(char *param);
-void			error_from_errno(char *param);
-void			error_not_a_dir(char *param);
-int				error_home_not_set(void);
-void			error_num_arg_required(char *param);
-void			error_syntax_unexpected_token(void);
 
 /*
 ** lookup_env.c

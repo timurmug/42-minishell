@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 09:57:58 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:48:00 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 10:57:36 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ int		error_home_not_set(void)
 
 void	error_num_arg_required(char *param)
 {
-	ft_putstr_fd(SHELL_EXIT, STDOUT_FILENO);
-	ft_putstr_fd(param, STDOUT_FILENO);
-	ft_putendl_fd(": numeric argument required", STDOUT_FILENO);
+	ft_putstr_fd(SHELL_EXIT, STDERR_FILENO);
+	ft_putstr_fd(param, STDERR_FILENO);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	exit(255);
 }
 
 void	error_syntax_unexpected_token(void)
 {
-	ft_putendl_fd("minishell: syntax error near \
-	unexpected token `newline\'", STDOUT_FILENO);
+	ft_putendl_fd("minishell: syntax error near unexpected token `newline\'", \
+	STDOUT_FILENO);
 	g_status = 258;
 	g_redir_error = 1;
 }

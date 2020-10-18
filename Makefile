@@ -6,7 +6,7 @@
 #    By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 15:03:36 by qtamaril          #+#    #+#              #
-#    Updated: 2020/10/17 17:50:50 by qtamaril         ###   ########.fr        #
+#    Updated: 2020/10/18 11:30:05 by qtamaril         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,19 +30,20 @@ SRCS = srcs/builtins/builtins.c \
 		srcs/builtins/my_export.c \
 		srcs/builtins/my_pwd.c \
 		srcs/builtins/my_unset.c \
+		srcs/errors/error.c \
+		srcs/errors/error2.c \
 		srcs/commands.c \
 		srcs/directions.c \
+		srcs/directions_utils.c \
 		srcs/env.c \
 		srcs/utils.c \
 		srcs/main.c \
 		srcs/lookup_env.c \
-		srcs/error.c \
-		srcs/error2.c \
 		srcs/parse_line.c \
 		srcs/parse_arg.c \
 		srcs/check_path.c \
 		srcs/check_tokens.c \
-		srcs/signal.c
+		srcs/signals.c
 
 OBJS = $(SRCS:%.c=%.o)
 

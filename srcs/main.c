@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 10:32:42 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 18:02:32 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 10:59:23 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 			ft_free_strstr(cmd);
 		return (0);
 	}
+	if (*line == ';' && *(line + 1) == ';')
+	{
+		ft_putendl_fd("minishell: syntax error near unexpected token `;;\'", STDERR_FILENO);
+		g_status = 258;
+		if (cmd)
+		ft_free_strstr(cmd);
+		return (0);
+	}
 	if (cmd)
 	{
 		if (fd_pipe->needed_fork == 1)
@@ -54,7 +62,6 @@ int		compile_cmd(char *line, t_fd *fd_pipe, t_list **env, char **cmd)
 		else
 			run_command(line, cmd, env, fd_pipe);
 		ft_free_strstr(cmd);
-		return (1);
 	}
 	else
 		g_status = 0;

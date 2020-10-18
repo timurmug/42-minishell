@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 16:02:30 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:59:21 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 11:23:45 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	void	ft_add_cmd(char *str, int *i, char ***cmd)
 }
 
 int				find_pipe_or_redir(char **line, t_fd *fd_pipe, \
-	t_list *env, int *flag)
+	t_list *env, int *flag, char **cmd)
 {
 	if (**line == '|' && fd_pipe->was_redir == 0)
 	{
@@ -42,12 +42,14 @@ int				find_pipe_or_redir(char **line, t_fd *fd_pipe, \
 	else if (**line == '>')
 	{
 		fd_pipe->needed_fork = 1;
-		get_redir_fd(line, fd_pipe, env);
+		get_redir_fd(line, fd_pipe, env, cmd);
 		*flag = 1;
 	}
 	else if (**line == '<')
 	{
-		get_redir_fd(line, fd_pipe, env);
+		// fd_pipe->back_redirect = 0;
+		get_redir_fd(line, fd_pipe, env, cmd);
+		dup2(fd_pipe->stdin_read, STDIN_FILENO);
 	}
 	return (0);
 }
@@ -88,7 +90,7 @@ char			**parse_line(char **line, t_fd *fd_pipe, t_list *env)
 			break ;
 		else if (**line == '|' && !cmd)
 			get_empty_pipe(line, fd_pipe);
-		else if ((find_pipe_or_redir(line, fd_pipe, env, &flag)))
+		else if ((find_pipe_or_redir(line, fd_pipe, env, &flag, cmd)))
 			break ;
 		else if (g_redir_error == 1)
 			break ;

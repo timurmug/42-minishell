@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/17 17:48:13 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/18 11:24:02 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void			get_pipe_fd(char **line, t_fd *fd_pipe)
 	fd_pipe->stdout_write = fd[1];
 }
 
-void			back_redir(char **line, t_fd *fd_pipe, t_list *env);
 
 void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 {
@@ -82,7 +81,37 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 
 }
 
-void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env)
+void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
+{
+	char		*file_name;
+
+	if (g_fd != 0)
+		close(g_fd);
+	(*line)++;
+
+	// хз надо ли чекать бэкредиры, как обычные
+
+	while (ft_isspace(**line))
+		(*line)++;
+	if (!(file_name = parse_argument(line, env)))
+	{
+		error_syntax_unexpected_token();
+		return ;
+	}
+	if (!check_back_redir_file(cmd, file_name))
+		return ;
+	if ((g_fd = open(file_name, O_RDONLY, 0644)) == -1)
+	{
+		error_from_errno(file_name);
+		free(file_name);
+		g_redir_error = 1;
+		return ;
+	}
+	if (fd_pipe->stdin_read >= 0)
+			fd_pipe->stdin_read = g_fd;
+}
+
+void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 {
 	while (*line)
 	{
@@ -100,7 +129,7 @@ void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env)
 			forward_redir(line, fd_pipe, env);
 		}
 		else if (!(ft_strncmp(*line, "<", 1)))
-			;//back_redir(line, fd_pipe, env);
+			back_redir(line, fd_pipe, env, cmd);
 		else
 			break ;
 	}
