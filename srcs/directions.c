@@ -6,7 +6,7 @@
 /*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/19 09:53:02 by qtamaril         ###   ########.fr       */
+/*   Updated: 2020/10/19 12:23:40 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void			double_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	free(file_name);
-	// if (fd_pipe->stdout_write >= 0)
-		fd_pipe->stdout_write = g_fd;
+	fd_pipe->stdout_write = g_fd;
 }
 
 void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
@@ -56,7 +55,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 	char *file_name;
 
 	if (g_fd != 0)
-		close(g_fd); // Здесь закрывается фд для чтения из бэкредира
+		close(g_fd);
 	(*line)++;
 	if (!check_redirs(line))
 		return ;
@@ -75,8 +74,7 @@ void			forward_redir(char **line, t_fd *fd_pipe, t_list *env)
 		return ;
 	}
 	free(file_name);
-	// if (fd_pipe->stdout_write >= 0)
-		fd_pipe->stdout_write = g_fd;
+	fd_pipe->stdout_write = g_fd;
 }
 
 void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
@@ -105,7 +103,7 @@ void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 	}
 	if (fd_pipe->stdin_read >= 0)
 		fd_pipe->stdin_read = g_fd;
-	g_fd = 0; // костыль чтобы не закрывался фд в форвард_редир
+	g_fd = 0;
 }
 
 void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, \

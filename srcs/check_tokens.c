@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:50:01 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 19:06:04 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/19 12:21:20 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int		check_back_redirs(char **line)
 	if (count >= 4)
 	{
 		if (count == 4)
-			ft_putendl_fd("minishell: syntax error near unexpected token `<\'", \
-			STDERR_FILENO);
+			ft_putendl_fd("minishell: syntax error near \
+unexpected token `<\'", STDERR_FILENO);
 		else if (count == 5)
-			ft_putendl_fd("minishell: syntax error near unexpected token `<<\'", \
-			STDERR_FILENO);
+			ft_putendl_fd("minishell: syntax error near \
+unexpected token `<<\'", STDERR_FILENO);
 		else if (count > 5)
-			ft_putendl_fd("minishell: syntax error near unexpected token `<<<\'", \
-			STDERR_FILENO);
+			ft_putendl_fd("minishell: syntax error near \
+unexpected token `<<<\'", STDERR_FILENO);
 		g_redir_error = 1;
 		g_status = 258;
 		return (0);
