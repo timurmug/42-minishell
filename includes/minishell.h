@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 15:05:00 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 15:08:58 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/19 09:49:35 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void			my_fork(char **cmd, t_list **env, t_fd *fd_pipe);
 */
 
 void			get_pipe_fd(char **line, t_fd *fd_pipe);
-void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, char **cmd);
+void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, \
+	char **cmd);
 
 /*
 ** directions_utils.c
@@ -128,7 +129,6 @@ void			free_env(t_list *lst);
 void			env_sort(t_list **begin_list);
 int				add_env(t_list **lst, char *name, char *value);
 void			init_env(t_list **lst, char **env);
-
 
 /*
 ** lookup_env.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:44:20 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 19:11:04 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/19 09:51:52 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void	my_fork(char **cmd, t_list **env, t_fd *fd_pipe)
 {
 	int	pid;
 
-	pid = fork();
-	if (pid == -1)
+	if ((pid = fork()) == -1)
 		ft_error_errno_exit();
 	if (pid == 0)
 	{
@@ -76,7 +75,7 @@ void	my_fork(char **cmd, t_list **env, t_fd *fd_pipe)
 		close(fd_pipe->stdin_read);
 		close(fd_pipe->stdout_write);
 		close(STDOUT_FILENO);
-		exit(0); 
+		exit(0);
 	}
 	else
 	{

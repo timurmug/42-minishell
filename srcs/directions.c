@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkathryn <fkathryn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qtamaril <qtamaril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 14:31:56 by qtamaril          #+#    #+#             */
-/*   Updated: 2020/10/18 19:24:15 by fkathryn         ###   ########.fr       */
+/*   Updated: 2020/10/19 09:53:02 by qtamaril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void			back_redir(char **line, t_fd *fd_pipe, t_list *env, char **cmd)
 
 	if (g_fd != 0)
 		close(g_fd);
-	(*line)++;
 	if (!check_back_redirs(line))
 		return ;
 	while (ft_isspace(**line))
@@ -127,6 +126,7 @@ void			get_redir_fd(char **line, t_fd *fd_pipe, t_list *env, \
 	else if (!(ft_strncmp(*line, "<", 1)))
 	{
 		fd_pipe->back_redir = 1;
+		(*line)++;
 		back_redir(line, fd_pipe, env, cmd);
 	}
 }
